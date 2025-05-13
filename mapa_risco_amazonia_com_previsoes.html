@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_db580ef3ff3b62f71c825bcd459e573a {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css"/>
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_db580ef3ff3b62f71c825bcd459e573a" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_db580ef3ff3b62f71c825bcd459e573a = L.map(
+                "map_db580ef3ff3b62f71c825bcd459e573a",
+                {
+                    center: [-5.0, -60.0],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 4,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_d07eb4770d73fdd5aebb84979c1dd4ae = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_d07eb4770d73fdd5aebb84979c1dd4ae.addTo(map_db580ef3ff3b62f71c825bcd459e573a);
+        
+    
+            var marker_cluster_69d83f48ddf65dbf9eb635210e194836 = L.markerClusterGroup(
+                {
+}
+            );
+        
+    
+            var marker_c6647443fbb191900e1e96498b332ef2 = L.marker(
+                [-3.1316333, -59.9825041],
+                {
+}
+            ).addTo(marker_cluster_69d83f48ddf65dbf9eb635210e194836);
+        
+    
+            var icon_5a9c55cd847e15f327e091cdce57996f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_582e0ebc53d5ea6508077f27d4e914bf = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_00866e7aaabc41cc6fce4231a924bb0e = $(`<div id="html_00866e7aaabc41cc6fce4231a924bb0e" style="width: 100.0%; height: 100.0%;">MANAUS - Risco: Baixo</div>`)[0];
+                popup_582e0ebc53d5ea6508077f27d4e914bf.setContent(html_00866e7aaabc41cc6fce4231a924bb0e);
+            
+        
+
+        marker_c6647443fbb191900e1e96498b332ef2.bindPopup(popup_582e0ebc53d5ea6508077f27d4e914bf)
+        ;
+
+        
+    
+    
+                marker_c6647443fbb191900e1e96498b332ef2.setIcon(icon_5a9c55cd847e15f327e091cdce57996f);
+            
+    
+            var marker_fec599acc78048389e17354b2aebfac9 = L.marker(
+                [-1.45056, -48.4682453],
+                {
+}
+            ).addTo(marker_cluster_69d83f48ddf65dbf9eb635210e194836);
+        
+    
+            var icon_765d33c05fd0f3d8d32c6378af69af87 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0fd134bb164d0ff207eaaf4efbc3b4b9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0b2962516eb8ad85d7406c9efb701eae = $(`<div id="html_0b2962516eb8ad85d7406c9efb701eae" style="width: 100.0%; height: 100.0%;">BELÉM - Risco: Baixo</div>`)[0];
+                popup_0fd134bb164d0ff207eaaf4efbc3b4b9.setContent(html_0b2962516eb8ad85d7406c9efb701eae);
+            
+        
+
+        marker_fec599acc78048389e17354b2aebfac9.bindPopup(popup_0fd134bb164d0ff207eaaf4efbc3b4b9)
+        ;
+
+        
+    
+    
+                marker_fec599acc78048389e17354b2aebfac9.setIcon(icon_765d33c05fd0f3d8d32c6378af69af87);
+            
+    
+            var marker_6f106e49f20d83d7bac5638f89450430 = L.marker(
+                [-8.7494525, -63.8735438],
+                {
+}
+            ).addTo(marker_cluster_69d83f48ddf65dbf9eb635210e194836);
+        
+    
+            var icon_33f2ec4c39e695c1b146edf3aec881ef = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_cce9022c7f3d7e73a10b489d029b89bc = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5d9b814dcdde364713d7caa1f2f730d2 = $(`<div id="html_5d9b814dcdde364713d7caa1f2f730d2" style="width: 100.0%; height: 100.0%;">PORTO VELHO - Risco: Baixo</div>`)[0];
+                popup_cce9022c7f3d7e73a10b489d029b89bc.setContent(html_5d9b814dcdde364713d7caa1f2f730d2);
+            
+        
+
+        marker_6f106e49f20d83d7bac5638f89450430.bindPopup(popup_cce9022c7f3d7e73a10b489d029b89bc)
+        ;
+
+        
+    
+    
+                marker_6f106e49f20d83d7bac5638f89450430.setIcon(icon_33f2ec4c39e695c1b146edf3aec881ef);
+            
+    
+            var marker_b45f2d81fcba8a52562cbd52399e860a = L.marker(
+                [-9.9765362, -67.8220778],
+                {
+}
+            ).addTo(marker_cluster_69d83f48ddf65dbf9eb635210e194836);
+        
+    
+            var icon_c625ce0b8508e10c3932a0cfca4f7eb0 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_fb3e3dea0bf38c9bcb530c90ffeee91a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9032d8d2c0be0241fafd2c40996fd8b4 = $(`<div id="html_9032d8d2c0be0241fafd2c40996fd8b4" style="width: 100.0%; height: 100.0%;">RIO BRANCO - Risco: Baixo</div>`)[0];
+                popup_fb3e3dea0bf38c9bcb530c90ffeee91a.setContent(html_9032d8d2c0be0241fafd2c40996fd8b4);
+            
+        
+
+        marker_b45f2d81fcba8a52562cbd52399e860a.bindPopup(popup_fb3e3dea0bf38c9bcb530c90ffeee91a)
+        ;
+
+        
+    
+    
+                marker_b45f2d81fcba8a52562cbd52399e860a.setIcon(icon_c625ce0b8508e10c3932a0cfca4f7eb0);
+            
+    
+            var marker_21049657194a60c2ede8b5527e9627b0 = L.marker(
+                [-2.5129265, -44.2191146],
+                {
+}
+            ).addTo(marker_cluster_69d83f48ddf65dbf9eb635210e194836);
+        
+    
+            var icon_1b2ca8cf7711df46134c1df6ded4f57d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e39b0d10b6e6b7a3482edd1670df7500 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0ebc9b60e64e7aaddfdd855f25640962 = $(`<div id="html_0ebc9b60e64e7aaddfdd855f25640962" style="width: 100.0%; height: 100.0%;">CUIABÁ - Risco: Baixo</div>`)[0];
+                popup_e39b0d10b6e6b7a3482edd1670df7500.setContent(html_0ebc9b60e64e7aaddfdd855f25640962);
+            
+        
+
+        marker_21049657194a60c2ede8b5527e9627b0.bindPopup(popup_e39b0d10b6e6b7a3482edd1670df7500)
+        ;
+
+        
+    
+    
+                marker_21049657194a60c2ede8b5527e9627b0.setIcon(icon_1b2ca8cf7711df46134c1df6ded4f57d);
+            
+    
+            var marker_1928fe9c3b1163487aa0d67763d53aea = L.marker(
+                [-10.1837852, -48.3336423],
+                {
+}
+            ).addTo(marker_cluster_69d83f48ddf65dbf9eb635210e194836);
+        
+    
+            var icon_2841dac0dc966760a026d6347c680d31 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_bbd13fcd211a9330b229f391681bb856 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1aeac31b860c1543aead1cc6bcd88fdc = $(`<div id="html_1aeac31b860c1543aead1cc6bcd88fdc" style="width: 100.0%; height: 100.0%;">PALMAS - Risco: Baixo</div>`)[0];
+                popup_bbd13fcd211a9330b229f391681bb856.setContent(html_1aeac31b860c1543aead1cc6bcd88fdc);
+            
+        
+
+        marker_1928fe9c3b1163487aa0d67763d53aea.bindPopup(popup_bbd13fcd211a9330b229f391681bb856)
+        ;
+
+        
+    
+    
+                marker_1928fe9c3b1163487aa0d67763d53aea.setIcon(icon_2841dac0dc966760a026d6347c680d31);
+            
+    
+            marker_cluster_69d83f48ddf65dbf9eb635210e194836.addTo(map_db580ef3ff3b62f71c825bcd459e573a);
+        
+</script>
+</html>

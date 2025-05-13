@@ -1,0 +1,5 @@
+modelos/*.pkl
+modelos/decision_tree.pkl
+modelos/logistic_regression.pkl
+modelos/random_forest.pkl
+modelos/sgd_classifier.pkl
