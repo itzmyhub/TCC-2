@@ -1,0 +1,18 @@
+{
+  "base": {
+    "pr_auc_geral": 0.777447293448033,
+    "pr_auc_nova_ignicao": 0.2063385440370237
+  },
+  "base+DETER_simples": {
+    "pr_auc_geral": 0.7786988396149469,
+    "pr_auc_nova_ignicao": 0.232621043632784
+  },
+  "base+DETER+frontier": {
+    "pr_auc_geral": 0.7781900618681726,
+    "pr_auc_nova_ignicao": 0.23241446608489383
+  },
+  "base+frontier_so": {
+    "pr_auc_geral": 0.7782795522028668,
+    "pr_auc_nova_ignicao": 0.22623437364543317
+  }
+}

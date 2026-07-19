@@ -1,0 +1,130 @@
+{
+  "criterios": {
+    "estados_transicao": [
+      "BAHIA",
+      "DISTRITO FEDERAL",
+      "GOIÁS",
+      "MARANHÃO",
+      "MATO GROSSO",
+      "PARÁ",
+      "PIAUÍ",
+      "TOCANTINS"
+    ],
+    "meses_transicao": [
+      5,
+      6,
+      7
+    ],
+    "razao_max_para_alvo": 0.7,
+    "n_min_para_alvo": 30,
+    "fator_oversample_min": 1.5,
+    "fator_oversample_max": 5.0
+  },
+  "n_alvos": 8,
+  "pares_alvo": [
+    {
+      "estado": "PARÁ",
+      "mes": 5,
+      "n_total": 1293,
+      "n_focos": 885,
+      "razao_vs_media_estado": 0.054,
+      "fator_oversample_sugerido": 5.0,
+      "dist_classes": {
+        "Baixo": 0,
+        "Moderado": 0,
+        "Muito Alto": 0
+      }
+    },
+    {
+      "estado": "MARANHÃO",
+      "mes": 5,
+      "n_total": 158,
+      "n_focos": 115,
+      "razao_vs_media_estado": 0.059,
+      "fator_oversample_sugerido": 5.0,
+      "dist_classes": {
+        "Baixo": 0,
+        "Moderado": 0,
+        "Muito Alto": 0
+      }
+    },
+    {
+      "estado": "PARÁ",
+      "mes": 6,
+      "n_total": 4442,
+      "n_focos": 2922,
+      "razao_vs_media_estado": 0.179,
+      "fator_oversample_sugerido": 5.0,
+      "dist_classes": {
+        "Baixo": 0,
+        "Moderado": 0,
+        "Muito Alto": 0
+      }
+    },
+    {
+      "estado": "MARANHÃO",
+      "mes": 6,
+      "n_total": 617,
+      "n_focos": 383,
+      "razao_vs_media_estado": 0.195,
+      "fator_oversample_sugerido": 5.0,
+      "dist_classes": {
+        "Baixo": 0,
+        "Moderado": 0,
+        "Muito Alto": 0
+      }
+    },
+    {
+      "estado": "TOCANTINS",
+      "mes": 5,
+      "n_total": 75,
+      "n_focos": 50,
+      "razao_vs_media_estado": 0.287,
+      "fator_oversample_sugerido": 3.48,
+      "dist_classes": {
+        "Baixo": 0,
+        "Moderado": 0,
+        "Muito Alto": 0
+      }
+    },
+    {
+      "estado": "MARANHÃO",
+      "mes": 7,
+      "n_total": 1536,
+      "n_focos": 817,
+      "razao_vs_media_estado": 0.416,
+      "fator_oversample_sugerido": 2.4,
+      "dist_classes": {
+        "Baixo": 0,
+        "Moderado": 0,
+        "Muito Alto": 0
+      }
+    },
+    {
+      "estado": "PARÁ",
+      "mes": 7,
+      "n_total": 17262,
+      "n_focos": 10139,
+      "razao_vs_media_estado": 0.622,
+      "fator_oversample_sugerido": 1.61,
+      "dist_classes": {
+        "Baixo": 0,
+        "Moderado": 0,
+        "Muito Alto": 0
+      }
+    },
+    {
+      "estado": "TOCANTINS",
+      "mes": 6,
+      "n_total": 197,
+      "n_focos": 118,
+      "razao_vs_media_estado": 0.678,
+      "fator_oversample_sugerido": 1.5,
+      "dist_classes": {
+        "Baixo": 0,
+        "Moderado": 0,
+        "Muito Alto": 0
+      }
+    }
+  ]
+}

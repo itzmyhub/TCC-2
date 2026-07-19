@@ -1,0 +1,308 @@
+% ============================================================================
+% 08_previsao_ocorrencia.tex
+% Capítulo: Reformulação do problema para PREVISÃO DE OCORRÊNCIA de fogo
+% observado. Inserir via \input{08_previsao_ocorrencia} no tcc.tex, APÓS o
+% Capítulo 5 (Resultados, que termina com \input{07_estudo_caso_pium_to}) e
+% ANTES do \chapter{Conclusão}. Torna-se o Capítulo 6; a Conclusão passa a 7.
+% Números conferem com modelos/relatorios/previsao_ocorrencia_*.json,
+% benchmark_p3_fwi.json, driver_*.json, comparacao_familias.json,
+% validacao_rotulo_mapbiomas.json.
+% ============================================================================
+
+\chapter{Previsão de ocorrência de fogo: reformulação do problema}
+\label{cap:ocorrencia}
+
+O Capítulo~\ref{cap:metodologia} e o Apêndice~\ref{cap:resultados} descrevem uma abordagem
+exploratória inicial: um classificador de \emph{nível de risco em tempo real}
+(\emph{nowcast}) cujo alvo é o índice Risco de Fogo do INPE discretizado em três faixas. Este capítulo reformula o problema para a
+\textbf{previsão de ocorrência de fogo observado}, com horizonte temporal explícito,
+classe negativa real e validação sem vazamento --- alinhando o trabalho ao estado da arte
+atual, que prevê o \emph{fenômeno observado} (focos ou área queimada), e não a saída de
+outro modelo~\cite{huot2022nextday,karasante2025firecastnet,deandrade2024lstmgru}. O
+\emph{pipeline} original é mantido como linha de base; o reformulado constitui a principal
+contribuição metodológica desta etapa.
+
+\section{Motivação: do índice ao fenômeno observado}
+\label{sec:oco_motivacao}
+
+A inspeção dos dados revelou três fragilidades de fundo na formulação original.
+Primeiro, o alvo (\texttt{RiscoFogo}) é a \textbf{saída de um índice operacional} do INPE,
+ele próprio derivado de dias sem chuva, precipitação e umidade --- variáveis que também
+figuram entre as \emph{features}, gerando circularidade. Segundo, a base é
+\emph{presence-only}: as \num{924306} linhas são focos reais, sem exemplos de
+\emph{não-fogo}; o modelo nunca aprende a distinguir fogo de ausência de fogo, e a consulta
+a pontos arbitrários no aplicativo equivale a extrapolar para fora do suporte de treino.
+Terceiro, trata-se de um \emph{nowcast} (diagnóstico do presente), não de previsão com
+horizonte.
+
+Há evidência empírica direta nos próprios CSVs do INPE: em um único arquivo anual
+(\num{82678} focos), \num{8288} detecções (\(\approx\)\SI{10}{\percent}) ocorreram onde o
+índice marcava risco mínimo (\texttt{RiscoFogo}~\(\in\{0{,}0;\,0{,}1\}\)) --- fogo real em
+locais classificados como ``Baixo''. Um modelo que imita o índice herda esse ponto cego,
+exatamente o que o estudo de caso Pium--TO (Seção~\ref{sec:res_estudo_caso_pium}) demonstrou.
+
+\section{Reformulação metodológica}
+\label{sec:oco_metodo}
+
+\paragraph{Unidade e alvo.} Adota-se uma grade de células de \SI{0,25}{\degree}
+(\(\approx\)\SI{27}{km}, granularidade MERRA-2/SeasFire~\cite{karasante2025firecastnet}) por
+mês. O universo é o conjunto de \num{4168} células \emph{fire-prone} (com \(\geq 1\) foco em
+2014--2023). Para cada par (célula, mês~\(t\)), o alvo é binário: \emph{houve foco no mês
+\(t+1\)?} A presença vem dos focos observados; a \textbf{ausência} (classe negativa antes
+inexistente) são os pares célula--mês sem foco. O conjunto final tem \num{450144}
+células--mês (2015--2023), com prevalência de \SI{24,7}{\percent}.
+
+\paragraph{Causalidade e validação.} Para eliminar o vazamento temporal documentado na
+Seção~\ref{sec:res_temporal}, todas as \emph{features} usam apenas informação \(\leq t\)
+(histórico de fogo defasado, somas móveis com deslocamento, sazonalidade, localização). A
+validação é \textbf{espaço-temporal em bloco}~\cite{roberts2017cv}: \emph{rolling-origin} por
+ano (treino \(<Y\), teste \(=Y\), para \(Y\in\{2021,2022,2023\}\)) e \emph{leave-region-out}
+(5 blocos de longitude). A métrica principal é a \textbf{PR-AUC} (\emph{Average Precision}),
+robusta ao desbalanceamento.
+
+\section{Desempenho preditivo e linhas de base}
+\label{sec:oco_desempenho}
+
+O modelo (\emph{Hist\-Gradient\-Boosting}) supera as linhas de base de persistência e
+climatologia (Tabela~\ref{tab:oco_validacao}). Na validação \emph{espacial}, a climatologia
+colapsa ao prever regiões nunca vistas (PR-AUC \numrange{0,17}{0,34}), enquanto o modelo
+mantém \num{0,759} --- evidência de dinâmica transferível, e não de memorização de taxa-base
+local (contraste direto com a dependência espacial observada no \emph{pipeline} original).
+
+\begin{table}[h]
+\centering
+\caption{Previsão de ocorrência (fogo em \(t+1\)): validação em bloco vs.\ linhas de base.}
+\label{tab:oco_validacao}
+\small
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Validação} & \textbf{Modelo PR-AUC} & \textbf{ROC-AUC} & \textbf{Persistência} & \textbf{Climatologia} \\
+\midrule
+Temporal (\emph{rolling-origin} 2021--23) & \textbf{0,777} & 0,904 & 0,449 & 0,715 \\
+Espacial (\emph{leave-region-out}) & \textbf{0,759} & 0,895 & --- & 0,17--0,34 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Robustez entre famílias de modelo}
+\label{sec:oco_familias}
+
+Para verificar que os achados não dependem do algoritmo, quatro famílias foram comparadas no
+mesmo conjunto de \emph{features}, com intervalos de confiança de \SI{95}{\percent} obtidos
+por \emph{cluster bootstrap} por célula (respeitando a autocorrelação espacial),
+Tabela~\ref{tab:oco_familias}. Os \emph{ensembles} de árvore são estatisticamente
+equivalentes (intervalos sobrepostos), enquanto a regressão logística é significativamente
+inferior --- o problema exige não-linearidades. O \emph{Random Forest} apresenta a melhor
+calibração (menor Brier).
+
+\begin{table}[h]
+\centering
+\caption{Comparação de famílias (conjunto base + desmatamento), IC \SI{95}{\percent} por \emph{cluster bootstrap} por célula.}
+\label{tab:oco_familias}
+\small
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Família} & \textbf{PR-AUC [IC 95\%]} & \textbf{ROC-AUC} & \textbf{Brier} & \textbf{Nova ignição [IC 95\%]} \\
+\midrule
+\emph{HistGradientBoosting} & \textbf{0,776 [0,769--0,783]} & 0,904 & 0,123 & \textbf{0,232 [0,209--0,258]} \\
+\emph{Random Forest} & 0,769 [0,762--0,776] & 0,901 & \textbf{0,113} & 0,204 [0,185--0,232] \\
+\emph{Extra Trees} & 0,761 [0,754--0,768] & 0,897 & 0,129 & 0,191 [0,174--0,217] \\
+Regressão Logística & 0,699 [0,690--0,707] & 0,873 & 0,143 & 0,117 [0,108--0,131] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Benchmark contra índices físicos de perigo de fogo}
+\label{sec:oco_benchmark}
+
+A defensabilidade da tese exige que o modelo \emph{supere} o índice físico operacional na
+previsão de fogo observado. Implementou-se o \textbf{Fire Weather Index (FWI)} canadense
+completo~\cite{vanwagner1985fwi} --- base do sistema GEFF/EFFIS do
+Copernicus~\cite{digiuseppe2024geff} ---, validado contra os valores de referência publicados
+(FFMC~\num{87,69}; DMC~\num{8,55}; DC~\num{19,01}; ISI~\num{10,85}; BUI~\num{8,49};
+FWI~\num{10,10}). O FWI foi computado dia a dia a partir de clima diário (NASA POWER) para
+uma amostra de \num{100} células. A Tabela~\ref{tab:oco_benchmark} mostra o resultado:
+\textbf{o modelo de ML supera o FWI e o índice do INPE} na previsão de fogo observado. O FWI
+separa fisicamente bem (média \num{6,0} em meses com fogo vs.\ \num{1,5} sem), validando a
+implementação.
+
+\begin{table}[h]
+\centering
+\caption{Benchmark de previsão de fogo observado (\(t+1\)): ML vs.\ índices físicos.}
+\label{tab:oco_benchmark}
+\small
+\begin{tabular}{lcc}
+\toprule
+\textbf{Preditor} & \textbf{PR-AUC} & \textbf{ROC-AUC} \\
+\midrule
+Modelo ML (dataset completo) & \textbf{0,777} & 0,904 \\
+Índice INPE Risco de Fogo (como \emph{forecast}) & 0,294 & 0,553 \\
+\midrule
+\multicolumn{3}{l}{\emph{Amostra de 100 células (2023), mesmas linhas:}} \\
+\quad Modelo ML & \textbf{0,858} & --- \\
+\quad FWI canadense (clima diário NASA POWER) & 0,608 & 0,781 \\
+\quad Índice INPE Risco de Fogo & 0,398 & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Quantificação de incerteza por \emph{conformal prediction}}
+\label{sec:oco_conformal}
+
+Substituiu-se a heurística de incerteza por \emph{conjuntos de predição com cobertura
+estatística garantida}, via \emph{split-conformal} classe-condicional
+(LAC)~\cite{sadinle2019lac,mortier2024conformal}. Com cobertura-alvo de \SI{90}{\percent},
+obteve-se cobertura empírica de \SI{88,8}{\percent}; \SI{82,9}{\percent} das predições são
+\emph{singletons} confiantes e \SI{17,1}{\percent} são sinalizadas como ambíguas. O erro de
+calibração esperado (ECE) foi de \num{0,099} e o \emph{Brier} de \num{0,123}.
+
+\section{Drivers antrópicos: o papel do desmatamento}
+\label{sec:oco_drivers}
+
+A análise estratificada revela a estrutura do problema (Tabela~\ref{tab:oco_estrato}): o
+modelo é excelente onde o fogo \emph{recorre} (PR-AUC \num{0,805}) e fraco onde o fogo é
+\emph{novo} --- a \textbf{nova ignição} (PR-AUC \num{0,230}), justamente o caso crítico para
+alerta precoce, onde a persistência é inútil por construção.
+
+\begin{table}[h]
+\centering
+\caption{Desempenho estratificado por recorrência (teste 2023) e ganho do desmatamento.}
+\label{tab:oco_estrato}
+\small
+\begin{tabular}{lccc}
+\toprule
+\textbf{Estrato (média 2021--23)} & \textbf{base PR-AUC} & \textbf{+ desmatamento} & \textbf{\(\Delta\)} \\
+\midrule
+Recorrente (foco nos últimos 12 m) & 0,791 & 0,794 & +0,003 \\
+\textbf{Nova ignição} (sem foco recente) & \textbf{0,206} & \textbf{0,231} & \textbf{+0,025} \\
+Geral & 0,777 & 0,781 & +0,003 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Testaram-se três famílias de covariáveis. O clima real (reanálise NASA POWER) e o FWI
+\textbf{não agregam} sobre o histórico de fogo na escala mensal (\(\Delta\)~PR-AUC
+\(\approx\)\num{+0,001}), pois o histórico já é um \emph{proxy} a jusante da propensão
+climática. A distância a cidades (acessibilidade estática) também é redundante
+(\(\approx\)\num{+0,001}). Apenas o \textbf{desmatamento recente} (PRODES, do
+TerraBrasilis~\cite{terrabrasilisprodes}) agrega valor não trivial --- e \emph{exatamente}
+no estrato de nova ignição (\(+0{,}025\) PR-AUC), confirmando o mecanismo causal: o
+desmatamento precede a primeira queimada de uma célula, coerente com o fogo amazônico ser
+majoritariamente antrópico~\cite{aragao2018amazon}. O achado é \textbf{robusto a duas fontes
+independentes}: o DETER (alertas mensais; classe \emph{cicatriz de queimada} excluída para
+evitar vazamento) produz ganho equivalente (\(+0{,}026\)). A resolução mensal não amplificou
+o ganho, e dimensões adicionais (idade, estoque acumulado, fronteira de vizinhança) não
+agregam além do volume de desmatamento recente local: o desempenho na nova ignição satura em
+\(\approx\)\num{0,23} PR-AUC --- um teto que sugere componente irredutível (decisão humana) ou
+necessidade de dados de outra natureza.
+
+\section{Validação do rótulo contra área queimada (MapBiomas Fogo)}
+\label{sec:oco_mapbiomas}
+
+O rótulo (focos INPE) foi confrontado com um produto independente e de modalidade diferente
+--- a área queimada do MapBiomas Fogo~\cite{mapbiomasfogo} (cicatriz Landsat \SI{30}{m}), em
+dois níveis.
+
+\paragraph{Nível estado/ano.} Correlacionando a contagem de focos com a área queimada por
+(estado da Amazônia Legal, ano), 2014--2023, a concordância \textbf{interanual dentro de cada
+estado} é forte (Spearman médio \num{0,814}; 9/9 estados positivos, \numrange{0,69}{0,94}):
+quando a área queimada de um estado sobe num ano, os focos sobem junto. A correlação
+\emph{entre} estados é fraca (\(\rho=\)\num{0,275}), pois a contagem de focos não é
+\emph{proxy} linear da magnitude em hectares --- o que não afeta o rótulo aqui, por ser de
+\textbf{ocorrência binária} e não de magnitude.
+
+\paragraph{Nível célula \(\times\) ano.} Para a validação no nível da célula, leram-se os
+rasters anuais do MapBiomas (COGs públicos, 2015--2020) via leitura remota por janelas,
+binarizando a presença de cicatriz por célula \SI{0,25}{\degree}. Confrontando presença de
+foco vs.\ presença de cicatriz em \num{23982} célula-anos: concordância de \SI{78}{\percent},
+Cohen's \(\kappa=\num{0,33}\) e, tratando a cicatriz como referência, os focos têm
+\textbf{revocação \num{0,90}} e precisão \num{0,83} (F\(_1=\num{0,86}\)). Ou seja, os focos
+capturam \(\approx\)\SI{90}{\percent} dos célula-anos efetivamente queimados; as discordâncias
+correspondem a fogos sem cicatriz detectável (pequenos/encobertos por nuvem) e a cicatrizes
+sem foco coincidente (omissão da detecção ativa). O \(\kappa\) moderado reflete a alta
+prevalência do universo \emph{fire-prone}, que comprime a concordância esperada por acaso. A
+validação corrobora o rótulo de ocorrência tanto na dinâmica temporal quanto no nível espacial.
+
+\section{Avaliação operacional e horizonte de previsão}
+\label{sec:oco_operacional}
+
+\paragraph{Priorização de alertas.} Para traduzir o desempenho em valor de decisão,
+o sistema é avaliado como ferramenta de \emph{priorização}: dado um orçamento de
+vigilância (alertar as \emph{top-K\%} células de maior risco previsto), quantos focos
+do mês seguinte são capturados (\emph{recall@K})? A Tabela~\ref{tab:oco_operacional} e a
+Figura~\ref{fig:oco_recallk} comparam o modelo de ML com o índice operacional do INPE
+sob o mesmo orçamento. Alertando apenas \SI{10}{\percent} das células, o modelo captura
+\SI{36,0}{\percent} dos focos do mês seguinte (com precisão de \SI{88}{\percent}), contra
+\SI{15,8}{\percent} do índice INPE --- um ganho de \(\approx 2{,}3\times\). No estrato de
+\textbf{nova ignição}, o contraste é decisivo: o modelo captura \SI{49,2}{\percent} dos
+novos focos no mesmo orçamento (\emph{lift} de \(4{,}9\times\) sobre o acaso), ao passo que
+o índice INPE tem \emph{lift} \(\approx 1\) --- ou seja, \emph{não supera o acaso} para a
+nova ignição, justamente o regime em que o desmatamento recente é o sinal preditivo
+(Seção~\ref{sec:oco_drivers}).
+
+\begin{table}[h]
+\centering
+\caption{Priorização de alertas: \emph{recall@K} (focos do mês seguinte capturados) por orçamento, modelo ML vs.\ índice INPE.}
+\label{tab:oco_operacional}
+\small
+\begin{tabular}{lcccc}
+\toprule
+& \multicolumn{2}{c}{\textbf{Global}} & \multicolumn{2}{c}{\textbf{Nova ignição}} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+\textbf{Orçamento (top-K\%)} & \textbf{ML} & \textbf{INPE} & \textbf{ML} & \textbf{INPE} \\
+\midrule
+\SI{5}{\percent}  & 0,195 & 0,071 & 0,312 & 0,041 \\
+\SI{10}{\percent} & \textbf{0,360} & 0,158 & \textbf{0,492} & 0,096 \\
+\SI{20}{\percent} & 0,611 & 0,282 & 0,721 & 0,206 \\
+\SI{30}{\percent} & 0,775 & 0,372 & 0,845 & 0,305 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{modelos/relatorios/avaliacao_operacional_recall_k.png}
+\caption{\emph{Recall@K} em função do orçamento de alertas (modelo ML vs.\ índice INPE vs.\ aleatório), global (esq.) e em células recém-desmatadas (dir.).}
+\label{fig:oco_recallk}
+\end{figure}
+
+\paragraph{Horizonte de previsão.} Estendendo o alvo para \(t+2\) e \(t+3\) meses, o
+\emph{skill} permanece \textbf{estável} (PR-AUC \numlist{0,779;0,779;0,781} para \(t+1\),
+\(t+2\), \(t+3\); Figura~\ref{fig:oco_horizonte}), sem o decaimento típico. Isso confirma
+que a ocorrência mensal de fogo é governada por componentes \emph{lentos} (sazonalidade,
+histórico de fogo, desmatamento), e não por dinâmica meteorológica de curto prazo ---
+um resultado operacionalmente favorável, pois fornece \textbf{até um trimestre de
+antecedência} sem perda de desempenho. A contrapartida honesta é que o modelo captura o
+regime sazonal/persistente, não a dinâmica sub-mensal; previsões em escala mais fina
+exigiriam outra formulação.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\textwidth]{modelos/relatorios/avaliacao_horizonte.png}
+\caption{Decaimento do \emph{skill} (PR-AUC) por horizonte de previsão (\(t+1\) a \(t+3\) meses): estável, geral e na nova ignição.}
+\label{fig:oco_horizonte}
+\end{figure}
+
+\section{Integração ao produto}
+\label{sec:oco_produto}
+
+O modelo final (base + desmatamento) foi serializado, calibrado por \emph{conformal}
+(cobertura \num{0,900}) e exposto como produto: uma previsão por célula de \(P(\text{fogo no
+próximo mês})\) com rótulo conformal e \emph{drivers}, servida por aplicação \emph{Flask} com
+mapa interativo, independente do aplicativo de \emph{nowcast}. Verificações de sanidade
+conferem com a fenologia do fogo (p.ex.\ Roraima com alto risco em dezembro; sul do Pará
+baixo em dezembro, cuja estação de fogo é julho--outubro).
+
+\section{Síntese}
+\label{sec:oco_sintese}
+
+Os experimentos, sob validação honesta, sustentam uma tese coesa: (i) na escala
+mensal/\SI{0,25}{\degree}, a ocorrência de fogo é dominada por persistência espaço-temporal e
+sazonalidade, o que torna redundantes a reanálise meteorológica (e o FWI) e a acessibilidade
+estática; (ii) o modelo de ML \emph{supera} os índices físicos operacionais na previsão de
+fogo observado; (iii) o gargalo é a \textbf{nova ignição}, e o único sinal útil ali é o
+\textbf{desmatamento recente}, reposicionando o alerta precoce como, em primeira ordem, um
+problema de detecção de fronteira de desmatamento; (iv) a incerteza é quantificável com
+garantia estatística. A reformulação eleva o trabalho de ``reprodução de um índice'' para
+``previsão de fogo observado validada contra a realidade e contra o índice físico'', com um
+teto de desempenho honestamente caracterizado.

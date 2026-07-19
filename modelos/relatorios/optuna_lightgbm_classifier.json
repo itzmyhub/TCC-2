@@ -1,0 +1,20 @@
+{
+  "model_name": "lightgbm_classifier",
+  "n_trials": 15,
+  "scoring": "f1_macro",
+  "best_value_f1_macro": 0.725610448688752,
+  "best_params": {
+    "n_estimators": 410,
+    "max_depth": 11,
+    "num_leaves": 149,
+    "learning_rate": 0.08901940879868259,
+    "subsample": 0.8452973377255052,
+    "colsample_bytree": 0.9615655941622185,
+    "min_child_samples": 18,
+    "reg_alpha": 1.9734585140189238,
+    "reg_lambda": 0.009893127818125904
+  },
+  "cv_folds": 3,
+  "dataset_path": "base_de_dados_enriquecido.csv",
+  "subsample": 150000
+}

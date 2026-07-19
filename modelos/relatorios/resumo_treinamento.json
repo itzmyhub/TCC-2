@@ -1,0 +1,130 @@
+{
+  "xgboost_classifier": {
+    "accuracy": 0.8020523417468165,
+    "f1_macro": 0.7236915677392446,
+    "classification_report": {
+      "Baixo": {
+        "precision": 0.805642294226584,
+        "recall": 0.880469788742798,
+        "f1-score": 0.8413956673043123,
+        "support": 67690.0
+      },
+      "Moderado": {
+        "precision": 0.6374874707651186,
+        "recall": 0.3684701792783804,
+        "f1-score": 0.4670079751973402,
+        "support": 31069.0
+      },
+      "Muito Alto": {
+        "precision": 0.8309963734974765,
+        "recall": 0.896856090960826,
+        "f1-score": 0.8626710607160811,
+        "support": 86103.0
+      },
+      "accuracy": 0.8020523417468165,
+      "macro avg": {
+        "precision": 0.7580420461630597,
+        "recall": 0.7152653529940015,
+        "f1-score": 0.7236915677392446,
+        "support": 184862.0
+      },
+      "weighted avg": {
+        "precision": 0.7891903467053919,
+        "recall": 0.8020523417468165,
+        "f1-score": 0.7883832796468274,
+        "support": 184862.0
+      }
+    },
+    "confusion_matrix": {
+      "classes": [
+        "Baixo",
+        "Moderado",
+        "Muito Alto"
+      ],
+      "matrix": [
+        [
+          59599,
+          3014,
+          5077
+        ],
+        [
+          8993,
+          11448,
+          10628
+        ],
+        [
+          5385,
+          3496,
+          77222
+        ]
+      ]
+    },
+    "train_time_sec": 69.10168552398682,
+    "model_path": "C:\\tcc-2\\TCC-2\\modelos\\xgboost_classifier.pkl",
+    "metrics_path": "C:\\tcc-2\\TCC-2\\modelos\\relatorios\\xgboost_classifier_metrics.json"
+  },
+  "lightgbm_classifier": {
+    "accuracy": 0.7884584176304487,
+    "f1_macro": 0.747179849738591,
+    "classification_report": {
+      "Baixo": {
+        "precision": 0.8436415966068318,
+        "recall": 0.8227655488255281,
+        "f1-score": 0.8330728095433978,
+        "support": 67690.0
+      },
+      "Moderado": {
+        "precision": 0.48696801350921415,
+        "recall": 0.6404454601049278,
+        "f1-score": 0.553260113999722,
+        "support": 31069.0
+      },
+      "Muito Alto": {
+        "precision": 0.899712768958531,
+        "recall": 0.8148961127951407,
+        "f1-score": 0.8552066256726533,
+        "support": 86103.0
+      },
+      "accuracy": 0.7884584176304487,
+      "macro avg": {
+        "precision": 0.7434407930248591,
+        "recall": 0.7593690405751988,
+        "f1-score": 0.747179849738591,
+        "support": 184862.0
+      },
+      "weighted avg": {
+        "precision": 0.8098131440299824,
+        "recall": 0.7884584176304487,
+        "f1-score": 0.7963550813587563,
+        "support": 184862.0
+      }
+    },
+    "confusion_matrix": {
+      "classes": [
+        "Baixo",
+        "Moderado",
+        "Muito Alto"
+      ],
+      "matrix": [
+        [
+          55693,
+          9367,
+          2630
+        ],
+        [
+          5980,
+          19898,
+          5191
+        ],
+        [
+          4342,
+          11596,
+          70165
+        ]
+      ]
+    },
+    "train_time_sec": 27.339823007583618,
+    "model_path": "C:\\tcc-2\\TCC-2\\modelos\\lightgbm_classifier.pkl",
+    "metrics_path": "C:\\tcc-2\\TCC-2\\modelos\\relatorios\\lightgbm_classifier_metrics.json"
+  }
+}

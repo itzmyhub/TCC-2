@@ -1,0 +1,3567 @@
+{
+  "n_features_optimal": 16,
+  "n_features_total": 546,
+  "cv_folds": 3,
+  "n_amostras": 30000,
+  "best_cv_accuracy": 0.6722,
+  "features_ranking": [
+    {
+      "feature": "DiaSemChuva",
+      "raw_feature": "num__DiaSemChuva",
+      "ranking": 1,
+      "selected": true
+    },
+    {
+      "feature": "Precipitacao",
+      "raw_feature": "num__Precipitacao",
+      "ranking": 1,
+      "selected": true
+    },
+    {
+      "feature": "Latitude",
+      "raw_feature": "num__Latitude",
+      "ranking": 1,
+      "selected": true
+    },
+    {
+      "feature": "Longitude",
+      "raw_feature": "num__Longitude",
+      "ranking": 1,
+      "selected": true
+    },
+    {
+      "feature": "FRP",
+      "raw_feature": "num__FRP",
+      "ranking": 1,
+      "selected": true
+    },
+    {
+      "feature": "Ano",
+      "raw_feature": "num__Ano",
+      "ranking": 1,
+      "selected": true
+    },
+    {
+      "feature": "Mes",
+      "raw_feature": "num__Mes",
+      "ranking": 1,
+      "selected": true
+    },
+    {
+      "feature": "Dia",
+      "raw_feature": "num__Dia",
+      "ranking": 1,
+      "selected": true
+    },
+    {
+      "feature": "Mes_sin",
+      "raw_feature": "num__Mes_sin",
+      "ranking": 1,
+      "selected": true
+    },
+    {
+      "feature": "Mes_cos",
+      "raw_feature": "num__Mes_cos",
+      "ranking": 1,
+      "selected": true
+    },
+    {
+      "feature": "Indice_Seca",
+      "raw_feature": "num__Indice_Seca",
+      "ranking": 1,
+      "selected": true
+    },
+    {
+      "feature": "Precipitacao_ma7",
+      "raw_feature": "num__Precipitacao_ma7",
+      "ranking": 1,
+      "selected": true
+    },
+    {
+      "feature": "DiaSemChuva_ma7",
+      "raw_feature": "num__DiaSemChuva_ma7",
+      "ranking": 1,
+      "selected": true
+    },
+    {
+      "feature": "Incendios_Ultimos_30_Dias",
+      "raw_feature": "num__Incendios_Ultimos_30_Dias",
+      "ranking": 1,
+      "selected": true
+    },
+    {
+      "feature": "Dias_Desde_Ultimo_Incendio",
+      "raw_feature": "num__Dias_Desde_Ultimo_Incendio",
+      "ranking": 1,
+      "selected": true
+    },
+    {
+      "feature": "Estado_AMAZONAS",
+      "raw_feature": "cat__Estado_AMAZONAS",
+      "ranking": 1,
+      "selected": true
+    },
+    {
+      "feature": "Hora",
+      "raw_feature": "num__Hora",
+      "ranking": 2,
+      "selected": false
+    },
+    {
+      "feature": "Periodo_Critico",
+      "raw_feature": "num__Periodo_Critico",
+      "ranking": 2,
+      "selected": false
+    },
+    {
+      "feature": "Incendios_Ultimos_7_Dias",
+      "raw_feature": "num__Incendios_Ultimos_7_Dias",
+      "ranking": 2,
+      "selected": false
+    },
+    {
+      "feature": "Media_FRP_Ultimos_7_Dias",
+      "raw_feature": "num__Media_FRP_Ultimos_7_Dias",
+      "ranking": 2,
+      "selected": false
+    },
+    {
+      "feature": "Max_FRP_Ultimos_7_Dias",
+      "raw_feature": "num__Max_FRP_Ultimos_7_Dias",
+      "ranking": 2,
+      "selected": false
+    },
+    {
+      "feature": "Estado_ACRE",
+      "raw_feature": "cat__Estado_ACRE",
+      "ranking": 2,
+      "selected": false
+    },
+    {
+      "feature": "Estado_MARANHÃO",
+      "raw_feature": "cat__Estado_MARANHÃO",
+      "ranking": 2,
+      "selected": false
+    },
+    {
+      "feature": "Estado_MATO GROSSO",
+      "raw_feature": "cat__Estado_MATO GROSSO",
+      "ranking": 2,
+      "selected": false
+    },
+    {
+      "feature": "Estado_PARÁ",
+      "raw_feature": "cat__Estado_PARÁ",
+      "ranking": 2,
+      "selected": false
+    },
+    {
+      "feature": "Estacao_Seca_Alta",
+      "raw_feature": "cat__Estacao_Seca_Alta",
+      "ranking": 2,
+      "selected": false
+    },
+    {
+      "feature": "Estado_AMAPÁ",
+      "raw_feature": "cat__Estado_AMAPÁ",
+      "ranking": 3,
+      "selected": false
+    },
+    {
+      "feature": "Estado_RONDÔNIA",
+      "raw_feature": "cat__Estado_RONDÔNIA",
+      "ranking": 3,
+      "selected": false
+    },
+    {
+      "feature": "Estado_RORAIMA",
+      "raw_feature": "cat__Estado_RORAIMA",
+      "ranking": 3,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ALTAMIRA",
+      "raw_feature": "cat__Municipio_ALTAMIRA",
+      "ranking": 3,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_APUÍ",
+      "raw_feature": "cat__Municipio_APUÍ",
+      "ranking": 3,
+      "selected": false
+    },
+    {
+      "feature": "Estacao_Chuvosa",
+      "raw_feature": "cat__Estacao_Chuvosa",
+      "ranking": 3,
+      "selected": false
+    },
+    {
+      "feature": "Estacao_Seca_Transicao",
+      "raw_feature": "cat__Estacao_Seca_Transicao",
+      "ranking": 3,
+      "selected": false
+    },
+    {
+      "feature": "Estacao_Transicao_Chuvosa",
+      "raw_feature": "cat__Estacao_Transicao_Chuvosa",
+      "ranking": 3,
+      "selected": false
+    },
+    {
+      "feature": "Periodo_Dia_Noite",
+      "raw_feature": "cat__Periodo_Dia_Noite",
+      "ranking": 3,
+      "selected": false
+    },
+    {
+      "feature": "Periodo_Dia_Tarde",
+      "raw_feature": "cat__Periodo_Dia_Tarde",
+      "ranking": 3,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ACARÁ",
+      "raw_feature": "cat__Municipio_ACARÁ",
+      "ranking": 4,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_FEIJÓ",
+      "raw_feature": "cat__Municipio_FEIJÓ",
+      "ranking": 4,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_JACAREACANGA",
+      "raw_feature": "cat__Municipio_JACAREACANGA",
+      "ranking": 4,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_LÁBREA",
+      "raw_feature": "cat__Municipio_LÁBREA",
+      "ranking": 4,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MOJU",
+      "raw_feature": "cat__Municipio_MOJU",
+      "ranking": 4,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVO PROGRESSO",
+      "raw_feature": "cat__Municipio_NOVO PROGRESSO",
+      "ranking": 4,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PACAJÁ",
+      "raw_feature": "cat__Municipio_PACAJÁ",
+      "ranking": 4,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PORTEL",
+      "raw_feature": "cat__Municipio_PORTEL",
+      "ranking": 4,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PORTO VELHO",
+      "raw_feature": "cat__Municipio_PORTO VELHO",
+      "ranking": 4,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO FÉLIX DO XINGU",
+      "raw_feature": "cat__Municipio_SÃO FÉLIX DO XINGU",
+      "ranking": 4,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ANAPU",
+      "raw_feature": "cat__Municipio_ANAPU",
+      "ranking": 5,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BOCA DO ACRE",
+      "raw_feature": "cat__Municipio_BOCA DO ACRE",
+      "ranking": 5,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BRASILÉIA",
+      "raw_feature": "cat__Municipio_BRASILÉIA",
+      "ranking": 5,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_COLNIZA",
+      "raw_feature": "cat__Municipio_COLNIZA",
+      "ranking": 5,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MONTE ALEGRE",
+      "raw_feature": "cat__Municipio_MONTE ALEGRE",
+      "ranking": 5,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA MAMORÉ",
+      "raw_feature": "cat__Municipio_NOVA MAMORÉ",
+      "ranking": 5,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVO ARIPUANÃ",
+      "raw_feature": "cat__Municipio_NOVO ARIPUANÃ",
+      "ranking": 5,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SENA MADUREIRA",
+      "raw_feature": "cat__Municipio_SENA MADUREIRA",
+      "ranking": 5,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TARAUACÁ",
+      "raw_feature": "cat__Municipio_TARAUACÁ",
+      "ranking": 5,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TRAIRÃO",
+      "raw_feature": "cat__Municipio_TRAIRÃO",
+      "ranking": 5,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_HUMAITÁ",
+      "raw_feature": "cat__Municipio_HUMAITÁ",
+      "ranking": 6,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ITAITUBA",
+      "raw_feature": "cat__Municipio_ITAITUBA",
+      "ranking": 6,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MANICORÉ",
+      "raw_feature": "cat__Municipio_MANICORÉ",
+      "ranking": 6,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PARANAÍTA",
+      "raw_feature": "cat__Municipio_PARANAÍTA",
+      "ranking": 6,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PORTO DE MOZ",
+      "raw_feature": "cat__Municipio_PORTO DE MOZ",
+      "ranking": 6,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PRAINHA",
+      "raw_feature": "cat__Municipio_PRAINHA",
+      "ranking": 6,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_RURÓPOLIS",
+      "raw_feature": "cat__Municipio_RURÓPOLIS",
+      "ranking": 6,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTA MARIA DAS BARREIRAS",
+      "raw_feature": "cat__Municipio_SANTA MARIA DAS BARREIRAS",
+      "ranking": 6,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_XAPURI",
+      "raw_feature": "cat__Municipio_XAPURI",
+      "ranking": 6,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ÓBIDOS",
+      "raw_feature": "cat__Municipio_ÓBIDOS",
+      "ranking": 6,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CANDEIAS DO JAMARI",
+      "raw_feature": "cat__Municipio_CANDEIAS DO JAMARI",
+      "ranking": 7,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CANUTAMA",
+      "raw_feature": "cat__Municipio_CANUTAMA",
+      "ranking": 7,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CARACARAÍ",
+      "raw_feature": "cat__Municipio_CARACARAÍ",
+      "ranking": 7,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CRUZEIRO DO SUL",
+      "raw_feature": "cat__Municipio_CRUZEIRO DO SUL",
+      "ranking": 7,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MEDICILÂNDIA",
+      "raw_feature": "cat__Municipio_MEDICILÂNDIA",
+      "ranking": 7,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NORMANDIA",
+      "raw_feature": "cat__Municipio_NORMANDIA",
+      "ranking": 7,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA BANDEIRANTES",
+      "raw_feature": "cat__Municipio_NOVA BANDEIRANTES",
+      "ranking": 7,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PARAGOMINAS",
+      "raw_feature": "cat__Municipio_PARAGOMINAS",
+      "ranking": 7,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_RIO BRANCO",
+      "raw_feature": "cat__Municipio_RIO BRANCO",
+      "ranking": 7,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TEFÉ",
+      "raw_feature": "cat__Municipio_TEFÉ",
+      "ranking": 7,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ALENQUER",
+      "raw_feature": "cat__Municipio_ALENQUER",
+      "ranking": 8,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ARIPUANÃ",
+      "raw_feature": "cat__Municipio_ARIPUANÃ",
+      "ranking": 8,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_FELIZ NATAL",
+      "raw_feature": "cat__Municipio_FELIZ NATAL",
+      "ranking": 8,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MACHADINHO D'OESTE",
+      "raw_feature": "cat__Municipio_MACHADINHO D'OESTE",
+      "ranking": 8,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MAZAGÃO",
+      "raw_feature": "cat__Municipio_MAZAGÃO",
+      "ranking": 8,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVO REPARTIMENTO",
+      "raw_feature": "cat__Municipio_NOVO REPARTIMENTO",
+      "ranking": 8,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PLACAS",
+      "raw_feature": "cat__Municipio_PLACAS",
+      "ranking": 8,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_RORAINÓPOLIS",
+      "raw_feature": "cat__Municipio_RORAINÓPOLIS",
+      "ranking": 8,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTANA DO ARAGUAIA",
+      "raw_feature": "cat__Municipio_SANTANA DO ARAGUAIA",
+      "ranking": 8,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_UNIÃO DO SUL",
+      "raw_feature": "cat__Municipio_UNIÃO DO SUL",
+      "ranking": 8,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ALVARÃES",
+      "raw_feature": "cat__Municipio_ALVARÃES",
+      "ranking": 9,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_AMARANTE DO MARANHÃO",
+      "raw_feature": "cat__Municipio_AMARANTE DO MARANHÃO",
+      "ranking": 9,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_APIACÁS",
+      "raw_feature": "cat__Municipio_APIACÁS",
+      "ranking": 9,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_AVEIRO",
+      "raw_feature": "cat__Municipio_AVEIRO",
+      "ranking": 9,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CUJUBIM",
+      "raw_feature": "cat__Municipio_CUJUBIM",
+      "ranking": 9,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CUMARU DO NORTE",
+      "raw_feature": "cat__Municipio_CUMARU DO NORTE",
+      "ranking": 9,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_GAÚCHA DO NORTE",
+      "raw_feature": "cat__Municipio_GAÚCHA DO NORTE",
+      "ranking": 9,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MAUÉS",
+      "raw_feature": "cat__Municipio_MAUÉS",
+      "ranking": 9,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTA LUZIA",
+      "raw_feature": "cat__Municipio_SANTA LUZIA",
+      "ranking": 9,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTARÉM",
+      "raw_feature": "cat__Municipio_SANTARÉM",
+      "ranking": 9,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ALMEIRIM",
+      "raw_feature": "cat__Municipio_ALMEIRIM",
+      "ranking": 10,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_AUTAZES",
+      "raw_feature": "cat__Municipio_AUTAZES",
+      "ranking": 10,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BOM JARDIM",
+      "raw_feature": "cat__Municipio_BOM JARDIM",
+      "ranking": 10,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CAMETÁ",
+      "raw_feature": "cat__Municipio_CAMETÁ",
+      "ranking": 10,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CHAVES",
+      "raw_feature": "cat__Municipio_CHAVES",
+      "ranking": 10,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_COARI",
+      "raw_feature": "cat__Municipio_COARI",
+      "ranking": 10,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MACAPÁ",
+      "raw_feature": "cat__Municipio_MACAPÁ",
+      "ranking": 10,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MARABÁ",
+      "raw_feature": "cat__Municipio_MARABÁ",
+      "ranking": 10,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ORIXIMINÁ",
+      "raw_feature": "cat__Municipio_ORIXIMINÁ",
+      "ranking": 10,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SENADOR JOSÉ PORFÍRIO",
+      "raw_feature": "cat__Municipio_SENADOR JOSÉ PORFÍRIO",
+      "ranking": 10,
+      "selected": false
+    },
+    {
+      "feature": "Estado_TOCANTINS",
+      "raw_feature": "cat__Estado_TOCANTINS",
+      "ranking": 11,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CANTÁ",
+      "raw_feature": "cat__Municipio_CANTÁ",
+      "ranking": 11,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CAROEBE",
+      "raw_feature": "cat__Municipio_CAROEBE",
+      "ranking": 11,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_COTRIGUAÇU",
+      "raw_feature": "cat__Municipio_COTRIGUAÇU",
+      "ranking": 11,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ENVIRA",
+      "raw_feature": "cat__Municipio_ENVIRA",
+      "ranking": 11,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MANOEL URBANO",
+      "raw_feature": "cat__Municipio_MANOEL URBANO",
+      "ranking": 11,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_OURILÂNDIA DO NORTE",
+      "raw_feature": "cat__Municipio_OURILÂNDIA DO NORTE",
+      "ranking": 11,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_RONDOLÂNDIA",
+      "raw_feature": "cat__Municipio_RONDOLÂNDIA",
+      "ranking": 11,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_URUARÁ",
+      "raw_feature": "cat__Municipio_URUARÁ",
+      "ranking": 11,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_VILA BELA DA SANTÍSSIMA TRINDADE",
+      "raw_feature": "cat__Municipio_VILA BELA DA SANTÍSSIMA TRINDADE",
+      "ranking": 11,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_GUAJARÁ-MIRIM",
+      "raw_feature": "cat__Municipio_GUAJARÁ-MIRIM",
+      "ranking": 12,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_IPIXUNA DO PARÁ",
+      "raw_feature": "cat__Municipio_IPIXUNA DO PARÁ",
+      "ranking": 12,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ITACOATIARA",
+      "raw_feature": "cat__Municipio_ITACOATIARA",
+      "ranking": 12,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MARCELÂNDIA",
+      "raw_feature": "cat__Municipio_MARCELÂNDIA",
+      "ranking": 12,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MÂNCIO LIMA",
+      "raw_feature": "cat__Municipio_MÂNCIO LIMA",
+      "ranking": 12,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NHAMUNDÁ",
+      "raw_feature": "cat__Municipio_NHAMUNDÁ",
+      "ranking": 12,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA MARINGÁ",
+      "raw_feature": "cat__Municipio_NOVA MARINGÁ",
+      "ranking": 12,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_OIAPOQUE",
+      "raw_feature": "cat__Municipio_OIAPOQUE",
+      "ranking": 12,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PORTO WALTER",
+      "raw_feature": "cat__Municipio_PORTO WALTER",
+      "ranking": 12,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_UARINI",
+      "raw_feature": "cat__Municipio_UARINI",
+      "ranking": 12,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ARAME",
+      "raw_feature": "cat__Municipio_ARAME",
+      "ranking": 13,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BRASNORTE",
+      "raw_feature": "cat__Municipio_BRASNORTE",
+      "ranking": 13,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BUJARU",
+      "raw_feature": "cat__Municipio_BUJARU",
+      "ranking": 13,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BURITIS",
+      "raw_feature": "cat__Municipio_BURITIS",
+      "ranking": 13,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_IRACEMA",
+      "raw_feature": "cat__Municipio_IRACEMA",
+      "ranking": 13,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ITUPIRANGA",
+      "raw_feature": "cat__Municipio_ITUPIRANGA",
+      "ranking": 13,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MOCAJUBA",
+      "raw_feature": "cat__Municipio_MOCAJUBA",
+      "ranking": 13,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PEIXOTO DE AZEVEDO",
+      "raw_feature": "cat__Municipio_PEIXOTO DE AZEVEDO",
+      "ranking": 13,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PRESIDENTE FIGUEIREDO",
+      "raw_feature": "cat__Municipio_PRESIDENTE FIGUEIREDO",
+      "ranking": 13,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TOMÉ-AÇU",
+      "raw_feature": "cat__Municipio_TOMÉ-AÇU",
+      "ranking": 13,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ALTO PARAÍSO",
+      "raw_feature": "cat__Municipio_ALTO PARAÍSO",
+      "ranking": 14,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ARIQUEMES",
+      "raw_feature": "cat__Municipio_ARIQUEMES",
+      "ranking": 14,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ASSIS BRASIL",
+      "raw_feature": "cat__Municipio_ASSIS BRASIL",
+      "ranking": 14,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CAREIRO DA VÁRZEA",
+      "raw_feature": "cat__Municipio_CAREIRO DA VÁRZEA",
+      "ranking": 14,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CONCEIÇÃO DO ARAGUAIA",
+      "raw_feature": "cat__Municipio_CONCEIÇÃO DO ARAGUAIA",
+      "ranking": 14,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_GUAJARÁ",
+      "raw_feature": "cat__Municipio_GUAJARÁ",
+      "ranking": 14,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MARECHAL THAUMATURGO",
+      "raw_feature": "cat__Municipio_MARECHAL THAUMATURGO",
+      "ranking": 14,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MOJUÍ DOS CAMPOS",
+      "raw_feature": "cat__Municipio_MOJUÍ DOS CAMPOS",
+      "ranking": 14,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MUCAJAÍ",
+      "raw_feature": "cat__Municipio_MUCAJAÍ",
+      "ranking": 14,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA UBIRATÃ",
+      "raw_feature": "cat__Municipio_NOVA UBIRATÃ",
+      "ranking": 14,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BONFIM",
+      "raw_feature": "cat__Municipio_BONFIM",
+      "ranking": 15,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CALÇOENE",
+      "raw_feature": "cat__Municipio_CALÇOENE",
+      "ranking": 15,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CENTRO NOVO DO MARANHÃO",
+      "raw_feature": "cat__Municipio_CENTRO NOVO DO MARANHÃO",
+      "ranking": 15,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_COMODORO",
+      "raw_feature": "cat__Municipio_COMODORO",
+      "ranking": 15,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_GOIANÉSIA DO PARÁ",
+      "raw_feature": "cat__Municipio_GOIANÉSIA DO PARÁ",
+      "ranking": 15,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_JORDÃO",
+      "raw_feature": "cat__Municipio_JORDÃO",
+      "ranking": 15,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_JUARA",
+      "raw_feature": "cat__Municipio_JUARA",
+      "ranking": 15,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO DOMINGOS DO CAPIM",
+      "raw_feature": "cat__Municipio_SÃO DOMINGOS DO CAPIM",
+      "ranking": 15,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TAPAUÁ",
+      "raw_feature": "cat__Municipio_TAPAUÁ",
+      "ranking": 15,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ULIANÓPOLIS",
+      "raw_feature": "cat__Municipio_ULIANÓPOLIS",
+      "ranking": 15,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ACRELÂNDIA",
+      "raw_feature": "cat__Municipio_ACRELÂNDIA",
+      "ranking": 16,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BARREIRINHA",
+      "raw_feature": "cat__Municipio_BARREIRINHA",
+      "ranking": 16,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CANARANA",
+      "raw_feature": "cat__Municipio_CANARANA",
+      "ranking": 16,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CAREIRO",
+      "raw_feature": "cat__Municipio_CAREIRO",
+      "ranking": 16,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_EPITACIOLÂNDIA",
+      "raw_feature": "cat__Municipio_EPITACIOLÂNDIA",
+      "ranking": 16,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_JURUTI",
+      "raw_feature": "cat__Municipio_JURUTI",
+      "ranking": 16,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MANACAPURU",
+      "raw_feature": "cat__Municipio_MANACAPURU",
+      "ranking": 16,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA ESPERANÇA DO PIRIÁ",
+      "raw_feature": "cat__Municipio_NOVA ESPERANÇA DO PIRIÁ",
+      "ranking": 16,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PIMENTEIRAS DO OESTE",
+      "raw_feature": "cat__Municipio_PIMENTEIRAS DO OESTE",
+      "ranking": 16,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_RODRIGUES ALVES",
+      "raw_feature": "cat__Municipio_RODRIGUES ALVES",
+      "ranking": 16,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BAIÃO",
+      "raw_feature": "cat__Municipio_BAIÃO",
+      "ranking": 17,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BARCELOS",
+      "raw_feature": "cat__Municipio_BARCELOS",
+      "ranking": 17,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CONFRESA",
+      "raw_feature": "cat__Municipio_CONFRESA",
+      "ranking": 17,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_EIRUNEPÉ",
+      "raw_feature": "cat__Municipio_EIRUNEPÉ",
+      "ranking": 17,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_OEIRAS DO PARÁ",
+      "raw_feature": "cat__Municipio_OEIRAS DO PARÁ",
+      "ranking": 17,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_QUERÊNCIA",
+      "raw_feature": "cat__Municipio_QUERÊNCIA",
+      "ranking": 17,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTA TEREZINHA",
+      "raw_feature": "cat__Municipio_SANTA TEREZINHA",
+      "ranking": 17,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO FÉLIX DO ARAGUAIA",
+      "raw_feature": "cat__Municipio_SÃO FÉLIX DO ARAGUAIA",
+      "ranking": 17,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TARTARUGALZINHO",
+      "raw_feature": "cat__Municipio_TARTARUGALZINHO",
+      "ranking": 17,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_UIRAMUTÃ",
+      "raw_feature": "cat__Municipio_UIRAMUTÃ",
+      "ranking": 17,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_AMAPÁ",
+      "raw_feature": "cat__Municipio_AMAPÁ",
+      "ranking": 18,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_AÇAILÂNDIA",
+      "raw_feature": "cat__Municipio_AÇAILÂNDIA",
+      "ranking": 18,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BREJO DE AREIA",
+      "raw_feature": "cat__Municipio_BREJO DE AREIA",
+      "ranking": 18,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BURITICUPU",
+      "raw_feature": "cat__Municipio_BURITICUPU",
+      "ranking": 18,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_COSTA MARQUES",
+      "raw_feature": "cat__Municipio_COSTA MARQUES",
+      "ranking": 18,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PACARAIMA",
+      "raw_feature": "cat__Municipio_PACARAIMA",
+      "ranking": 18,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO FRANCISCO DO GUAPORÉ",
+      "raw_feature": "cat__Municipio_SÃO FRANCISCO DO GUAPORÉ",
+      "ranking": 18,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO GABRIEL DA CACHOEIRA",
+      "raw_feature": "cat__Municipio_SÃO GABRIEL DA CACHOEIRA",
+      "ranking": 18,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TABAPORÃ",
+      "raw_feature": "cat__Municipio_TABAPORÃ",
+      "ranking": 18,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_VILHENA",
+      "raw_feature": "cat__Municipio_VILHENA",
+      "ranking": 18,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BANNACH",
+      "raw_feature": "cat__Municipio_BANNACH",
+      "ranking": 19,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BOA VISTA",
+      "raw_feature": "cat__Municipio_BOA VISTA",
+      "ranking": 19,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BUJARI",
+      "raw_feature": "cat__Municipio_BUJARI",
+      "ranking": 19,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CACHOEIRA DO PIRIÁ",
+      "raw_feature": "cat__Municipio_CACHOEIRA DO PIRIÁ",
+      "ranking": 19,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ITAPECURU MIRIM",
+      "raw_feature": "cat__Municipio_ITAPECURU MIRIM",
+      "ranking": 19,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PARANATINGA",
+      "raw_feature": "cat__Municipio_PARANATINGA",
+      "ranking": 19,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PARINTINS",
+      "raw_feature": "cat__Municipio_PARINTINS",
+      "ranking": 19,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PONTES E LACERDA",
+      "raw_feature": "cat__Municipio_PONTES E LACERDA",
+      "ranking": 19,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_RONDON DO PARÁ",
+      "raw_feature": "cat__Municipio_RONDON DO PARÁ",
+      "ranking": 19,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ÁGUA AZUL DO NORTE",
+      "raw_feature": "cat__Municipio_ÁGUA AZUL DO NORTE",
+      "ranking": 19,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_AMAJARI",
+      "raw_feature": "cat__Municipio_AMAJARI",
+      "ranking": 20,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BOM JESUS DAS SELVAS",
+      "raw_feature": "cat__Municipio_BOM JESUS DAS SELVAS",
+      "ranking": 20,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CAPIXABA",
+      "raw_feature": "cat__Municipio_CAPIXABA",
+      "ranking": 20,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CÂNDIDO MENDES",
+      "raw_feature": "cat__Municipio_CÂNDIDO MENDES",
+      "ranking": 20,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_FLORESTA DO ARAGUAIA",
+      "raw_feature": "cat__Municipio_FLORESTA DO ARAGUAIA",
+      "ranking": 20,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_IPIXUNA",
+      "raw_feature": "cat__Municipio_IPIXUNA",
+      "ranking": 20,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA CANAÃ DO NORTE",
+      "raw_feature": "cat__Municipio_NOVA CANAÃ DO NORTE",
+      "ranking": 20,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PORTO ACRE",
+      "raw_feature": "cat__Municipio_PORTO ACRE",
+      "ranking": 20,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PORTO DOS GAÚCHOS",
+      "raw_feature": "cat__Municipio_PORTO DOS GAÚCHOS",
+      "ranking": 20,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTA CRUZ DO XINGU",
+      "raw_feature": "cat__Municipio_SANTA CRUZ DO XINGU",
+      "ranking": 20,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BOM JESUS DO ARAGUAIA",
+      "raw_feature": "cat__Municipio_BOM JESUS DO ARAGUAIA",
+      "ranking": 21,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BREVES",
+      "raw_feature": "cat__Municipio_BREVES",
+      "ranking": 21,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CARAUARI",
+      "raw_feature": "cat__Municipio_CARAUARI",
+      "ranking": 21,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_JUÍNA",
+      "raw_feature": "cat__Municipio_JUÍNA",
+      "ranking": 21,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MANAQUIRI",
+      "raw_feature": "cat__Municipio_MANAQUIRI",
+      "ranking": 21,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PAUINI",
+      "raw_feature": "cat__Municipio_PAUINI",
+      "ranking": 21,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PEDRA BRANCA DO AMAPARI",
+      "raw_feature": "cat__Municipio_PEDRA BRANCA DO AMAPARI",
+      "ranking": 21,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTA CARMEM",
+      "raw_feature": "cat__Municipio_SANTA CARMEM",
+      "ranking": 21,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO JOSÉ DO XINGU",
+      "raw_feature": "cat__Municipio_SÃO JOSÉ DO XINGU",
+      "ranking": 21,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TURIAÇU",
+      "raw_feature": "cat__Municipio_TURIAÇU",
+      "ranking": 21,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_AMAPÁ DO MARANHÃO",
+      "raw_feature": "cat__Municipio_AMAPÁ DO MARANHÃO",
+      "ranking": 22,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CAMPO NOVO DE RONDÔNIA",
+      "raw_feature": "cat__Municipio_CAMPO NOVO DE RONDÔNIA",
+      "ranking": 22,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CAPITÃO POÇO",
+      "raw_feature": "cat__Municipio_CAPITÃO POÇO",
+      "ranking": 22,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ELDORADO DO CARAJÁS",
+      "raw_feature": "cat__Municipio_ELDORADO DO CARAJÁS",
+      "ranking": 22,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA MONTE VERDE",
+      "raw_feature": "cat__Municipio_NOVA MONTE VERDE",
+      "ranking": 22,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PIMENTA BUENO",
+      "raw_feature": "cat__Municipio_PIMENTA BUENO",
+      "ranking": 22,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTA HELENA",
+      "raw_feature": "cat__Municipio_SANTA HELENA",
+      "ranking": 22,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TAILÂNDIA",
+      "raw_feature": "cat__Municipio_TAILÂNDIA",
+      "ranking": 22,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TUCUMÃ",
+      "raw_feature": "cat__Municipio_TUCUMÃ",
+      "ranking": 22,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_VILA RICA",
+      "raw_feature": "cat__Municipio_VILA RICA",
+      "ranking": 22,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ALTO ALEGRE",
+      "raw_feature": "cat__Municipio_ALTO ALEGRE",
+      "ranking": 23,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CLÁUDIA",
+      "raw_feature": "cat__Municipio_CLÁUDIA",
+      "ranking": 23,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CURRALINHO",
+      "raw_feature": "cat__Municipio_CURRALINHO",
+      "ranking": 23,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_GOVERNADOR NUNES FREIRE",
+      "raw_feature": "cat__Municipio_GOVERNADOR NUNES FREIRE",
+      "ranking": 23,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ITAÚBA",
+      "raw_feature": "cat__Municipio_ITAÚBA",
+      "ranking": 23,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ITINGA DO MARANHÃO",
+      "raw_feature": "cat__Municipio_ITINGA DO MARANHÃO",
+      "ranking": 23,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MATUPÁ",
+      "raw_feature": "cat__Municipio_MATUPÁ",
+      "ranking": 23,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PORTO GRANDE",
+      "raw_feature": "cat__Municipio_PORTO GRANDE",
+      "ranking": 23,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PRACUÚBA",
+      "raw_feature": "cat__Municipio_PRACUÚBA",
+      "ranking": 23,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TURILÂNDIA",
+      "raw_feature": "cat__Municipio_TURILÂNDIA",
+      "ranking": 23,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ALTO ALEGRE DO PINDARÉ",
+      "raw_feature": "cat__Municipio_ALTO ALEGRE DO PINDARÉ",
+      "ranking": 24,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CASTANHEIRA",
+      "raw_feature": "cat__Municipio_CASTANHEIRA",
+      "ranking": 24,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CODAJÁS",
+      "raw_feature": "cat__Municipio_CODAJÁS",
+      "ranking": 24,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_DOM ELISEU",
+      "raw_feature": "cat__Municipio_DOM ELISEU",
+      "ranking": 24,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_GURUPÁ",
+      "raw_feature": "cat__Municipio_GURUPÁ",
+      "ranking": 24,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_JUTAÍ",
+      "raw_feature": "cat__Municipio_JUTAÍ",
+      "ranking": 24,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA LACERDA",
+      "raw_feature": "cat__Municipio_NOVA LACERDA",
+      "ranking": 24,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PEDRO DO ROSÁRIO",
+      "raw_feature": "cat__Municipio_PEDRO DO ROSÁRIO",
+      "ranking": 24,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PLÁCIDO DE CASTRO",
+      "raw_feature": "cat__Municipio_PLÁCIDO DE CASTRO",
+      "ranking": 24,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTA ROSA DO PURUS",
+      "raw_feature": "cat__Municipio_SANTA ROSA DO PURUS",
+      "ranking": 24,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CANAÃ DOS CARAJÁS",
+      "raw_feature": "cat__Municipio_CANAÃ DOS CARAJÁS",
+      "ranking": 25,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CHUPINGUAIA",
+      "raw_feature": "cat__Municipio_CHUPINGUAIA",
+      "ranking": 25,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_GUARANTÃ DO NORTE",
+      "raw_feature": "cat__Municipio_GUARANTÃ DO NORTE",
+      "ranking": 25,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_IRITUIA",
+      "raw_feature": "cat__Municipio_IRITUIA",
+      "ranking": 25,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ITAPUÃ DO OESTE",
+      "raw_feature": "cat__Municipio_ITAPUÃ DO OESTE",
+      "ranking": 25,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MANAUS",
+      "raw_feature": "cat__Municipio_MANAUS",
+      "ranking": 25,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA OLINDA DO MARANHÃO",
+      "raw_feature": "cat__Municipio_NOVA OLINDA DO MARANHÃO",
+      "ranking": 25,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA SANTA HELENA",
+      "raw_feature": "cat__Municipio_NOVA SANTA HELENA",
+      "ranking": 25,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVO MUNDO",
+      "raw_feature": "cat__Municipio_NOVO MUNDO",
+      "ranking": 25,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_VITÓRIA DO JARI",
+      "raw_feature": "cat__Municipio_VITÓRIA DO JARI",
+      "ranking": 25,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ALTA FLORESTA D'OESTE",
+      "raw_feature": "cat__Municipio_ALTA FLORESTA D'OESTE",
+      "ranking": 26,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BORBA",
+      "raw_feature": "cat__Municipio_BORBA",
+      "ranking": 26,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CONCEIÇÃO DO LAGO-AÇU",
+      "raw_feature": "cat__Municipio_CONCEIÇÃO DO LAGO-AÇU",
+      "ranking": 26,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_FERREIRA GOMES",
+      "raw_feature": "cat__Municipio_FERREIRA GOMES",
+      "ranking": 26,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_IGARAPÉ-MIRI",
+      "raw_feature": "cat__Municipio_IGARAPÉ-MIRI",
+      "ranking": 26,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_IRANDUBA",
+      "raw_feature": "cat__Municipio_IRANDUBA",
+      "ranking": 26,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ITAMARATI",
+      "raw_feature": "cat__Municipio_ITAMARATI",
+      "ranking": 26,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ITANHANGÁ",
+      "raw_feature": "cat__Municipio_ITANHANGÁ",
+      "ranking": 26,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_LARANJAL DO JARI",
+      "raw_feature": "cat__Municipio_LARANJAL DO JARI",
+      "ranking": 26,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MARAJÁ DO SENA",
+      "raw_feature": "cat__Municipio_MARAJÁ DO SENA",
+      "ranking": 26,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BRAGANÇA",
+      "raw_feature": "cat__Municipio_BRAGANÇA",
+      "ranking": 27,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CANABRAVA DO NORTE",
+      "raw_feature": "cat__Municipio_CANABRAVA DO NORTE",
+      "ranking": 27,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CENTRO DO GUILHERME",
+      "raw_feature": "cat__Municipio_CENTRO DO GUILHERME",
+      "ranking": 27,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_IPIRANGA DO NORTE",
+      "raw_feature": "cat__Municipio_IPIRANGA DO NORTE",
+      "ranking": 27,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ITAIPAVA DO GRAJAÚ",
+      "raw_feature": "cat__Municipio_ITAIPAVA DO GRAJAÚ",
+      "ranking": 27,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ITAUBAL",
+      "raw_feature": "cat__Municipio_ITAUBAL",
+      "ranking": 27,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_JURUENA",
+      "raw_feature": "cat__Municipio_JURUENA",
+      "ranking": 27,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_LUÍS DOMINGUES",
+      "raw_feature": "cat__Municipio_LUÍS DOMINGUES",
+      "ranking": 27,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MELGAÇO",
+      "raw_feature": "cat__Municipio_MELGAÇO",
+      "ranking": 27,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO JOÃO DA BALIZA",
+      "raw_feature": "cat__Municipio_SÃO JOÃO DA BALIZA",
+      "ranking": 27,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ITAPIRANGA",
+      "raw_feature": "cat__Municipio_ITAPIRANGA",
+      "ranking": 28,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ITAPORÃ DO TOCANTINS",
+      "raw_feature": "cat__Municipio_ITAPORÃ DO TOCANTINS",
+      "ranking": 28,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_JAURU",
+      "raw_feature": "cat__Municipio_JAURU",
+      "ranking": 28,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_JI-PARANÁ",
+      "raw_feature": "cat__Municipio_JI-PARANÁ",
+      "ranking": 28,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_JOÃO LISBOA",
+      "raw_feature": "cat__Municipio_JOÃO LISBOA",
+      "ranking": 28,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_JUNCO DO MARANHÃO",
+      "raw_feature": "cat__Municipio_JUNCO DO MARANHÃO",
+      "ranking": 28,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MUANÁ",
+      "raw_feature": "cat__Municipio_MUANÁ",
+      "ranking": 28,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA OLINDA DO NORTE",
+      "raw_feature": "cat__Municipio_NOVA OLINDA DO NORTE",
+      "ranking": 28,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_RIO MARIA",
+      "raw_feature": "cat__Municipio_RIO MARIA",
+      "ranking": 28,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SERINGUEIRAS",
+      "raw_feature": "cat__Municipio_SERINGUEIRAS",
+      "ranking": 28,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ABAETETUBA",
+      "raw_feature": "cat__Municipio_ABAETETUBA",
+      "ranking": 29,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CARUTAPERA",
+      "raw_feature": "cat__Municipio_CARUTAPERA",
+      "ranking": 29,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CONCÓRDIA DO PARÁ",
+      "raw_feature": "cat__Municipio_CONCÓRDIA DO PARÁ",
+      "ranking": 29,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CUTIAS",
+      "raw_feature": "cat__Municipio_CUTIAS",
+      "ranking": 29,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_IGARAPÉ-AÇU",
+      "raw_feature": "cat__Municipio_IGARAPÉ-AÇU",
+      "ranking": 29,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_INHANGAPI",
+      "raw_feature": "cat__Municipio_INHANGAPI",
+      "ranking": 29,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_JACUNDÁ",
+      "raw_feature": "cat__Municipio_JACUNDÁ",
+      "ranking": 29,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_JARU",
+      "raw_feature": "cat__Municipio_JARU",
+      "ranking": 29,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_JUARINA",
+      "raw_feature": "cat__Municipio_JUARINA",
+      "ranking": 29,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_JURUÁ",
+      "raw_feature": "cat__Municipio_JURUÁ",
+      "ranking": 29,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CAJARI",
+      "raw_feature": "cat__Municipio_CAJARI",
+      "ranking": 30,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CIDELÂNDIA",
+      "raw_feature": "cat__Municipio_CIDELÂNDIA",
+      "ranking": 30,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_COLARES",
+      "raw_feature": "cat__Municipio_COLARES",
+      "ranking": 30,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_COLORADO DO OESTE",
+      "raw_feature": "cat__Municipio_COLORADO DO OESTE",
+      "ranking": 30,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CURUÇÁ",
+      "raw_feature": "cat__Municipio_CURUÇÁ",
+      "ranking": 30,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CÁCERES",
+      "raw_feature": "cat__Municipio_CÁCERES",
+      "ranking": 30,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_DIAMANTINO",
+      "raw_feature": "cat__Municipio_DIAMANTINO",
+      "ranking": 30,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_GARRAFÃO DO NORTE",
+      "raw_feature": "cat__Municipio_GARRAFÃO DO NORTE",
+      "ranking": 30,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_GOVERNADOR NEWTON BELLO",
+      "raw_feature": "cat__Municipio_GOVERNADOR NEWTON BELLO",
+      "ranking": 30,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTA LUZIA DO PARUÁ",
+      "raw_feature": "cat__Municipio_SANTA LUZIA DO PARUÁ",
+      "ranking": 30,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BERURI",
+      "raw_feature": "cat__Municipio_BERURI",
+      "ranking": 31,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CAAPIRANGA",
+      "raw_feature": "cat__Municipio_CAAPIRANGA",
+      "ranking": 31,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CACHOEIRA DO ARARI",
+      "raw_feature": "cat__Municipio_CACHOEIRA DO ARARI",
+      "ranking": 31,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_FONTE BOA",
+      "raw_feature": "cat__Municipio_FONTE BOA",
+      "ranking": 31,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_FORTALEZA DO TABOCÃO",
+      "raw_feature": "cat__Municipio_FORTALEZA DO TABOCÃO",
+      "ranking": 31,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_GODOFREDO VIANA",
+      "raw_feature": "cat__Municipio_GODOFREDO VIANA",
+      "ranking": 31,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_GOVERNADOR JORGE TEIXEIRA",
+      "raw_feature": "cat__Municipio_GOVERNADOR JORGE TEIXEIRA",
+      "ranking": 31,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_GUIMARÃES",
+      "raw_feature": "cat__Municipio_GUIMARÃES",
+      "ranking": 31,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_IGARAPÉ DO MEIO",
+      "raw_feature": "cat__Municipio_IGARAPÉ DO MEIO",
+      "ranking": 31,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_IMPERATRIZ",
+      "raw_feature": "cat__Municipio_IMPERATRIZ",
+      "ranking": 31,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CABIXI",
+      "raw_feature": "cat__Municipio_CABIXI",
+      "ranking": 32,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CACAULÂNDIA",
+      "raw_feature": "cat__Municipio_CACAULÂNDIA",
+      "ranking": 32,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CAJAPIÓ",
+      "raw_feature": "cat__Municipio_CAJAPIÓ",
+      "ranking": 32,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_DARCINÓPOLIS",
+      "raw_feature": "cat__Municipio_DARCINÓPOLIS",
+      "ranking": 32,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ESPERANTINA",
+      "raw_feature": "cat__Municipio_ESPERANTINA",
+      "ranking": 32,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_FARO",
+      "raw_feature": "cat__Municipio_FARO",
+      "ranking": 32,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_GRAJAÚ",
+      "raw_feature": "cat__Municipio_GRAJAÚ",
+      "ranking": 32,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_GUARAÍ",
+      "raw_feature": "cat__Municipio_GUARAÍ",
+      "ranking": 32,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ICATU",
+      "raw_feature": "cat__Municipio_ICATU",
+      "ranking": 32,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MARANHÃOZINHO",
+      "raw_feature": "cat__Municipio_MARANHÃOZINHO",
+      "ranking": 32,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CAPANEMA",
+      "raw_feature": "cat__Municipio_CAPANEMA",
+      "ranking": 33,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_COLINAS DO TOCANTINS",
+      "raw_feature": "cat__Municipio_COLINAS DO TOCANTINS",
+      "ranking": 33,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_COLMÉIA",
+      "raw_feature": "cat__Municipio_COLMÉIA",
+      "ranking": 33,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CONQUISTA D'OESTE",
+      "raw_feature": "cat__Municipio_CONQUISTA D'OESTE",
+      "ranking": 33,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_COUTO MAGALHÃES",
+      "raw_feature": "cat__Municipio_COUTO MAGALHÃES",
+      "ranking": 33,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CURURUPU",
+      "raw_feature": "cat__Municipio_CURURUPU",
+      "ranking": 33,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_DENISE",
+      "raw_feature": "cat__Municipio_DENISE",
+      "ranking": 33,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ESPIGÃO D'OESTE",
+      "raw_feature": "cat__Municipio_ESPIGÃO D'OESTE",
+      "ranking": 33,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVO AIRÃO",
+      "raw_feature": "cat__Municipio_NOVO AIRÃO",
+      "ranking": 33,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SINOP",
+      "raw_feature": "cat__Municipio_SINOP",
+      "ranking": 33,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BELTERRA",
+      "raw_feature": "cat__Municipio_BELTERRA",
+      "ranking": 34,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BREU BRANCO",
+      "raw_feature": "cat__Municipio_BREU BRANCO",
+      "ranking": 34,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BURITIRANA",
+      "raw_feature": "cat__Municipio_BURITIRANA",
+      "ranking": 34,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CARLINDA",
+      "raw_feature": "cat__Municipio_CARLINDA",
+      "ranking": 34,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CASTANHAL",
+      "raw_feature": "cat__Municipio_CASTANHAL",
+      "ranking": 34,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CENTRAL DO MARANHÃO",
+      "raw_feature": "cat__Municipio_CENTRAL DO MARANHÃO",
+      "ranking": 34,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CEREJEIRAS",
+      "raw_feature": "cat__Municipio_CEREJEIRAS",
+      "ranking": 34,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_COLÍDER",
+      "raw_feature": "cat__Municipio_COLÍDER",
+      "ranking": 34,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CURIONÓPOLIS",
+      "raw_feature": "cat__Municipio_CURIONÓPOLIS",
+      "ranking": 34,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CURUÁ",
+      "raw_feature": "cat__Municipio_CURUÁ",
+      "ranking": 34,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MATINHA",
+      "raw_feature": "cat__Municipio_MATINHA",
+      "ranking": 35,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA GUARITA",
+      "raw_feature": "cat__Municipio_NOVA GUARITA",
+      "ranking": 35,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA IPIXUNA",
+      "raw_feature": "cat__Municipio_NOVA IPIXUNA",
+      "ranking": 35,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA MARILÂNDIA",
+      "raw_feature": "cat__Municipio_NOVA MARILÂNDIA",
+      "ranking": 35,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA MUTUM",
+      "raw_feature": "cat__Municipio_NOVA MUTUM",
+      "ranking": 35,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA OLINDA",
+      "raw_feature": "cat__Municipio_NOVA OLINDA",
+      "ranking": 35,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA OLÍMPIA",
+      "raw_feature": "cat__Municipio_NOVA OLÍMPIA",
+      "ranking": 35,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA UNIÃO",
+      "raw_feature": "cat__Municipio_NOVA UNIÃO",
+      "ranking": 35,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVO HORIZONTE DO NORTE",
+      "raw_feature": "cat__Municipio_NOVO HORIZONTE DO NORTE",
+      "ranking": 35,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVO HORIZONTE DO OESTE",
+      "raw_feature": "cat__Municipio_NOVO HORIZONTE DO OESTE",
+      "ranking": 35,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ALTO BOA VISTA",
+      "raw_feature": "cat__Municipio_ALTO BOA VISTA",
+      "ranking": 36,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_AURORA DO PARÁ",
+      "raw_feature": "cat__Municipio_AURORA DO PARÁ",
+      "ranking": 36,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BARCARENA",
+      "raw_feature": "cat__Municipio_BARCARENA",
+      "ranking": 36,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BARRA DO BUGRES",
+      "raw_feature": "cat__Municipio_BARRA DO BUGRES",
+      "ranking": 36,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_OLINDA NOVA DO MARANHÃO",
+      "raw_feature": "cat__Municipio_OLINDA NOVA DO MARANHÃO",
+      "ranking": 36,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PAU D'ARCO",
+      "raw_feature": "cat__Municipio_PAU D'ARCO",
+      "ranking": 36,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PORTO ALEGRE DO NORTE",
+      "raw_feature": "cat__Municipio_PORTO ALEGRE DO NORTE",
+      "ranking": 36,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_RIO CRESPO",
+      "raw_feature": "cat__Municipio_RIO CRESPO",
+      "ranking": 36,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SENADOR GUIOMARD",
+      "raw_feature": "cat__Municipio_SENADOR GUIOMARD",
+      "ranking": 36,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO MIGUEL DO GUAPORÉ",
+      "raw_feature": "cat__Municipio_SÃO MIGUEL DO GUAPORÉ",
+      "ranking": 36,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BOM JESUS DO TOCANTINS",
+      "raw_feature": "cat__Municipio_BOM JESUS DO TOCANTINS",
+      "ranking": 37,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BREJO GRANDE DO ARAGUAIA",
+      "raw_feature": "cat__Municipio_BREJO GRANDE DO ARAGUAIA",
+      "ranking": 37,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BURITI DO TOCANTINS",
+      "raw_feature": "cat__Municipio_BURITI DO TOCANTINS",
+      "ranking": 37,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MINISTRO ANDREAZZA",
+      "raw_feature": "cat__Municipio_MINISTRO ANDREAZZA",
+      "ranking": 37,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MIRANDA DO NORTE",
+      "raw_feature": "cat__Municipio_MIRANDA DO NORTE",
+      "ranking": 37,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MIRANTE DA SERRA",
+      "raw_feature": "cat__Municipio_MIRANTE DA SERRA",
+      "ranking": 37,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MIRASSOL D'OESTE",
+      "raw_feature": "cat__Municipio_MIRASSOL D'OESTE",
+      "ranking": 37,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MIRINZAL",
+      "raw_feature": "cat__Municipio_MIRINZAL",
+      "ranking": 37,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MONTE NEGRO",
+      "raw_feature": "cat__Municipio_MONTE NEGRO",
+      "ranking": 37,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_URUCURITUBA",
+      "raw_feature": "cat__Municipio_URUCURITUBA",
+      "ranking": 37,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ARAGUAÍNA",
+      "raw_feature": "cat__Municipio_ARAGUAÍNA",
+      "ranking": 38,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BOA VISTA DO RAMOS",
+      "raw_feature": "cat__Municipio_BOA VISTA DO RAMOS",
+      "ranking": 38,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BOM LUGAR",
+      "raw_feature": "cat__Municipio_BOM LUGAR",
+      "ranking": 38,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BRASIL NOVO",
+      "raw_feature": "cat__Municipio_BRASIL NOVO",
+      "ranking": 38,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CASTANHEIRAS",
+      "raw_feature": "cat__Municipio_CASTANHEIRAS",
+      "ranking": 38,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CEDRAL",
+      "raw_feature": "cat__Municipio_CEDRAL",
+      "ranking": 38,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CORUMBIARA",
+      "raw_feature": "cat__Municipio_CORUMBIARA",
+      "ranking": 38,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MONÇÃO",
+      "raw_feature": "cat__Municipio_MONÇÃO",
+      "ranking": 38,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MURICILÂNDIA",
+      "raw_feature": "cat__Municipio_MURICILÂNDIA",
+      "ranking": 38,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PENALVA",
+      "raw_feature": "cat__Municipio_PENALVA",
+      "ranking": 38,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BANDEIRANTES DO TOCANTINS",
+      "raw_feature": "cat__Municipio_BANDEIRANTES DO TOCANTINS",
+      "ranking": 39,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MAGALHÃES BARATA",
+      "raw_feature": "cat__Municipio_MAGALHÃES BARATA",
+      "ranking": 39,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MARAPANIM",
+      "raw_feature": "cat__Municipio_MARAPANIM",
+      "ranking": 39,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MARAÃ",
+      "raw_feature": "cat__Municipio_MARAÃ",
+      "ranking": 39,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MÃE DO RIO",
+      "raw_feature": "cat__Municipio_MÃE DO RIO",
+      "ranking": 39,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA BRASILÂNDIA D'OESTE",
+      "raw_feature": "cat__Municipio_NOVA BRASILÂNDIA D'OESTE",
+      "ranking": 39,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO JOÃO DO CARÚ",
+      "raw_feature": "cat__Municipio_SÃO JOÃO DO CARÚ",
+      "ranking": 39,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TUCURUÍ",
+      "raw_feature": "cat__Municipio_TUCURUÍ",
+      "ranking": 39,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_VISEU",
+      "raw_feature": "cat__Municipio_VISEU",
+      "ranking": 39,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ZÉ DOCA",
+      "raw_feature": "cat__Municipio_ZÉ DOCA",
+      "ranking": 39,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_AUGUSTO CORRÊA",
+      "raw_feature": "cat__Municipio_AUGUSTO CORRÊA",
+      "ranking": 40,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BACURI",
+      "raw_feature": "cat__Municipio_BACURI",
+      "ranking": 40,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BACURITUBA",
+      "raw_feature": "cat__Municipio_BACURITUBA",
+      "ranking": 40,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BAGRE",
+      "raw_feature": "cat__Municipio_BAGRE",
+      "ranking": 40,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_NOVA TIMBOTEUA",
+      "raw_feature": "cat__Municipio_NOVA TIMBOTEUA",
+      "ranking": 40,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_OLHO D'ÁGUA DAS CUNHÃS",
+      "raw_feature": "cat__Municipio_OLHO D'ÁGUA DAS CUNHÃS",
+      "ranking": 40,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_OURÉM",
+      "raw_feature": "cat__Municipio_OURÉM",
+      "ranking": 40,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PALESTINA DO PARÁ",
+      "raw_feature": "cat__Municipio_PALESTINA DO PARÁ",
+      "ranking": 40,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PALMEIRÂNDIA",
+      "raw_feature": "cat__Municipio_PALMEIRÂNDIA",
+      "ranking": 40,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_VITÓRIA DO MEARIM",
+      "raw_feature": "cat__Municipio_VITÓRIA DO MEARIM",
+      "ranking": 40,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ARARI",
+      "raw_feature": "cat__Municipio_ARARI",
+      "ranking": 41,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_AXIXÁ",
+      "raw_feature": "cat__Municipio_AXIXÁ",
+      "ranking": 41,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BACABAL",
+      "raw_feature": "cat__Municipio_BACABAL",
+      "ranking": 41,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BACABEIRA",
+      "raw_feature": "cat__Municipio_BACABEIRA",
+      "ranking": 41,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BERNARDO SAYÃO",
+      "raw_feature": "cat__Municipio_BERNARDO SAYÃO",
+      "ranking": 41,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BOA VISTA DO GURUPI",
+      "raw_feature": "cat__Municipio_BOA VISTA DO GURUPI",
+      "ranking": 41,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BONITO",
+      "raw_feature": "cat__Municipio_BONITO",
+      "ranking": 41,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CACHOEIRA GRANDE",
+      "raw_feature": "cat__Municipio_CACHOEIRA GRANDE",
+      "ranking": 41,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_CACOAL",
+      "raw_feature": "cat__Municipio_CACOAL",
+      "ranking": 41,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_RIO PRETO DA EVA",
+      "raw_feature": "cat__Municipio_RIO PRETO DA EVA",
+      "ranking": 41,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_LAGO DO JUNCO",
+      "raw_feature": "cat__Municipio_LAGO DO JUNCO",
+      "ranking": 42,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_LAGO VERDE",
+      "raw_feature": "cat__Municipio_LAGO VERDE",
+      "ranking": 42,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_LAMBARI D'OESTE",
+      "raw_feature": "cat__Municipio_LAMBARI D'OESTE",
+      "ranking": 42,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_LIMOEIRO DO AJURU",
+      "raw_feature": "cat__Municipio_LIMOEIRO DO AJURU",
+      "ranking": 42,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_LUCAS DO RIO VERDE",
+      "raw_feature": "cat__Municipio_LUCAS DO RIO VERDE",
+      "ranking": 42,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MARACANÃ",
+      "raw_feature": "cat__Municipio_MARACANÃ",
+      "ranking": 42,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_MARACAÇUMÉ",
+      "raw_feature": "cat__Municipio_MARACAÇUMÉ",
+      "ranking": 42,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PEIXE-BOI",
+      "raw_feature": "cat__Municipio_PEIXE-BOI",
+      "ranking": 42,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PEQUIZEIRO",
+      "raw_feature": "cat__Municipio_PEQUIZEIRO",
+      "ranking": 42,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PERI MIRIM",
+      "raw_feature": "cat__Municipio_PERI MIRIM",
+      "ranking": 42,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BELA VISTA DO MARANHÃO",
+      "raw_feature": "cat__Municipio_BELA VISTA DO MARANHÃO",
+      "ranking": 43,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BELÉM",
+      "raw_feature": "cat__Municipio_BELÉM",
+      "ranking": 43,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_BENJAMIN CONSTANT",
+      "raw_feature": "cat__Municipio_BENJAMIN CONSTANT",
+      "ranking": 43,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_OURO PRETO DO OESTE",
+      "raw_feature": "cat__Municipio_OURO PRETO DO OESTE",
+      "ranking": 43,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PARAUAPEBAS",
+      "raw_feature": "cat__Municipio_PARAUAPEBAS",
+      "ranking": 43,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PARECIS",
+      "raw_feature": "cat__Municipio_PARECIS",
+      "ranking": 43,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PONTA DE PEDRAS",
+      "raw_feature": "cat__Municipio_PONTA DE PEDRAS",
+      "ranking": 43,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_REDENÇÃO",
+      "raw_feature": "cat__Municipio_REDENÇÃO",
+      "ranking": 43,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_RIBEIRÃO CASCALHEIRA",
+      "raw_feature": "cat__Municipio_RIBEIRÃO CASCALHEIRA",
+      "ranking": 43,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SALVATERRA",
+      "raw_feature": "cat__Municipio_SALVATERRA",
+      "ranking": 43,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ARAPUTANGA",
+      "raw_feature": "cat__Municipio_ARAPUTANGA",
+      "ranking": 44,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ARENÁPOLIS",
+      "raw_feature": "cat__Municipio_ARENÁPOLIS",
+      "ranking": 44,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ATALAIA DO NORTE",
+      "raw_feature": "cat__Municipio_ATALAIA DO NORTE",
+      "ranking": 44,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PIRAQUÊ",
+      "raw_feature": "cat__Municipio_PIRAQUÊ",
+      "ranking": 44,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PIÇARRA",
+      "raw_feature": "cat__Municipio_PIÇARRA",
+      "ranking": 44,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PORTO ESPERIDIÃO",
+      "raw_feature": "cat__Municipio_PORTO ESPERIDIÃO",
+      "ranking": 44,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PORTO RICO DO MARANHÃO",
+      "raw_feature": "cat__Municipio_PORTO RICO DO MARANHÃO",
+      "ranking": 44,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PRESIDENTE JUSCELINO",
+      "raw_feature": "cat__Municipio_PRESIDENTE JUSCELINO",
+      "ranking": 44,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PRESIDENTE MÉDICI",
+      "raw_feature": "cat__Municipio_PRESIDENTE MÉDICI",
+      "ranking": 44,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_RIACHINHO",
+      "raw_feature": "cat__Municipio_RIACHINHO",
+      "ranking": 44,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ANORI",
+      "raw_feature": "cat__Municipio_ANORI",
+      "ranking": 45,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_APICUM-AÇU",
+      "raw_feature": "cat__Municipio_APICUM-AÇU",
+      "ranking": 45,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ARAGOMINAS",
+      "raw_feature": "cat__Municipio_ARAGOMINAS",
+      "ranking": 45,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ARAGUANÃ",
+      "raw_feature": "cat__Municipio_ARAGUANÃ",
+      "ranking": 45,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ARAGUATINS",
+      "raw_feature": "cat__Municipio_ARAGUATINS",
+      "ranking": 45,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ARAPOEMA",
+      "raw_feature": "cat__Municipio_ARAPOEMA",
+      "ranking": 45,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PAULO RAMOS",
+      "raw_feature": "cat__Municipio_PAULO RAMOS",
+      "ranking": 45,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PAÇO DO LUMIAR",
+      "raw_feature": "cat__Municipio_PAÇO DO LUMIAR",
+      "ranking": 45,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PINHEIRO",
+      "raw_feature": "cat__Municipio_PINHEIRO",
+      "ranking": 45,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PIO XII",
+      "raw_feature": "cat__Municipio_PIO XII",
+      "ranking": 45,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PRESIDENTE SARNEY",
+      "raw_feature": "cat__Municipio_PRESIDENTE SARNEY",
+      "ranking": 46,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PRIMAVERA",
+      "raw_feature": "cat__Municipio_PRIMAVERA",
+      "ranking": 46,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_PRIMAVERA DE RONDÔNIA",
+      "raw_feature": "cat__Municipio_PRIMAVERA DE RONDÔNIA",
+      "ranking": 46,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_QUATIPURU",
+      "raw_feature": "cat__Municipio_QUATIPURU",
+      "ranking": 46,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_RAPOSA",
+      "raw_feature": "cat__Municipio_RAPOSA",
+      "ranking": 46,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_RESERVA DO CABAÇAL",
+      "raw_feature": "cat__Municipio_RESERVA DO CABAÇAL",
+      "ranking": 46,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SALTO DO CÉU",
+      "raw_feature": "cat__Municipio_SALTO DO CÉU",
+      "ranking": 46,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTA BÁRBARA DO PARÁ",
+      "raw_feature": "cat__Municipio_SANTA BÁRBARA DO PARÁ",
+      "ranking": 46,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTA RITA",
+      "raw_feature": "cat__Municipio_SANTA RITA",
+      "ranking": 46,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SILVES",
+      "raw_feature": "cat__Municipio_SILVES",
+      "ranking": 46,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ALVORADA D'OESTE",
+      "raw_feature": "cat__Municipio_ALVORADA D'OESTE",
+      "ranking": 47,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_AMATURÁ",
+      "raw_feature": "cat__Municipio_AMATURÁ",
+      "ranking": 47,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ANAJATUBA",
+      "raw_feature": "cat__Municipio_ANAJATUBA",
+      "ranking": 47,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ANAJÁS",
+      "raw_feature": "cat__Municipio_ANAJÁS",
+      "ranking": 47,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ANAMÃ",
+      "raw_feature": "cat__Municipio_ANAMÃ",
+      "ranking": 47,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ROLIM DE MOURA",
+      "raw_feature": "cat__Municipio_ROLIM DE MOURA",
+      "ranking": 47,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_VALE DO ANARI",
+      "raw_feature": "cat__Municipio_VALE DO ANARI",
+      "ranking": 47,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_VITORINO FREIRE",
+      "raw_feature": "cat__Municipio_VITORINO FREIRE",
+      "ranking": 47,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_WANDERLÂNDIA",
+      "raw_feature": "cat__Municipio_WANDERLÂNDIA",
+      "ranking": 47,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_XAMBIOÁ",
+      "raw_feature": "cat__Municipio_XAMBIOÁ",
+      "ranking": 47,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ROSÁRIO",
+      "raw_feature": "cat__Municipio_ROSÁRIO",
+      "ranking": 48,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SALINÓPOLIS",
+      "raw_feature": "cat__Municipio_SALINÓPOLIS",
+      "ranking": 48,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTA CRUZ DO ARARI",
+      "raw_feature": "cat__Municipio_SANTA CRUZ DO ARARI",
+      "ranking": 48,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTA FÉ DO ARAGUAIA",
+      "raw_feature": "cat__Municipio_SANTA FÉ DO ARAGUAIA",
+      "ranking": 48,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTA IZABEL DO PARÁ",
+      "raw_feature": "cat__Municipio_SANTA IZABEL DO PARÁ",
+      "ranking": 48,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTA LUZIA D'OESTE",
+      "raw_feature": "cat__Municipio_SANTA LUZIA D'OESTE",
+      "ranking": 48,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTA LUZIA DO PARÁ",
+      "raw_feature": "cat__Municipio_SANTA LUZIA DO PARÁ",
+      "ranking": 48,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTA MARIA DO PARÁ",
+      "raw_feature": "cat__Municipio_SANTA MARIA DO PARÁ",
+      "ranking": 48,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTANA",
+      "raw_feature": "cat__Municipio_SANTANA",
+      "ranking": 48,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TAPURAH",
+      "raw_feature": "cat__Municipio_TAPURAH",
+      "ranking": 48,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTA INÊS",
+      "raw_feature": "cat__Municipio_SANTA INÊS",
+      "ranking": 49,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTA ISABEL DO RIO NEGRO",
+      "raw_feature": "cat__Municipio_SANTA ISABEL DO RIO NEGRO",
+      "ranking": 49,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTO AFONSO",
+      "raw_feature": "cat__Municipio_SANTO AFONSO",
+      "ranking": 49,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTO ANTÔNIO DO IÇÁ",
+      "raw_feature": "cat__Municipio_SANTO ANTÔNIO DO IÇÁ",
+      "ranking": 49,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTO ANTÔNIO DO TAUÁ",
+      "raw_feature": "cat__Municipio_SANTO ANTÔNIO DO TAUÁ",
+      "ranking": 49,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SAPUCAIA",
+      "raw_feature": "cat__Municipio_SAPUCAIA",
+      "ranking": 49,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO MIGUEL DO GUAMÁ",
+      "raw_feature": "cat__Municipio_SÃO MIGUEL DO GUAMÁ",
+      "ranking": 49,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TABATINGA",
+      "raw_feature": "cat__Municipio_TABATINGA",
+      "ranking": 49,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_VERA",
+      "raw_feature": "cat__Municipio_VERA",
+      "ranking": 49,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_VILA NOVA DOS MARTÍRIOS",
+      "raw_feature": "cat__Municipio_VILA NOVA DOS MARTÍRIOS",
+      "ranking": 49,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO GERALDO DO ARAGUAIA",
+      "raw_feature": "cat__Municipio_SÃO GERALDO DO ARAGUAIA",
+      "ranking": 50,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO JOSÉ DO RIO CLARO",
+      "raw_feature": "cat__Municipio_SÃO JOSÉ DO RIO CLARO",
+      "ranking": 50,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO JOSÉ DOS QUATRO MARCOS",
+      "raw_feature": "cat__Municipio_SÃO JOSÉ DOS QUATRO MARCOS",
+      "ranking": 50,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO JOÃO DE PIRABAS",
+      "raw_feature": "cat__Municipio_SÃO JOÃO DE PIRABAS",
+      "ranking": 50,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO JOÃO DO ARAGUAIA",
+      "raw_feature": "cat__Municipio_SÃO JOÃO DO ARAGUAIA",
+      "ranking": 50,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO SEBASTIÃO DA BOA VISTA",
+      "raw_feature": "cat__Municipio_SÃO SEBASTIÃO DA BOA VISTA",
+      "ranking": 50,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO SEBASTIÃO DO TOCANTINS",
+      "raw_feature": "cat__Municipio_SÃO SEBASTIÃO DO TOCANTINS",
+      "ranking": 50,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO SEBASTIÃO DO UATUMÃ",
+      "raw_feature": "cat__Municipio_SÃO SEBASTIÃO DO UATUMÃ",
+      "ranking": 50,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TERRA NOVA DO NORTE",
+      "raw_feature": "cat__Municipio_TERRA NOVA DO NORTE",
+      "ranking": 50,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TERRA SANTA",
+      "raw_feature": "cat__Municipio_TERRA SANTA",
+      "ranking": 50,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ANANÁS",
+      "raw_feature": "cat__Municipio_ANANÁS",
+      "ranking": 51,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ANGICO",
+      "raw_feature": "cat__Municipio_ANGICO",
+      "ranking": 51,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SATUBINHA",
+      "raw_feature": "cat__Municipio_SATUBINHA",
+      "ranking": 51,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SERRA DO NAVIO",
+      "raw_feature": "cat__Municipio_SERRA DO NAVIO",
+      "ranking": 51,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SORRISO",
+      "raw_feature": "cat__Municipio_SORRISO",
+      "ranking": 51,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SOURE",
+      "raw_feature": "cat__Municipio_SOURE",
+      "ranking": 51,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO DOMINGOS DO ARAGUAIA",
+      "raw_feature": "cat__Municipio_SÃO DOMINGOS DO ARAGUAIA",
+      "ranking": 51,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO FRANCISCO DO BREJÃO",
+      "raw_feature": "cat__Municipio_SÃO FRANCISCO DO BREJÃO",
+      "ranking": 51,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO FRANCISCO DO PARÁ",
+      "raw_feature": "cat__Municipio_SÃO FRANCISCO DO PARÁ",
+      "ranking": 51,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_VITÓRIA DO XINGU",
+      "raw_feature": "cat__Municipio_VITÓRIA DO XINGU",
+      "ranking": 51,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SANTARÉM NOVO",
+      "raw_feature": "cat__Municipio_SANTARÉM NOVO",
+      "ranking": 52,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO LUIZ",
+      "raw_feature": "cat__Municipio_SÃO LUIZ",
+      "ranking": 52,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO LUÍS",
+      "raw_feature": "cat__Municipio_SÃO LUÍS",
+      "ranking": 52,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO MATEUS DO MARANHÃO",
+      "raw_feature": "cat__Municipio_SÃO MATEUS DO MARANHÃO",
+      "ranking": 52,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO PAULO DE OLIVENÇA",
+      "raw_feature": "cat__Municipio_SÃO PAULO DE OLIVENÇA",
+      "ranking": 52,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO PEDRO DA ÁGUA BRANCA",
+      "raw_feature": "cat__Municipio_SÃO PEDRO DA ÁGUA BRANCA",
+      "ranking": 52,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_THEOBROMA",
+      "raw_feature": "cat__Municipio_THEOBROMA",
+      "ranking": 52,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TONANTINS",
+      "raw_feature": "cat__Municipio_TONANTINS",
+      "ranking": 52,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_VALE DO PARAÍSO",
+      "raw_feature": "cat__Municipio_VALE DO PARAÍSO",
+      "ranking": 52,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_VIANA",
+      "raw_feature": "cat__Municipio_VIANA",
+      "ranking": 52,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ABEL FIGUEIREDO",
+      "raw_feature": "cat__Municipio_ABEL FIGUEIREDO",
+      "ranking": 53,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO JOÃO BATISTA",
+      "raw_feature": "cat__Municipio_SÃO JOÃO BATISTA",
+      "ranking": 53,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO JOÃO DA PONTA",
+      "raw_feature": "cat__Municipio_SÃO JOÃO DA PONTA",
+      "ranking": 53,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO VICENTE FERRER",
+      "raw_feature": "cat__Municipio_SÃO VICENTE FERRER",
+      "ranking": 53,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TANGARÁ DA SERRA",
+      "raw_feature": "cat__Municipio_TANGARÁ DA SERRA",
+      "ranking": 53,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TERRA ALTA",
+      "raw_feature": "cat__Municipio_TERRA ALTA",
+      "ranking": 53,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TRACUATEUA",
+      "raw_feature": "cat__Municipio_TRACUATEUA",
+      "ranking": 53,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_TUFILÂNDIA",
+      "raw_feature": "cat__Municipio_TUFILÂNDIA",
+      "ranking": 53,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_URUCARÁ",
+      "raw_feature": "cat__Municipio_URUCARÁ",
+      "ranking": 53,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_URUPÁ",
+      "raw_feature": "cat__Municipio_URUPÁ",
+      "ranking": 53,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_AFUÁ",
+      "raw_feature": "cat__Municipio_AFUÁ",
+      "ranking": 54,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ALCÂNTARA",
+      "raw_feature": "cat__Municipio_ALCÂNTARA",
+      "ranking": 54,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ALTA FLORESTA",
+      "raw_feature": "cat__Municipio_ALTA FLORESTA",
+      "ranking": 54,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ALTAMIRA DO MARANHÃO",
+      "raw_feature": "cat__Municipio_ALTAMIRA DO MARANHÃO",
+      "ranking": 54,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ALTO ALEGRE DOS PARECIS",
+      "raw_feature": "cat__Municipio_ALTO ALEGRE DOS PARECIS",
+      "ranking": 54,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_ALTO PARAGUAI",
+      "raw_feature": "cat__Municipio_ALTO PARAGUAI",
+      "ranking": 54,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SERRANO DO MARANHÃO",
+      "raw_feature": "cat__Municipio_SERRANO DO MARANHÃO",
+      "ranking": 54,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO BENTO",
+      "raw_feature": "cat__Municipio_SÃO BENTO",
+      "ranking": 54,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_SÃO CAETANO DE ODIVELAS",
+      "raw_feature": "cat__Municipio_SÃO CAETANO DE ODIVELAS",
+      "ranking": 54,
+      "selected": false
+    },
+    {
+      "feature": "Municipio_XINGUARA",
+      "raw_feature": "cat__Municipio_XINGUARA",
+      "ranking": 54,
+      "selected": false
+    }
+  ],
+  "cv_scores_by_n_features": [
+    {
+      "n_features": 5,
+      "mean_accuracy": 0.6738666666666667,
+      "std": 0.004953337819648021
+    },
+    {
+      "n_features": 6,
+      "mean_accuracy": 0.6666,
+      "std": 0.005318521097698763
+    },
+    {
+      "n_features": 7,
+      "mean_accuracy": 0.6895000000000001,
+      "std": 0.0006531972647421995
+    },
+    {
+      "n_features": 8,
+      "mean_accuracy": 0.6864666666666667,
+      "std": 0.0020286832072937107
+    },
+    {
+      "n_features": 9,
+      "mean_accuracy": 0.6838333333333333,
+      "std": 0.0017820088539498527
+    },
+    {
+      "n_features": 10,
+      "mean_accuracy": 0.6772333333333332,
+      "std": 0.0013021349989750192
+    },
+    {
+      "n_features": 11,
+      "mean_accuracy": 0.6770333333333335,
+      "std": 0.002408780235351949
+    },
+    {
+      "n_features": 12,
+      "mean_accuracy": 0.6770333333333333,
+      "std": 0.001701633202413363
+    },
+    {
+      "n_features": 13,
+      "mean_accuracy": 0.6762333333333332,
+      "std": 0.0006847546194725003
+    },
+    {
+      "n_features": 14,
+      "mean_accuracy": 0.6725333333333333,
+      "std": 0.00273536509852379
+    },
+    {
+      "n_features": 15,
+      "mean_accuracy": 0.6737333333333333,
+      "std": 0.0015412837362262211
+    },
+    {
+      "n_features": 16,
+      "mean_accuracy": 0.6722,
+      "std": 0.003253715824509989
+    },
+    {
+      "n_features": 17,
+      "mean_accuracy": 0.6683,
+      "std": 0.0006377042156569484
+    },
+    {
+      "n_features": 18,
+      "mean_accuracy": 0.6688333333333333,
+      "std": 0.0026612444874949265
+    },
+    {
+      "n_features": 19,
+      "mean_accuracy": 0.6667333333333333,
+      "std": 0.00281582827759235
+    },
+    {
+      "n_features": 20,
+      "mean_accuracy": 0.6704,
+      "std": 0.0029063149634316354
+    },
+    {
+      "n_features": 21,
+      "mean_accuracy": 0.6676000000000001,
+      "std": 0.0011224972160321974
+    },
+    {
+      "n_features": 22,
+      "mean_accuracy": 0.6656666666666666,
+      "std": 0.0022543784558547676
+    },
+    {
+      "n_features": 23,
+      "mean_accuracy": 0.6650999999999999,
+      "std": 0.004030715403829258
+    },
+    {
+      "n_features": 24,
+      "mean_accuracy": 0.6644333333333333,
+      "std": 0.003108411527166624
+    },
+    {
+      "n_features": 25,
+      "mean_accuracy": 0.6644,
+      "std": 0.0028600699292150294
+    },
+    {
+      "n_features": 26,
+      "mean_accuracy": 0.6627,
+      "std": 0.003688721549082645
+    },
+    {
+      "n_features": 27,
+      "mean_accuracy": 0.6635333333333334,
+      "std": 0.0038177945931592273
+    },
+    {
+      "n_features": 28,
+      "mean_accuracy": 0.6639333333333334,
+      "std": 0.00189267594221043
+    },
+    {
+      "n_features": 29,
+      "mean_accuracy": 0.6634333333333333,
+      "std": 0.0030466739606039516
+    },
+    {
+      "n_features": 30,
+      "mean_accuracy": 0.6646333333333333,
+      "std": 0.0032293790252754155
+    },
+    {
+      "n_features": 31,
+      "mean_accuracy": 0.6643333333333333,
+      "std": 0.00471192341005476
+    },
+    {
+      "n_features": 32,
+      "mean_accuracy": 0.6624666666666666,
+      "std": 0.0035518383346593
+    },
+    {
+      "n_features": 33,
+      "mean_accuracy": 0.6640333333333334,
+      "std": 0.002859292841867621
+    },
+    {
+      "n_features": 34,
+      "mean_accuracy": 0.6602,
+      "std": 0.004737791327893904
+    },
+    {
+      "n_features": 35,
+      "mean_accuracy": 0.6604666666666666,
+      "std": 0.005634615238761968
+    },
+    {
+      "n_features": 36,
+      "mean_accuracy": 0.661,
+      "std": 0.0013880441875771174
+    },
+    {
+      "n_features": 37,
+      "mean_accuracy": 0.6613666666666665,
+      "std": 0.0037392809766347104
+    },
+    {
+      "n_features": 38,
+      "mean_accuracy": 0.6599,
+      "std": 0.003860915262818738
+    },
+    {
+      "n_features": 39,
+      "mean_accuracy": 0.6603,
+      "std": 0.0031272991542223598
+    },
+    {
+      "n_features": 40,
+      "mean_accuracy": 0.6606666666666667,
+      "std": 0.00330891052899421
+    },
+    {
+      "n_features": 41,
+      "mean_accuracy": 0.6578333333333333,
+      "std": 0.002963481436119041
+    },
+    {
+      "n_features": 42,
+      "mean_accuracy": 0.6593,
+      "std": 0.005515432893255097
+    },
+    {
+      "n_features": 43,
+      "mean_accuracy": 0.6604000000000001,
+      "std": 0.0038635044540762066
+    },
+    {
+      "n_features": 44,
+      "mean_accuracy": 0.6600666666666667,
+      "std": 0.00685678901203441
+    },
+    {
+      "n_features": 45,
+      "mean_accuracy": 0.6608666666666667,
+      "std": 0.005607336464153229
+    },
+    {
+      "n_features": 46,
+      "mean_accuracy": 0.6566666666666666,
+      "std": 0.002718251071716659
+    },
+    {
+      "n_features": 47,
+      "mean_accuracy": 0.6606,
+      "std": 0.004536518488885501
+    },
+    {
+      "n_features": 48,
+      "mean_accuracy": 0.6591333333333333,
+      "std": 0.0024087802353519624
+    },
+    {
+      "n_features": 49,
+      "mean_accuracy": 0.6599,
+      "std": 0.005824660218988452
+    },
+    {
+      "n_features": 50,
+      "mean_accuracy": 0.6605,
+      "std": 0.00379561150101886
+    },
+    {
+      "n_features": 51,
+      "mean_accuracy": 0.6580666666666667,
+      "std": 0.004370608907489038
+    },
+    {
+      "n_features": 52,
+      "mean_accuracy": 0.6592666666666668,
+      "std": 0.004401767321832871
+    },
+    {
+      "n_features": 53,
+      "mean_accuracy": 0.6575333333333333,
+      "std": 0.003002591473303608
+    },
+    {
+      "n_features": 54,
+      "mean_accuracy": 0.6575666666666667,
+      "std": 0.005778888782071803
+    },
+    {
+      "n_features": 55,
+      "mean_accuracy": 0.6601,
+      "std": 0.003536476589299935
+    },
+    {
+      "n_features": 56,
+      "mean_accuracy": 0.6582,
+      "std": 0.0037345236197762277
+    },
+    {
+      "n_features": 57,
+      "mean_accuracy": 0.6567999999999999,
+      "std": 0.005370909296075167
+    },
+    {
+      "n_features": 58,
+      "mean_accuracy": 0.6568666666666666,
+      "std": 0.0035178907822096188
+    },
+    {
+      "n_features": 59,
+      "mean_accuracy": 0.6566,
+      "std": 0.004678318786344805
+    },
+    {
+      "n_features": 60,
+      "mean_accuracy": 0.6575333333333333,
+      "std": 0.005086146762421328
+    }
+  ]
+}

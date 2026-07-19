@@ -1,0 +1,828 @@
+{
+  "modelo": "ensemble_stacking_gbm",
+  "metodo": "Permutation Importance (Breiman 2001; Fisher et al. 2019)",
+  "metrica": "delta_f1_por_classe e delta_f1_macro",
+  "n_amostras_teste": 5000,
+  "n_repeticoes": 3,
+  "random_state": 42,
+  "classes": [
+    "Baixo",
+    "Moderado",
+    "Muito Alto"
+  ],
+  "f1_baseline_por_classe": {
+    "Baixo": 0.8746097814776275,
+    "Moderado": 0.6282722513089005,
+    "Muito Alto": 0.8906655142610199
+  },
+  "importancia_global": [
+    {
+      "feature": "Ano",
+      "delta_f1_macro": 0.035055
+    },
+    {
+      "feature": "Latitude",
+      "delta_f1_macro": 0.03181
+    },
+    {
+      "feature": "Longitude",
+      "delta_f1_macro": 0.025829
+    },
+    {
+      "feature": "Estado",
+      "delta_f1_macro": 0.017862
+    },
+    {
+      "feature": "DiaSemChuva_ma90",
+      "delta_f1_macro": 0.010391
+    },
+    {
+      "feature": "FRP",
+      "delta_f1_macro": 0.009967
+    },
+    {
+      "feature": "Municipio",
+      "delta_f1_macro": 0.009872
+    },
+    {
+      "feature": "DiaSemChuva_ma30",
+      "delta_f1_macro": 0.009608
+    },
+    {
+      "feature": "Precipitacao_ma90",
+      "delta_f1_macro": 0.009304
+    },
+    {
+      "feature": "Precipitacao_acum_180d",
+      "delta_f1_macro": 0.007779
+    },
+    {
+      "feature": "VPD_proxy",
+      "delta_f1_macro": 0.007348
+    },
+    {
+      "feature": "Precipitacao_acum_90d",
+      "delta_f1_macro": 0.007266
+    },
+    {
+      "feature": "KBDI_proxy",
+      "delta_f1_macro": 0.006794
+    },
+    {
+      "feature": "Dia",
+      "delta_f1_macro": 0.006788
+    },
+    {
+      "feature": "Media_FRP_Celula_30d",
+      "delta_f1_macro": 0.006737
+    },
+    {
+      "feature": "Precipitacao_ma14",
+      "delta_f1_macro": 0.006607
+    },
+    {
+      "feature": "Temp_Climatologica",
+      "delta_f1_macro": 0.00627
+    },
+    {
+      "feature": "Estacao",
+      "delta_f1_macro": 0.005915
+    },
+    {
+      "feature": "Incendios_Ultimos_180_Dias",
+      "delta_f1_macro": 0.005891
+    },
+    {
+      "feature": "Precipitacao_ma30",
+      "delta_f1_macro": 0.005284
+    },
+    {
+      "feature": "Mes",
+      "delta_f1_macro": 0.004448
+    },
+    {
+      "feature": "Dias_Desde_Ultimo_Incendio",
+      "delta_f1_macro": 0.004428
+    },
+    {
+      "feature": "Anomalia_Precipitacao",
+      "delta_f1_macro": 0.004393
+    },
+    {
+      "feature": "DiaSemChuva",
+      "delta_f1_macro": 0.00422
+    },
+    {
+      "feature": "SPI_3m",
+      "delta_f1_macro": 0.004212
+    },
+    {
+      "feature": "Incendios_Ultimos_30_Dias",
+      "delta_f1_macro": 0.004185
+    },
+    {
+      "feature": "Incendios_Ultimos_90_Dias",
+      "delta_f1_macro": 0.004155
+    },
+    {
+      "feature": "DiaSemChuva_ma14",
+      "delta_f1_macro": 0.003988
+    },
+    {
+      "feature": "Precipitacao",
+      "delta_f1_macro": 0.003812
+    },
+    {
+      "feature": "Precipitacao_acum_365d",
+      "delta_f1_macro": 0.003693
+    },
+    {
+      "feature": "Periodo_Dia",
+      "delta_f1_macro": 0.00358
+    },
+    {
+      "feature": "Mes_cos",
+      "delta_f1_macro": 0.00347
+    },
+    {
+      "feature": "Precipitacao_acum_30d",
+      "delta_f1_macro": 0.002987
+    },
+    {
+      "feature": "Indice_Seca",
+      "delta_f1_macro": 0.002967
+    },
+    {
+      "feature": "Periodo_Critico",
+      "delta_f1_macro": 0.002842
+    },
+    {
+      "feature": "Aridez_DeMartonne",
+      "delta_f1_macro": 0.002668
+    },
+    {
+      "feature": "Max_FRP_Ultimos_7_Dias",
+      "delta_f1_macro": 0.002591
+    },
+    {
+      "feature": "Mes_sin",
+      "delta_f1_macro": 0.002468
+    },
+    {
+      "feature": "Anomalia_Precipitacao_rel",
+      "delta_f1_macro": 0.00233
+    },
+    {
+      "feature": "SPI_1m",
+      "delta_f1_macro": 0.002316
+    },
+    {
+      "feature": "DiaSemChuva_ma7",
+      "delta_f1_macro": 0.002158
+    },
+    {
+      "feature": "SPI_6m",
+      "delta_f1_macro": 0.001792
+    },
+    {
+      "feature": "Hora",
+      "delta_f1_macro": 0.001744
+    },
+    {
+      "feature": "Dias_Secos_90d",
+      "delta_f1_macro": 0.001368
+    },
+    {
+      "feature": "Incendios_Ultimos_365_Dias",
+      "delta_f1_macro": 0.001312
+    },
+    {
+      "feature": "Incendios_Ultimos_7_Dias",
+      "delta_f1_macro": 0.000748
+    },
+    {
+      "feature": "Precipitacao_ma7",
+      "delta_f1_macro": 0.000395
+    },
+    {
+      "feature": "Unnamed: 0",
+      "delta_f1_macro": 0.0
+    },
+    {
+      "feature": "Umidade",
+      "delta_f1_macro": 0.0
+    },
+    {
+      "feature": "Media_FRP_Ultimos_7_Dias",
+      "delta_f1_macro": -0.000239
+    }
+  ],
+  "importancia_por_classe": {
+    "Baixo": [
+      {
+        "feature": "Ano",
+        "delta_f1": 0.031369
+      },
+      {
+        "feature": "Latitude",
+        "delta_f1": 0.030777
+      },
+      {
+        "feature": "Longitude",
+        "delta_f1": 0.02861
+      },
+      {
+        "feature": "Estado",
+        "delta_f1": 0.011992
+      },
+      {
+        "feature": "FRP",
+        "delta_f1": 0.009086
+      },
+      {
+        "feature": "Precipitacao_ma90",
+        "delta_f1": 0.006592
+      },
+      {
+        "feature": "Dia",
+        "delta_f1": 0.006385
+      },
+      {
+        "feature": "DiaSemChuva_ma30",
+        "delta_f1": 0.006027
+      },
+      {
+        "feature": "Municipio",
+        "delta_f1": 0.005366
+      },
+      {
+        "feature": "Precipitacao_acum_90d",
+        "delta_f1": 0.004714
+      },
+      {
+        "feature": "Incendios_Ultimos_30_Dias",
+        "delta_f1": 0.004667
+      },
+      {
+        "feature": "Media_FRP_Celula_30d",
+        "delta_f1": 0.004648
+      },
+      {
+        "feature": "Incendios_Ultimos_180_Dias",
+        "delta_f1": 0.004557
+      },
+      {
+        "feature": "KBDI_proxy",
+        "delta_f1": 0.003976
+      },
+      {
+        "feature": "SPI_3m",
+        "delta_f1": 0.003926
+      },
+      {
+        "feature": "Mes",
+        "delta_f1": 0.003911
+      },
+      {
+        "feature": "Precipitacao_ma14",
+        "delta_f1": 0.003893
+      },
+      {
+        "feature": "SPI_1m",
+        "delta_f1": 0.00385
+      },
+      {
+        "feature": "Precipitacao_acum_180d",
+        "delta_f1": 0.003833
+      },
+      {
+        "feature": "Anomalia_Precipitacao",
+        "delta_f1": 0.003803
+      },
+      {
+        "feature": "Temp_Climatologica",
+        "delta_f1": 0.003481
+      },
+      {
+        "feature": "Incendios_Ultimos_90_Dias",
+        "delta_f1": 0.003436
+      },
+      {
+        "feature": "Incendios_Ultimos_365_Dias",
+        "delta_f1": 0.003152
+      },
+      {
+        "feature": "DiaSemChuva_ma90",
+        "delta_f1": 0.003134
+      },
+      {
+        "feature": "Precipitacao_ma30",
+        "delta_f1": 0.003132
+      },
+      {
+        "feature": "Precipitacao_acum_365d",
+        "delta_f1": 0.00307
+      },
+      {
+        "feature": "DiaSemChuva_ma7",
+        "delta_f1": 0.002882
+      },
+      {
+        "feature": "SPI_6m",
+        "delta_f1": 0.002784
+      },
+      {
+        "feature": "DiaSemChuva",
+        "delta_f1": 0.002776
+      },
+      {
+        "feature": "Periodo_Dia",
+        "delta_f1": 0.002501
+      },
+      {
+        "feature": "Estacao",
+        "delta_f1": 0.002286
+      },
+      {
+        "feature": "Periodo_Critico",
+        "delta_f1": 0.002229
+      },
+      {
+        "feature": "Aridez_DeMartonne",
+        "delta_f1": 0.002201
+      },
+      {
+        "feature": "Precipitacao",
+        "delta_f1": 0.002138
+      },
+      {
+        "feature": "DiaSemChuva_ma14",
+        "delta_f1": 0.002084
+      },
+      {
+        "feature": "Precipitacao_acum_30d",
+        "delta_f1": 0.00173
+      },
+      {
+        "feature": "Dias_Desde_Ultimo_Incendio",
+        "delta_f1": 0.00169
+      },
+      {
+        "feature": "VPD_proxy",
+        "delta_f1": 0.001599
+      },
+      {
+        "feature": "Anomalia_Precipitacao_rel",
+        "delta_f1": 0.001198
+      },
+      {
+        "feature": "Dias_Secos_90d",
+        "delta_f1": 0.00107
+      },
+      {
+        "feature": "Mes_sin",
+        "delta_f1": 0.00088
+      },
+      {
+        "feature": "Incendios_Ultimos_7_Dias",
+        "delta_f1": 0.000812
+      },
+      {
+        "feature": "Max_FRP_Ultimos_7_Dias",
+        "delta_f1": 0.000482
+      },
+      {
+        "feature": "Indice_Seca",
+        "delta_f1": 0.000417
+      },
+      {
+        "feature": "Hora",
+        "delta_f1": 0.000217
+      },
+      {
+        "feature": "Precipitacao_ma7",
+        "delta_f1": 0.000195
+      },
+      {
+        "feature": "Mes_cos",
+        "delta_f1": 5.9e-05
+      },
+      {
+        "feature": "Unnamed: 0",
+        "delta_f1": 0.0
+      },
+      {
+        "feature": "Umidade",
+        "delta_f1": 0.0
+      },
+      {
+        "feature": "Media_FRP_Ultimos_7_Dias",
+        "delta_f1": -0.001231
+      }
+    ],
+    "Moderado": [
+      {
+        "feature": "Ano",
+        "delta_f1": 0.049553
+      },
+      {
+        "feature": "Latitude",
+        "delta_f1": 0.036268
+      },
+      {
+        "feature": "Estado",
+        "delta_f1": 0.03193
+      },
+      {
+        "feature": "DiaSemChuva_ma90",
+        "delta_f1": 0.022189
+      },
+      {
+        "feature": "Longitude",
+        "delta_f1": 0.02159
+      },
+      {
+        "feature": "DiaSemChuva_ma30",
+        "delta_f1": 0.018685
+      },
+      {
+        "feature": "Precipitacao_acum_180d",
+        "delta_f1": 0.01784
+      },
+      {
+        "feature": "Municipio",
+        "delta_f1": 0.017642
+      },
+      {
+        "feature": "Precipitacao_ma90",
+        "delta_f1": 0.017082
+      },
+      {
+        "feature": "FRP",
+        "delta_f1": 0.016549
+      },
+      {
+        "feature": "Precipitacao_acum_90d",
+        "delta_f1": 0.013912
+      },
+      {
+        "feature": "Temp_Climatologica",
+        "delta_f1": 0.013615
+      },
+      {
+        "feature": "VPD_proxy",
+        "delta_f1": 0.013494
+      },
+      {
+        "feature": "Media_FRP_Celula_30d",
+        "delta_f1": 0.013242
+      },
+      {
+        "feature": "Precipitacao_ma14",
+        "delta_f1": 0.013131
+      },
+      {
+        "feature": "KBDI_proxy",
+        "delta_f1": 0.013125
+      },
+      {
+        "feature": "Precipitacao_ma30",
+        "delta_f1": 0.012261
+      },
+      {
+        "feature": "Estacao",
+        "delta_f1": 0.011983
+      },
+      {
+        "feature": "Incendios_Ultimos_180_Dias",
+        "delta_f1": 0.01153
+      },
+      {
+        "feature": "Dias_Desde_Ultimo_Incendio",
+        "delta_f1": 0.011507
+      },
+      {
+        "feature": "Mes_cos",
+        "delta_f1": 0.009496
+      },
+      {
+        "feature": "Dia",
+        "delta_f1": 0.008495
+      },
+      {
+        "feature": "DiaSemChuva_ma14",
+        "delta_f1": 0.00829
+      },
+      {
+        "feature": "Anomalia_Precipitacao",
+        "delta_f1": 0.008059
+      },
+      {
+        "feature": "SPI_3m",
+        "delta_f1": 0.007061
+      },
+      {
+        "feature": "DiaSemChuva",
+        "delta_f1": 0.007
+      },
+      {
+        "feature": "Indice_Seca",
+        "delta_f1": 0.00696
+      },
+      {
+        "feature": "Precipitacao",
+        "delta_f1": 0.006787
+      },
+      {
+        "feature": "Max_FRP_Ultimos_7_Dias",
+        "delta_f1": 0.00652
+      },
+      {
+        "feature": "Mes",
+        "delta_f1": 0.006406
+      },
+      {
+        "feature": "Periodo_Dia",
+        "delta_f1": 0.006367
+      },
+      {
+        "feature": "Incendios_Ultimos_90_Dias",
+        "delta_f1": 0.00614
+      },
+      {
+        "feature": "Incendios_Ultimos_30_Dias",
+        "delta_f1": 0.006126
+      },
+      {
+        "feature": "Mes_sin",
+        "delta_f1": 0.00591
+      },
+      {
+        "feature": "Precipitacao_acum_30d",
+        "delta_f1": 0.005804
+      },
+      {
+        "feature": "Precipitacao_acum_365d",
+        "delta_f1": 0.005644
+      },
+      {
+        "feature": "Hora",
+        "delta_f1": 0.005375
+      },
+      {
+        "feature": "Aridez_DeMartonne",
+        "delta_f1": 0.004888
+      },
+      {
+        "feature": "Anomalia_Precipitacao_rel",
+        "delta_f1": 0.004399
+      },
+      {
+        "feature": "SPI_6m",
+        "delta_f1": 0.002408
+      },
+      {
+        "feature": "SPI_1m",
+        "delta_f1": 0.002294
+      },
+      {
+        "feature": "Periodo_Critico",
+        "delta_f1": 0.002206
+      },
+      {
+        "feature": "DiaSemChuva_ma7",
+        "delta_f1": 0.002165
+      },
+      {
+        "feature": "Precipitacao_ma7",
+        "delta_f1": 0.00125
+      },
+      {
+        "feature": "Incendios_Ultimos_7_Dias",
+        "delta_f1": 0.001145
+      },
+      {
+        "feature": "Media_FRP_Ultimos_7_Dias",
+        "delta_f1": 0.00091
+      },
+      {
+        "feature": "Dias_Secos_90d",
+        "delta_f1": 0.00075
+      },
+      {
+        "feature": "Unnamed: 0",
+        "delta_f1": 0.0
+      },
+      {
+        "feature": "Umidade",
+        "delta_f1": 0.0
+      },
+      {
+        "feature": "Incendios_Ultimos_365_Dias",
+        "delta_f1": -0.000722
+      }
+    ],
+    "Muito Alto": [
+      {
+        "feature": "Latitude",
+        "delta_f1": 0.028386
+      },
+      {
+        "feature": "Longitude",
+        "delta_f1": 0.027288
+      },
+      {
+        "feature": "Ano",
+        "delta_f1": 0.024243
+      },
+      {
+        "feature": "Estado",
+        "delta_f1": 0.009665
+      },
+      {
+        "feature": "VPD_proxy",
+        "delta_f1": 0.00695
+      },
+      {
+        "feature": "Municipio",
+        "delta_f1": 0.006607
+      },
+      {
+        "feature": "DiaSemChuva_ma90",
+        "delta_f1": 0.005851
+      },
+      {
+        "feature": "Dia",
+        "delta_f1": 0.005483
+      },
+      {
+        "feature": "FRP",
+        "delta_f1": 0.004266
+      },
+      {
+        "feature": "Precipitacao_ma90",
+        "delta_f1": 0.004239
+      },
+      {
+        "feature": "DiaSemChuva_ma30",
+        "delta_f1": 0.004112
+      },
+      {
+        "feature": "Periodo_Critico",
+        "delta_f1": 0.004091
+      },
+      {
+        "feature": "Estacao",
+        "delta_f1": 0.003476
+      },
+      {
+        "feature": "KBDI_proxy",
+        "delta_f1": 0.003282
+      },
+      {
+        "feature": "Precipitacao_acum_90d",
+        "delta_f1": 0.003173
+      },
+      {
+        "feature": "Mes",
+        "delta_f1": 0.003028
+      },
+      {
+        "feature": "Incendios_Ultimos_90_Dias",
+        "delta_f1": 0.00289
+      },
+      {
+        "feature": "DiaSemChuva",
+        "delta_f1": 0.002885
+      },
+      {
+        "feature": "Precipitacao_ma14",
+        "delta_f1": 0.002796
+      },
+      {
+        "feature": "Precipitacao",
+        "delta_f1": 0.00251
+      },
+      {
+        "feature": "Precipitacao_acum_365d",
+        "delta_f1": 0.002365
+      },
+      {
+        "feature": "Media_FRP_Celula_30d",
+        "delta_f1": 0.002321
+      },
+      {
+        "feature": "Dias_Secos_90d",
+        "delta_f1": 0.002285
+      },
+      {
+        "feature": "Periodo_Dia",
+        "delta_f1": 0.001872
+      },
+      {
+        "feature": "Incendios_Ultimos_30_Dias",
+        "delta_f1": 0.00176
+      },
+      {
+        "feature": "Temp_Climatologica",
+        "delta_f1": 0.001713
+      },
+      {
+        "feature": "Precipitacao_acum_180d",
+        "delta_f1": 0.001665
+      },
+      {
+        "feature": "SPI_3m",
+        "delta_f1": 0.001649
+      },
+      {
+        "feature": "DiaSemChuva_ma14",
+        "delta_f1": 0.001588
+      },
+      {
+        "feature": "Incendios_Ultimos_180_Dias",
+        "delta_f1": 0.001586
+      },
+      {
+        "feature": "Indice_Seca",
+        "delta_f1": 0.001523
+      },
+      {
+        "feature": "Incendios_Ultimos_365_Dias",
+        "delta_f1": 0.001506
+      },
+      {
+        "feature": "Precipitacao_acum_30d",
+        "delta_f1": 0.001428
+      },
+      {
+        "feature": "DiaSemChuva_ma7",
+        "delta_f1": 0.001428
+      },
+      {
+        "feature": "Anomalia_Precipitacao_rel",
+        "delta_f1": 0.001394
+      },
+      {
+        "feature": "Anomalia_Precipitacao",
+        "delta_f1": 0.001317
+      },
+      {
+        "feature": "Aridez_DeMartonne",
+        "delta_f1": 0.000916
+      },
+      {
+        "feature": "Mes_cos",
+        "delta_f1": 0.000854
+      },
+      {
+        "feature": "SPI_1m",
+        "delta_f1": 0.000804
+      },
+      {
+        "feature": "Max_FRP_Ultimos_7_Dias",
+        "delta_f1": 0.000769
+      },
+      {
+        "feature": "Mes_sin",
+        "delta_f1": 0.000614
+      },
+      {
+        "feature": "Precipitacao_ma30",
+        "delta_f1": 0.000459
+      },
+      {
+        "feature": "Incendios_Ultimos_7_Dias",
+        "delta_f1": 0.000288
+      },
+      {
+        "feature": "SPI_6m",
+        "delta_f1": 0.000185
+      },
+      {
+        "feature": "Dias_Desde_Ultimo_Incendio",
+        "delta_f1": 8.6e-05
+      },
+      {
+        "feature": "Unnamed: 0",
+        "delta_f1": 0.0
+      },
+      {
+        "feature": "Umidade",
+        "delta_f1": 0.0
+      },
+      {
+        "feature": "Precipitacao_ma7",
+        "delta_f1": -0.00026
+      },
+      {
+        "feature": "Hora",
+        "delta_f1": -0.000358
+      },
+      {
+        "feature": "Media_FRP_Ultimos_7_Dias",
+        "delta_f1": -0.000397
+      }
+    ]
+  }
+}

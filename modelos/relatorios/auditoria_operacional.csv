@@ -1,0 +1,6 @@
+prediction_id,ref_data,lat,lon,estado,municipio,modelo,risco_predito,confianca,y_pred,y_true,firms_detections,firms_frp_max,horizon_days,radius_km,age_days
+24017676b83e,2024-05-15T14:00:00,-10.5351,-49.823,TOCANTINS,PIUM,ensemble_stacking_gbm,Muito Alto,0.4762518951274855,1,0,0,0.0,3,5.0,727.2
+0cb1ab4ec307,2026-05-12T14:00:00,-10.5351,-49.823,TOCANTINS,PIUM,ensemble_stacking_gbm,Baixo,0.8592804892917568,0,1,9,16.58,3,5.0,0.2
+371f16034cf8,2024-09-15T13:00:00,-3.5,-62.5,AMAZONAS,CODAJÁS,ensemble_stacking_gbm,Baixo,0.9869275393978529,0,0,0,0.0,3,5.0,604.24
+011170c3a2ae,2024-09-15T13:00:00,-8.5,-50.5,PARÁ,SANTA MARIA DAS BARREIRAS,ensemble_stacking_gbm,Muito Alto,0.9955145635002233,1,0,0,0.0,3,5.0,604.24
+cb8ce82fd20c,2024-08-10T14:00:00,-15.78,-47.93,DISTRITO FEDERAL,CRUZEIRO,ensemble_stacking_gbm,Muito Alto,0.9953880641295897,1,0,0,0.0,3,5.0,640.2

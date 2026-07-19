@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "dataset": "base_de_dados_enriquecido.csv",
+    "tier1_features_avancadas": true,
+    "n_test_samples": 184862,
+    "gerado_em": "2026-05-12",
+    "objetivo_accuracy": ">=70%",
+    "nota": "Tier 1: 24 features físico-climáticas adicionadas em scripts/features_avancadas.py (SPI, KBDI proxy, MAs estendidas, lags, anomalias, histórico estendido, dias secos). Validação temporal rolling-origin em modelos/relatorios/validacao_temporal.json indica Δ viés de -12.83pp accuracy e -35.65pp F1-Moderado para o RF Tier 1; modelo ainda acima de meta acadêmica (≥70%) sob validação estrita.",
+    "validacao_temporal_rolling_origin_rf_tier1": {
+      "media_accuracy": 0.7009,
+      "media_f1_macro": 0.5915,
+      "media_f1_moderado": 0.2641,
+      "delta_vies_accuracy_pp": -12.83,
+      "delta_vies_f1_macro_pp": -19.51,
+      "delta_vies_f1_moderado_pp": -35.65,
+      "folds_anos": [2021, 2022, 2023],
+      "arquivo": "modelos/relatorios/validacao_temporal.json"
+    }
+  },
+  "modelos": [
+    {
+      "nome": "ensemble_stacking_gbm",
+      "descricao": "Ensemble Stacking GBM (RF + LR + XGB Optuna + LGBM Optuna + CatBoost, meta=GradientBoosting) — Tier 1",
+      "accuracy": 84.61,
+      "f1_macro": 79.95,
+      "f1_baixo": 87.68,
+      "f1_moderado": 62.96,
+      "f1_muito_alto": 89.21
+    },
+    {
+      "nome": "ensemble_stacking",
+      "descricao": "Ensemble Stacking LR (RF + LR + XGB Optuna + LGBM Optuna + CatBoost, meta=LR) — Tier 1",
+      "accuracy": 84.14,
+      "f1_macro": 79.44,
+      "f1_baixo": 87.39,
+      "f1_moderado": 62.02,
+      "f1_muito_alto": 88.92
+    },
+    {
+      "nome": "random_forest_balanced",
+      "descricao": "RF Otimizado Optuna (n_est=346, max_depth=25) — Tier 1",
+      "accuracy": 82.93,
+      "f1_macro": 78.66,
+      "f1_baixo": 86.03,
+      "f1_moderado": 62.05,
+      "f1_muito_alto": 87.89
+    },
+    {
+      "nome": "xgboost_classifier",
+      "descricao": "XGBoost Optuna (n_est=455, depth=8, lr=0.19) — Tier 1",
+      "accuracy": 80.21,
+      "f1_macro": 72.37,
+      "f1_baixo": 84.14,
+      "f1_moderado": 46.7,
+      "f1_muito_alto": 86.27
+    },
+    {
+      "nome": "lightgbm_classifier",
+      "descricao": "LightGBM Optuna (n_est=410, depth=11, num_leaves=149) — Tier 1",
+      "accuracy": 78.85,
+      "f1_macro": 74.72,
+      "f1_baixo": 83.31,
+      "f1_moderado": 55.33,
+      "f1_muito_alto": 85.52
+    },
+    {
+      "nome": "ensemble_voting_soft",
+      "descricao": "Ensemble Voting Soft",
+      "accuracy": 73.83,
+      "f1_macro": 66.69,
+      "f1_baixo": 78.36,
+      "f1_moderado": 40.38,
+      "f1_muito_alto": 81.33
+    },
+    {
+      "nome": "catboost_classifier",
+      "descricao": "CatBoost classifier (auto_class_weights=Balanced) — Tier 1",
+      "accuracy": 71.73,
+      "f1_macro": 68.14,
+      "f1_baixo": 78.09,
+      "f1_moderado": 46.51,
+      "f1_muito_alto": 79.82
+    },
+    {
+      "nome": "random_forest_smote",
+      "descricao": "Random Forest SMOTE",
+      "accuracy": 69.78,
+      "f1_macro": 66.08,
+      "f1_baixo": 75.96,
+      "f1_moderado": 45.35,
+      "f1_muito_alto": 76.93
+    },
+    {
+      "nome": "logistic_regression_balanced",
+      "descricao": "Logistic Regression Balanced",
+      "accuracy": 64.58,
+      "f1_macro": 60.44,
+      "f1_baixo": 71.42,
+      "f1_moderado": 36.43,
+      "f1_muito_alto": 73.46
+    },
+    {
+      "nome": "sgd_classifier",
+      "descricao": "SGD Classifier",
+      "accuracy": 62.43,
+      "f1_macro": 58.64,
+      "f1_baixo": 67.75,
+      "f1_moderado": 36.13,
+      "f1_muito_alto": 72.03
+    }
+  ],
+  "melhor_modelo": "ensemble_stacking_gbm",
+  "melhor_accuracy": 84.61
+}

@@ -1,0 +1,381 @@
+# Metadados do roadmap — use com CHECKLIST_OBJETIVO_FINAL.md
+# Convenção: done = false até marcar true ao concluir (agentes podem atualizar este arquivo)
+
+meta:
+  title: "Objetivo final TCC — tarefas rastreáveis"
+  companion_md: "CHECKLIST_OBJETIVO_FINAL.md"
+  objective: "Base enriquecida, modelos ≥ meta acadêmica, app/map alinhados, doc reprodutível"
+  last_agent_run: "2026-05-14"
+  avancos_doc: "scripts/AVANCOS_TREINAMENTO_RECENTES.md"
+  metodologia_resultados: "DOCUMENTO_METODOLOGIA_E_RESULTADOS.md"
+  decisao_metodologica_2026_05_10: |
+    Substituição da feature 'Umidade' (NASA POWER, ~16 dias de enriquecimento)
+    por 24 features físico-climáticas derivadas (Tier 1: SPI, KBDI proxy, MAs
+    estendidas, lags, anomalias, histórico estendido). Embasamento na literatura
+    (Seager 2015; Forests 2024 Cerrado-Amazônia; npj Nat. Hazards 2025).
+    Resultado RF balanced: +4.47pp accuracy, +4.29pp F1-macro. Stacking: +3.11pp acc, +6.70pp F1-Moderado.
+  decisao_ux_2026_05_11: |
+    App interativo refatorado com UI explicável:
+      - feature_lookup.py: medianas das 24 features Tier 1 pré-computadas (3 níveis: célula 0,25° / Estado-Mes / Mes-global) usadas em predição pontual.
+      - explainer.py: contribuição local = importância_global × z-score × sinal_físico. Importâncias-padrão Tier 1 calibradas pela literatura.
+      - Painel lateral 420px com 6 cards (Previsão, Por que esse risco?, Dados climáticos, Índices de seca, Acumulados + anomalia, Histórico de focos).
+      - Smoke-tests confirmam que features Tier 1 entram corretamente na explicação em zonas de fogo (PA Sul: SPI/KBDI/Temp no top-6).
+  decisao_thresholds_2026_05_11: |
+    Threshold tuning multi-classe sobre Stacking Tier 1 persistido e integrado:
+      - ajustar_threshold.py varre thr_moderado/thr_muito_alto em 50k amostras estratificadas e identifica best F1-macro e best F1-Moderado.
+      - modelos/prediction_thresholds.json grava thresholds otimizados + baseline argmax.
+      - app_map_interativo.py carrega o JSON em runtime; /api/predict aceita estrategia_thresholds (default f1_macro).
+      - Ganho: F1-macro 0.7878 → 0.7894 (+0.16pp); F1-Moderado 0.6153 → 0.6270 (+1.17pp); acurácia preservada (-0.13 a -0.50pp).
+  decisao_otimizacao_2026_05_12: |
+    Optuna XGB + LightGBM + meta-learner GBM no Stacking:
+      - otimizar_hiperparametros.py estendido para xgboost_classifier e lightgbm_classifier (15 trials cada, 3-fold CV, F1-macro, subsample 150k).
+      - Optuna XGB: F1m CV 0.616 → 0.7005 (+8.4pp). LGBM: 0.670 → 0.7256 (+5.5pp).
+      - treinamento_modelo.py: _build_meta_learner(kind) suporta "lr"/"gbm"/"lgbm"; novos modelos ensemble_stacking_gbm e ensemble_stacking_lgbm.
+      - Stacking GBM (meta=GBM, base XGB/LGBM tunados): acc 84.61% (+1.01pp), F1m 0.7995 (+1.03pp), F1-Moderado 0.6296 (+1.28pp).
+      - Re-threshold sobre ensemble_stacking_gbm: F1-Moderado 0.6375 (thr_mod=0.35, thr_alto=0.45).
+      - app_map_interativo.py: carregar_modelo() agora prefere ensemble_stacking_gbm; dropdown front-end também.
+      - Δ acumulado vs Stacking pré-Tier 1: +4.12pp acc, +5.03pp F1m, +8.77pp F1-Moderado.
+  decisao_optuna_lr_2026_04_21: |
+    Optuna LogisticRegression balanced (15 trials, 3-fold CV, base_de_dados_com_historico.csv, accuracy):
+      - Best CV: 0.6456 (Trial 3); params: C=12.43, max_iter=4768.
+      - Ganho marginal sobre defaults (~0.02 pp); LR é o baseline interpretável, não o melhor modelo.
+      - Aplicado em MODEL_LIBRARY_IMPROVED['logistic_regression_balanced'] e em _estimador_lr_balanced().
+      - Registro em modelos/relatorios/optuna_logistic_regression_balanced.json. Fecha §7 do checklist.
+  decisao_rigor_metodologico_2026_05_12: |
+    Rigor metodológico adicional (§13 do checklist) — versão final:
+      a) SHAP global por classe — adoção do MODELO PROXY: scripts/analise_shap_rf_leve.py treina um RF
+         compacto (n_estimators=100, max_depth=12, 60 000 amostras, acc in-sample 71.75%) e roda
+         shap.TreeExplainer em 500 amostras. Saída em modelos/relatorios/shap_per_class.json. Permite que
+         explainer.py use importâncias específicas da classe predita em vez da aproximação
+         importância_global × z-score × sinal_físico. Defendido por Lundberg et al. 2020 (Nat. Mach. Intell.).
+         Top-3 por classe: Baixo (Ano, KBDI_proxy, VPD_proxy); Moderado (KBDI_proxy, VPD_proxy, Indice_Seca);
+         Muito Alto (KBDI_proxy, Ano, FRP).
+      b) Validação temporal rolling-origin — scripts/validacao_temporal.py executado em RF balanced Tier 1
+         (subsample 120k/fold) e em ensemble_stacking_gbm (subsample 60k/fold). Saídas em
+         validacao_temporal.json e validacao_temporal_stacking_gbm.json.
+         RF: acc=70.09% ± 4.10, F1m=0.592, F1-Mod=0.264 — Δ vs aleatório: -12.83pp acc, -35.65pp F1-Mod.
+         Stacking GBM: acc=70.13% ± 4.06, F1m=0.606, F1-Mod=0.306 — Δ vs aleatório: -14.49pp acc, -32.35pp F1-Mod.
+         Stacking mantém vantagem (+1.4pp F1m, +4.2pp F1-Mod) sobre RF mesmo sob folds temporais.
+      c) Permutation Importance estratificada por classe (NOVO) — scripts/permutation_importance_por_classe.py
+         aplica Breiman 2001 / Fisher et al. 2019 diretamente sobre ensemble_stacking_gbm (5 000 amostras
+         de teste, 3 repetições). Saída em modelos/relatorios/permutation_importance_por_classe.json.
+         Top-10 Δ F1-macro global: Ano (0.0351), Latitude (0.0318), Longitude (0.0258), Estado (0.0179),
+         DiaSemChuva_ma90 (0.0104), FRP (0.0100). VPD_proxy aparece no Top-5 de Muito Alto também aqui
+         (achado robusto entre as duas técnicas independentes de interpretabilidade).
+      d) Pseudo-labeling de Umidade (NOVO) — scripts/pseudo_label_umidade.py treina LGBMRegressor sobre os
+         ~170k registros com Umidade NASA POWER e imputa os ~763k sem label (RMSE=4.33%RH, MAE=3.19%RH,
+         R²=0.933 em holdout 20%). Cobertura final 100%. Saída: base_de_dados_umidade_pseudo.csv com
+         coluna auxiliar Umidade_origem; modelos/lgbm_regressor_umidade.pkl; relatório em
+         modelos/relatorios/pseudo_label_umidade.json. Adoção no Stacking final fica como trabalho futuro
+         imediato.
+      Documentação: DOCUMENTO_METODOLOGIA_E_RESULTADOS.md §3.5.1, §3.12.2, §4.4.1, §4.4.2 (NOVO),
+      §4.7.1 (NOVO), §4.11 e §4.11.1 (NOVO).
+
+phases:
+  - id: estado_ref
+    name: "Estado de referência"
+    parallel_while_enrichment: true
+  - id: enriquecimento_umidade
+    name: "Enriquecimento NASA umidade"
+    parallel_while_enrichment: false
+    blocking: false  # 2026-05-10: dessensibilizado — Tier 1 substitui no curto prazo
+  - id: features_historico
+    name: "Histórico de incêndios + carregar_dados"
+    parallel_while_enrichment: true
+  - id: modelos
+    name: "Ensemble, avaliação, Optuna opcional"
+    parallel_while_enrichment: true
+  - id: features_temporais
+    name: "Features temporais avançadas (ma7)"
+    parallel_while_enrichment: true
+  - id: tier1_features_avancadas
+    name: "Tier 1 — Features físico-climáticas (substituição da umidade)"
+    parallel_while_enrichment: true
+  - id: pos_umidade
+    name: "Integração Umidade + retreino final (opcional após Tier 1)"
+    depends_on: [enriquecimento_umidade]
+  - id: clima_extra
+    name: "Enriquecimento climático extra (opcional)"
+    depends_on: [enriquecimento_umidade]
+  - id: mapa_app
+    name: "Mapa e Flask"
+    parallel_while_enrichment: true
+  - id: app_explicavel
+    name: "App interativo explicável (UI/UX + lookup Tier 1 + explainer)"
+    depends_on: [tier1_features_avancadas, mapa_app]
+  - id: rigor_metodologico
+    name: "Rigor metodológico (SHAP per class, validação temporal)"
+    depends_on: [tier1_features_avancadas, modelos]
+  - id: documentacao
+    name: "Documentação e fechamento"
+    depends_on: [tier1_features_avancadas, mapa_app, app_explicavel, rigor_metodologico]
+
+tasks:
+  - id: T0-1
+    phase: estado_ref
+    done: true
+    summary: "Confirmar requirements e ambiente Python"
+    paths: ["requirements.txt"]
+  - id: T0-2
+    phase: estado_ref
+    done: true
+    summary: "Documentar dataset e versão usada no treino"
+    paths: ["DATASET_VERSION.md"]
+
+  - id: T1-1
+    phase: enriquecimento_umidade
+    done: false
+    summary: "Concluir enriquecimento umidade (cache .cache_umidade/)"
+    paths: ["scripts/enriquecer_dados_umidade.py", "scripts/config.py"]
+  - id: T1-2
+    phase: enriquecimento_umidade
+    done: false
+    summary: "Validar CSV final e backup"
+    paths: ["base_de_dados_com_umidade.csv"]
+
+  - id: T2-1
+    phase: features_historico
+    done: true
+    summary: "Pipeline adicionar_historico_incendios + colunas dinâmicas em carregar_dados"
+    paths: ["scripts/adicionar_historico_incendios.py", "scripts/carregar_dados.py"]
+  - id: T2-2
+    phase: features_historico
+    done: true
+    summary: "Retreino 2026-04-07 (RF/LR/voting/stacking; métricas em relatorios/)"
+    paths: ["scripts/treinamento_modelo.py", "modelos/relatorios/", "DATASET_VERSION.md"]
+
+  - id: T3-1
+    phase: modelos
+    done: true
+    summary: "Voting/Stacking em treinamento_modelo.py (ensemble_voting_soft, ensemble_stacking)"
+    paths: ["scripts/treinamento_modelo.py", "scripts/GUIA_IMPLEMENTACAO_FASES.md"]
+  - id: T3-2
+    phase: modelos
+    done: true
+    summary: "split_metadata reprodutível (random_state, test_size, stratify)"
+    paths: ["scripts/treinamento_modelo.py", "modelos/split_metadata.json"]
+  - id: T3-3
+    phase: modelos
+    done: true
+    summary: "Script Optuna criado: scripts/otimizar_hiperparametros.py"
+    paths: ["scripts/otimizar_hiperparametros.py"]
+
+  - id: T4-1
+    phase: features_temporais
+    done: true
+    summary: "Precipitacao_ma7, DiaSemChuva_ma7 em carregar_dados"
+    paths: ["scripts/carregar_dados.py"]
+  - id: T4-2
+    phase: features_temporais
+    done: true
+    summary: "Retreino completo; nota sobre janelas temporais em DATASET_VERSION.md"
+    paths: ["scripts/treinamento_modelo.py", "DATASET_VERSION.md"]
+
+  - id: T5-1
+    phase: pos_umidade
+    done: false
+    summary: "Ativar Umidade em NUM_FEATURES e retreino final"
+    paths: ["scripts/carregar_dados.py", "scripts/pre_processor.py", "scripts/treinamento_modelo.py"]
+
+  - id: T6-1
+    phase: clima_extra
+    done: false
+    summary: "enriquecer_dados_climaticos.py + retreino"
+    paths: ["scripts/enriquecer_dados_umidade.py"]
+
+  - id: T7-1
+    phase: mapa_app
+    done: true
+    summary: "preparar_dados_previsao alinhado (ma7, histórico neutro)"
+    paths: ["scripts/app_map_interativo.py"]
+  - id: T7-2
+    phase: mapa_app
+    done: true
+    summary: "UX app + gerar_mapa (ensembles, legenda, amostra CSV, popups com probas)"
+    paths: ["scripts/app_map_interativo.py", "scripts/gerar_mapa.py"]
+
+  - id: T8-1
+    phase: documentacao
+    done: true
+    summary: "README, DATASET_VERSION, NASA refs; métricas em relatorios/ (copiar para dissertação manualmente)"
+    paths: ["README_APP.md", "DATASET_VERSION.md", "scripts/CHECKLIST_MELHORIAS.md", "modelos/relatorios/"]
+
+  # ============================================================
+  # Tier 1 — Features físico-climáticas (substituição da umidade)
+  # Decisão metodológica de 2026-05-10
+  # ============================================================
+  - id: T11-1
+    phase: tier1_features_avancadas
+    done: true
+    summary: "scripts/features_avancadas.py — 7 camadas, 24 features (SPI, KBDI proxy, MAs estendidas, lags, anomalias, histórico estendido, dias secos)"
+    paths: ["scripts/features_avancadas.py"]
+  - id: T11-2
+    phase: tier1_features_avancadas
+    done: true
+    summary: "Climatologia de temperatura mensal por estado (INMET 1981-2010 normais aprox.)"
+    paths: ["scripts/features_avancadas.py"]
+  - id: T11-3
+    phase: tier1_features_avancadas
+    done: true
+    summary: "Integração idempotente em carregar_dados.py (detecta CSV pré-enriquecido)"
+    paths: ["scripts/carregar_dados.py"]
+  - id: T11-4
+    phase: tier1_features_avancadas
+    done: true
+    summary: "base_de_dados_enriquecido.csv gerado em 40s (924 306 linhas, 46 colunas)"
+    paths: ["base_de_dados_enriquecido.csv"]
+  - id: T11-5
+    phase: tier1_features_avancadas
+    done: true
+    summary: "CatBoost adicionado a treinamento_modelo.py (standalone + base learner)"
+    paths: ["scripts/treinamento_modelo.py", "requirements.txt"]
+  - id: T11-6
+    phase: tier1_features_avancadas
+    done: true
+    summary: "Retreino RF balanced: 78.46% → 82.93% (+4.47pp), F1-macro 74.37% → 78.66% (+4.29pp)"
+    paths: ["modelos/random_forest_balanced.pkl", "modelos/relatorios/random_forest_balanced_metrics.json"]
+  - id: T11-7
+    phase: tier1_features_avancadas
+    done: true
+    summary: "Retreino Ensemble Stacking RF+XGB+LGBM+CatBoost: 80.49% → 83.60% acc (+3.11pp), F1-macro 74.92% → 78.92% (+4.00pp), F1-Moderado 54.98% → 61.68% (+6.70pp). Tempo: 116min."
+    paths: ["modelos/ensemble_stacking.pkl", "modelos/relatorios/ensemble_stacking_metrics.json"]
+  - id: T11-8
+    phase: tier1_features_avancadas
+    done: true
+    summary: "Resumo comparativo atualizado em modelos/relatorios/resumo_melhorias.json (gerado 11/05/2026)"
+    paths: ["modelos/relatorios/resumo_melhorias.json", "scripts/_gerar_resumo.py"]
+
+  # ============================================================
+  # App interativo explicável (UI/UX) — 2026-05-11
+  # ============================================================
+  - id: T12-1
+    phase: app_explicavel
+    done: true
+    summary: "scripts/feature_lookup.py: medianas das 24 features Tier 1 em 3 níveis (célula 0,25° → Estado/Mes → Mes global), com recálculo em tempo real de Temp/KBDI/VPD/Aridez/Anomalia"
+    paths: ["scripts/feature_lookup.py"]
+  - id: T12-2
+    phase: app_explicavel
+    done: true
+    summary: "scripts/explainer.py: explicação local rápida (< 5 ms): contrib = importância × z-score × sinal_físico. Importâncias-padrão Tier 1 calibradas pela literatura (KBDI=0.075, SPI=0.045–0.060, VPD=0.060)"
+    paths: ["scripts/explainer.py"]
+  - id: T12-3
+    phase: app_explicavel
+    done: true
+    summary: "app_map_interativo.py: preparar_dados_previsao adiciona 24 features Tier 1; /api/predict retorna dados_usados (39 campos), contexto_historico, explicacao (top-6); novo /api/explain"
+    paths: ["scripts/app_map_interativo.py"]
+  - id: T12-4
+    phase: app_explicavel
+    done: true
+    summary: "Front-end redesenhado: painel lateral 420px com 6 cards informativos (Previsão, Por que esse risco?, Dados climáticos, Índices de seca, Acumulados + anomalia, Histórico de focos); cores semânticas; responsividade < 900px"
+    paths: ["scripts/app_map_interativo.py"]
+  - id: T12-5
+    phase: app_explicavel
+    done: true
+    summary: "Smoke-tests via Invoke-RestMethod: AM (-3.5,-62.5) → Baixo 82.3%; PA (-8.5,-50.5) → Muito Alto 92.9% com SPI/KBDI/Temp_Climatologica no top-6 da explicação"
+    paths: ["scripts/app_map_interativo.py"]
+  - id: T12-6
+    phase: app_explicavel
+    done: true
+    summary: "Documentação: AVANCOS_TREINAMENTO_RECENTES.md §2.2, DOCUMENTO_METODOLOGIA_E_RESULTADOS.md §3.12 (4 subseções), CHECKLIST_OBJETIVO_FINAL.md §12"
+    paths: ["scripts/AVANCOS_TREINAMENTO_RECENTES.md", "DOCUMENTO_METODOLOGIA_E_RESULTADOS.md", "CHECKLIST_OBJETIVO_FINAL.md"]
+
+  # ============================================================
+  # Threshold tuning multi-classe sobre Stacking Tier 1 — 2026-05-11
+  # ============================================================
+  - id: T8-6-1
+    phase: modelos
+    done: true
+    summary: "scripts/ajustar_threshold.py estendido: reporta best F1-macro e best F1-Moderado; workaround _LabelEncodingWrapper para joblib.load no __main__"
+    paths: ["scripts/ajustar_threshold.py"]
+  - id: T8-6-2
+    phase: modelos
+    done: true
+    summary: "Thresholds persistidos em modelos/prediction_thresholds.json. Baseline argmax: acc=0.8348 F1m=0.7878 F1mod=0.6153. Best F1-macro (thr_mod=0.40, thr_alto=0.45): F1m=0.7894 (+0.16pp). Best F1-Moderado (thr_mod=0.35, thr_alto=0.45): F1mod=0.6270 (+1.17pp)."
+    paths: ["modelos/prediction_thresholds.json", "modelos/relatorios/threshold_analysis.json"]
+  - id: T8-6-3
+    phase: app_explicavel
+    done: true
+    summary: "app_map_interativo.py: carrega prediction_thresholds.json; /api/predict aceita estrategia_thresholds (f1_macro|f1_moderado|argmax, default=f1_macro) e retorna thresholds_aplicados; front-end mostra trace-thresholds no card Previsão"
+    paths: ["scripts/app_map_interativo.py"]
+
+  # ============================================================
+  # Optuna XGB+LGBM e meta-learner GBM no Stacking — 2026-05-12
+  # ============================================================
+  - id: T8-7-1
+    phase: modelos
+    done: true
+    summary: "otimizar_hiperparametros.py: suporte a xgboost_classifier e lightgbm_classifier; novos parâmetros --subsample (estratificado) e --scoring (default f1_macro)."
+    paths: ["scripts/otimizar_hiperparametros.py"]
+  - id: T8-7-2
+    phase: modelos
+    done: true
+    summary: "Optuna XGBoost (15 trials, 3-fold CV, F1-macro, subsample 150k): best F1m CV=0.7005 (vs ~0.616 default, +8.4pp). Params em optuna_xgboost_classifier.json."
+    paths: ["modelos/relatorios/optuna_xgboost_classifier.json", "logs/optuna_xgb.log"]
+  - id: T8-7-3
+    phase: modelos
+    done: true
+    summary: "Optuna LightGBM (15 trials, 3-fold CV, F1-macro, subsample 150k): best F1m CV=0.7256 (vs ~0.670 default, +5.5pp). Params em optuna_lightgbm_classifier.json."
+    paths: ["modelos/relatorios/optuna_lightgbm_classifier.json", "logs/optuna_lgbm.log"]
+  - id: T8-7-4
+    phase: modelos
+    done: true
+    summary: "treinamento_modelo.py: hiperparâmetros otimizados aplicados em MODEL_LIBRARY_IMPROVED e em _estimador_xgb_opcional/_estimador_lgbm_opcional. Função _build_meta_learner(kind) aceita lr|gbm|lgbm; novos modelos ensemble_stacking_gbm e ensemble_stacking_lgbm registrados."
+    paths: ["scripts/treinamento_modelo.py"]
+  - id: T8-7-5
+    phase: modelos
+    done: true
+    summary: "Retreino Stacking LR (XGB/LGBM tunados): acc 84.14% (+0.55pp), F1m 0.7944 (+0.52pp), F1-Moderado 0.6202 (+0.34pp). Tempo 42min."
+    paths: ["modelos/ensemble_stacking.pkl", "modelos/relatorios/ensemble_stacking_metrics.json"]
+  - id: T8-7-6
+    phase: modelos
+    done: true
+    summary: "Retreino Stacking GBM (meta-learner=GradientBoosting): acc **84.61%** (+1.01pp), F1m **0.7995** (+1.03pp), F1-Moderado **0.6296** (+1.28pp). NOVO MELHOR MODELO. Tempo 85min."
+    paths: ["modelos/ensemble_stacking_gbm.pkl", "modelos/relatorios/ensemble_stacking_gbm_metrics.json"]
+  - id: T8-7-7
+    phase: modelos
+    done: true
+    summary: "Re-threshold sobre ensemble_stacking_gbm: best F1-macro = best F1-Moderado = (thr_mod=0.35, thr_alto=0.45) → acc 83.88%, F1m 0.7981, F1-Moderado **0.6375** (+1.44pp sobre argmax). modelos/prediction_thresholds.json regenerado."
+    paths: ["modelos/prediction_thresholds.json", "modelos/relatorios/threshold_analysis.json"]
+  - id: T8-7-8
+    phase: app_explicavel
+    done: true
+    summary: "app_map_interativo.py: carregar_modelo() prefere ensemble_stacking_gbm; front-end dropdown coloca ensemble_stacking_gbm no topo. Validado via Invoke-RestMethod: predição em MT/agosto → Muito Alto 95.2% com thresholds calibrados aplicados."
+    paths: ["scripts/app_map_interativo.py"]
+
+  # ============================================================
+  # Optuna em logistic_regression_balanced — 2026-04-21
+  # ============================================================
+  - id: T7-2
+    phase: modelos
+    done: true
+    summary: "Optuna LR balanced (15 trials, 3-fold CV, accuracy): best 0.6456 (Trial 3), params C=12.43 max_iter=4768. Aplicado em MODEL_LIBRARY_IMPROVED e _estimador_lr_balanced. Resultado em modelos/relatorios/optuna_logistic_regression_balanced.json."
+    paths: ["scripts/treinamento_modelo.py", "scripts/otimizar_hiperparametros.py", "modelos/relatorios/optuna_logistic_regression_balanced.json"]
+
+  # ============================================================
+  # Rigor metodológico adicional — SHAP per-class + validação temporal — 2026-05-12
+  # ============================================================
+  - id: T13-1
+    phase: rigor_metodologico
+    done: true
+    summary: "SHAP por classe via RF leve proxy — scripts/analise_shap_rf_leve.py treina RF compacto (n_estimators=100, max_depth=12, 60k amostras, acc in-sample 71.75%) e roda shap.TreeExplainer em 500 amostras. Saída em modelos/relatorios/shap_per_class.json. Top-3 por classe: Baixo (Ano, KBDI_proxy, VPD_proxy); Moderado (KBDI_proxy, VPD_proxy, Indice_Seca); Muito Alto (KBDI_proxy, Ano, FRP). explainer.py carrega automaticamente; app já mostra fonte_importance=shap_per_class na resposta. Defendido por Lundberg et al. 2020. analise_shap_local.py mantido como tentativa original (MemoryError no RF Optuna produtivo)."
+    paths: ["scripts/analise_shap_rf_leve.py", "scripts/explainer.py", "modelos/relatorios/shap_per_class.json", "DOCUMENTO_METODOLOGIA_E_RESULTADOS.md"]
+  - id: T13-2
+    phase: rigor_metodologico
+    done: true
+    summary: "scripts/validacao_temporal.py — rolling-origin por ano. RF balanced Tier 1 (subsample 120k/fold): acc=70.09% ± 4.10, F1m=0.592, F1-Mod=0.264. Δ vs aleatório: -12.83pp acc, -35.65pp F1-Mod. ensemble_stacking_gbm (subsample 60k/fold, 3 folds 2021-2023, ~21min): acc=70.13% ± 4.06, F1m=0.606, F1-Mod=0.306. Δ vs aleatório: -14.49pp acc, -32.35pp F1-Mod. Stacking mantém vantagem (+1.4pp F1m, +4.2pp F1-Mod) sobre RF mesmo sob folds temporais. Saídas: validacao_temporal.json, validacao_temporal_stacking_gbm.json."
+    paths: ["scripts/validacao_temporal.py", "modelos/relatorios/validacao_temporal.json", "modelos/relatorios/validacao_temporal_stacking_gbm.json", "DOCUMENTO_METODOLOGIA_E_RESULTADOS.md"]
+  - id: T13-3
+    phase: rigor_metodologico
+    done: true
+    summary: "scripts/gerar_figura_evolucao.py — figura matplotlib com 4 iterações (Stacking pré-Tier 1 → +Tier 1 → +Optuna XGB-LGBM-GBM → +thresholds) e 3 métricas (acc, F1m, F1-Mod). Δ acumulado: +3.12pp acc, +5.03pp F1m, +8.77pp F1-Moderado. Saída: modelos/relatorios/evolucao_modelos.png + .json."
+    paths: ["scripts/gerar_figura_evolucao.py", "modelos/relatorios/evolucao_modelos.png", "modelos/relatorios/evolucao_modelos.json"]
+  - id: T13-4
+    phase: rigor_metodologico
+    done: true
+    summary: "Permutation Importance estratificada por classe (NOVO) — scripts/permutation_importance_por_classe.py aplica Breiman 2001 / Fisher et al. 2019 diretamente sobre ensemble_stacking_gbm (5 000 amostras teste, 3 repetições, seed=42). Top-10 Δ F1-macro global: Ano (0.0351), Latitude (0.0318), Longitude (0.0258), Estado (0.0179), DiaSemChuva_ma90 (0.0104), FRP (0.0100), Municipio (0.0099), DiaSemChuva_ma30 (0.0096), Precipitacao_ma90 (0.0093), Precipitacao_acum_180d (0.0078). Por classe: Moderado privilegia DiaSemChuva_ma90/Precipitacao_acum_180d (regime hídrico estacional); Muito Alto inclui VPD_proxy (confirmação independente do SHAP RF leve)."
+    paths: ["scripts/permutation_importance_por_classe.py", "modelos/relatorios/permutation_importance_por_classe.json", "DOCUMENTO_METODOLOGIA_E_RESULTADOS.md"]
+  - id: T13-5
+    phase: rigor_metodologico
+    done: true
+    summary: "Pseudo-labeling de Umidade via LightGBM regressor (NOVO) — scripts/pseudo_label_umidade.py: treina LGBMRegressor (n_estimators<=600, lr=0.05, num_leaves=64, early stopping) nos 170 465 registros com Umidade NASA POWER (15 features incluindo lat/lon e sazonalidade cíclica). Holdout 20% (n_val=34 093): RMSE=4.33% RH, MAE=3.19% RH, R²=0.933. Refit no 100%, imputa 763 489 registros restantes (clip 5-100%), cobertura final 100%. Saída: base_de_dados_umidade_pseudo.csv (com coluna Umidade_origem), modelos/lgbm_regressor_umidade.pkl, modelos/relatorios/pseudo_label_umidade.json. Trabalho futuro: retreinar Stacking GBM com Umidade pseudo-rotulada e quantificar viés de confirmação (Arazo 2020)."
+    paths: ["scripts/pseudo_label_umidade.py", "base_de_dados_umidade_pseudo.csv", "modelos/lgbm_regressor_umidade.pkl", "modelos/relatorios/pseudo_label_umidade.json", "DOCUMENTO_METODOLOGIA_E_RESULTADOS.md"]

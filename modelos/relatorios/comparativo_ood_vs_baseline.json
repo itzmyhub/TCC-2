@@ -1,0 +1,159 @@
+{
+  "modelo_base": "logistic_regression_balanced",
+  "ood": {
+    "modelo": "logistic_regression_balanced_ood",
+    "accuracy": 0.657479633456308,
+    "f1_macro": 0.6168393649888536,
+    "f1_por_classe": {
+      "Baixo": 0.724250698011631,
+      "Moderado": 0.37927837818057625,
+      "Muito Alto": 0.7469890187743535
+    },
+    "classification_report": {
+      "Baixo": {
+        "precision": 0.7577141566070622,
+        "recall": 0.6936179642487812,
+        "f1-score": 0.724250698011631,
+        "support": 67690.0
+      },
+      "Moderado": {
+        "precision": 0.30536405240311904,
+        "recall": 0.5004023302970807,
+        "f1-score": 0.37927837818057625,
+        "support": 31069.0
+      },
+      "Muito Alto": {
+        "precision": 0.820240327846079,
+        "recall": 0.6857484640488717,
+        "f1-score": 0.7469890187743535,
+        "support": 86103.0
+      },
+      "accuracy": 0.657479633456308,
+      "macro avg": {
+        "precision": 0.6277728456187534,
+        "recall": 0.6265895861982446,
+        "f1-score": 0.6168393649888536,
+        "support": 184862.0
+      },
+      "weighted avg": {
+        "precision": 0.710812281341625,
+        "recall": 0.657479633456308,
+        "f1-score": 0.6768634179205449,
+        "support": 184862.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        46951,
+        15391,
+        5348
+      ],
+      [
+        7930,
+        15547,
+        7592
+      ],
+      [
+        7083,
+        19975,
+        59045
+      ]
+    ],
+    "meta_oversample": {
+      "pares_aplicados": [
+        {
+          "estado": "PARÁ",
+          "mes": 5,
+          "n_originais": 1015,
+          "n_copias_extras": 4
+        },
+        {
+          "estado": "MARANHÃO",
+          "mes": 5,
+          "n_originais": 116,
+          "n_copias_extras": 4
+        },
+        {
+          "estado": "PARÁ",
+          "mes": 6,
+          "n_originais": 3481,
+          "n_copias_extras": 4
+        },
+        {
+          "estado": "MARANHÃO",
+          "mes": 6,
+          "n_originais": 478,
+          "n_copias_extras": 4
+        },
+        {
+          "estado": "TOCANTINS",
+          "mes": 5,
+          "n_originais": 64,
+          "n_copias_extras": 2
+        },
+        {
+          "estado": "MARANHÃO",
+          "mes": 7,
+          "n_originais": 1191,
+          "n_copias_extras": 1
+        },
+        {
+          "estado": "PARÁ",
+          "mes": 7,
+          "n_originais": 13640,
+          "n_copias_extras": 1
+        },
+        {
+          "estado": "TOCANTINS",
+          "mes": 6,
+          "n_originais": 153,
+          "n_copias_extras": 1
+        }
+      ],
+      "n_treino_antes": 739444,
+      "n_treino_depois": 774916,
+      "n_extras_total": 35472
+    },
+    "n_test": 184862,
+    "holdout_cerrado_transicao": {
+      "n": 11389,
+      "accuracy": 0.6462375976819739,
+      "f1_macro": 0.5907187767361646,
+      "estados": [
+        "BAHIA",
+        "DISTRITO FEDERAL",
+        "GOIÁS",
+        "MARANHÃO",
+        "MATO GROSSO",
+        "PARÁ",
+        "PIAUÍ",
+        "TOCANTINS"
+      ],
+      "meses": [
+        5,
+        6,
+        7
+      ]
+    }
+  },
+  "baseline": {
+    "accuracy": 0.6457898324155316,
+    "f1_macro": 0.6043624078693042,
+    "f1_por_classe": {
+      "Baixo": 0.714222113052289,
+      "Moderado": 0.36429009694441034,
+      "Muito Alto": 0.7345750136112131
+    }
+  },
+  "delta": {
+    "accuracy_pp": 1.169,
+    "f1_macro_pp": 1.248,
+    "f1_por_classe_pp": {
+      "Baixo": 1.003,
+      "Moderado": 1.499,
+      "Muito Alto": 1.241
+    }
+  },
+  "train_time_sec": 369.8,
+  "model_path": "C:\\tcc-2\\TCC-2\\modelos\\logistic_regression_balanced_ood.pkl"
+}

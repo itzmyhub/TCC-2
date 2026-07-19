@@ -1,0 +1,28 @@
+{
+  "fonte": "MapBiomas Fogo Coleção 3 (raster anual 30 m, via COG/vsicurl)",
+  "nivel": "célula 0,25° x ano",
+  "anos": [
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020
+  ],
+  "n_celula_ano": 23982,
+  "focos_present_frac": 0.8264948711533651,
+  "mapbiomas_present_frac": 0.7657409723959636,
+  "concordancia": 0.7801267617379701,
+  "cohen_kappa": 0.32652117718971485,
+  "focos_vs_mapbiomas": {
+    "precisao": 0.8302305635437163,
+    "revocacao": 0.8961010673055979,
+    "f1": 0.8619091266204006
+  },
+  "matriz_confusao": {
+    "mb0_focos0": 2253,
+    "mb0_focos1": 3365,
+    "mb1_focos0": 1908,
+    "mb1_focos1": 16456
+  }
+}

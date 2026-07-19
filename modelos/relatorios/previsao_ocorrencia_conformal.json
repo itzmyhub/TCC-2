@@ -1,0 +1,27 @@
+{
+  "metodo": "split-conformal classe-condicional (LAC, Sadinle 2019)",
+  "alpha": 0.1,
+  "cobertura_alvo": 0.9,
+  "split": {
+    "treino_ate": 2021,
+    "calib": 2022,
+    "teste": 2023
+  },
+  "limiares_q": {
+    "0": 0.37063192012133406,
+    "1": 0.3194686045565358
+  },
+  "cobertura_marginal": 0.8882957453614844,
+  "cobertura_por_classe": {
+    "0": 0.8856199420791945,
+    "1": 0.8958604330859286
+  },
+  "tamanho_medio_conjunto": 1.1712851887396034,
+  "distribuicao_conjuntos": {
+    "singleton": 0.8287148112603967,
+    "ambiguo_{0,1}": 0.17128518873960333,
+    "vazio": 0.0
+  },
+  "ece": 0.09918807282563365,
+  "brier": 0.1230648116142825
+}

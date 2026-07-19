@@ -1,0 +1,11 @@
+{
+  "model_name": "logistic_regression_balanced",
+  "n_trials": 15,
+  "best_value_accuracy": 0.6456238518412734,
+  "best_params": {
+    "C": 12.425396449863609,
+    "max_iter": 4768
+  },
+  "cv_folds": 3,
+  "dataset_path": "../base_de_dados_com_historico.csv"
+}

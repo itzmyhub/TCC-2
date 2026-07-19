@@ -1,5 +1,46 @@
+# ============================================================================
+# Modelos serializados (grandes, regeneráveis) — nunca versionar
+# ============================================================================
 modelos/*.pkl
-modelos/decision_tree.pkl
-modelos/logistic_regression.pkl
-modelos/random_forest.pkl
-modelos/sgd_classifier.pkl
+*.pkl
+
+# ============================================================================
+# Dados grandes / brutos (regeneráveis; >50MB ou dados de origem)
+# ============================================================================
+base_de_dados.csv
+base_de_dados_enriquecido.csv
+dataset_ocorrencia_*.csv
+focos_qmd_inpe_*.csv
+dados_incendio_tratados*.csv
+*.zip
+
+# ============================================================================
+# Cache, logs e artefatos de execução
+# ============================================================================
+__pycache__/
+*.pyc
+.cache_inmet/
+.cache_umidade/
+logs/
+.idea/
+*.bak
+
+# ============================================================================
+# Artefatos de compilação LaTeX (mantém .tex, .bib, .cls, .pdf, imagens)
+# ============================================================================
+*.aux
+*.log
+*.bbl
+*.blg
+*.out
+*.toc
+*.lof
+*.lot
+*.los
+*.lab
+*.brf
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.run.xml
+*.bcf

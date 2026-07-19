@@ -1,0 +1,1087 @@
+% ----------------------------------------------------------------------------------------------------- %
+% Manual da Classe UFTeX
+%
+% Versão 2.1:   Março 2018
+%
+% Criado por:   Tiago da Silva Almeida
+% Revisado por: Tiago da Silva Almeida
+%               Rafael Lima de Carvalho
+%               Ary Henrique Morais de Oliveira
+%
+% https://almeidatiago.github.io/uftex/
+% ----------------------------------------------------------------------------------------------------- %
+%
+% DOCUMENTO REESCRITO -- versão 12/05/2026
+%
+% Este arquivo .tex é a versão atualizada do TCC II original, integrando:
+%   * Resumo/Abstract reescritos (com cite e siunitx);
+%   * Capítulo 1: parágrafo de âncora científica + 6 objetivos atualizados +
+%     nova estrutura da monografia;
+%   * Capítulo 2: nova subseção "Literatura recente (2024--2025)";
+%   * Capítulo 3: 10 novas subseções (boosting, ensembles, Optuna,
+%     interpretabilidade, desbalanceamento, calibração, índices físicos,
+%     validação temporal);
+%   * Capítulo 4: reescrita das seções de Treinamento, Avaliação e Geração
+%     do Mapa, mais novas seções de APIs externas, Tier 1, Calibração e
+%     Pseudo-labeling;
+%   * Capítulo 5 (Resultados): texto inteiro novo, com 11 tabelas e 6
+%     figuras geradas pelo script scripts/gerar_figuras_tcc.py;
+%     inclusão de \input{07_estudo_caso_pium_to} (estudo de caso Pium--TO,
+%     fusão INMET, M1--M4);
+%   * Capítulo 6 (Conclusão): texto inteiro novo (achados, limitações,
+%     trabalhos futuros, considerações finais).
+%
+% Bibliografia: references.bib (compilar BibTeX a partir da pasta tcc_tex/).
+%
+% ATENÇÃO -- babel: a classe uftex já carrega babel (normalmente brazil).
+% NÃO use \usepackage[portuguese]{babel} aqui (causa "Option clash for package babel").
+%
+% ATENÇÃO -- BibTeX: o arquivo principal e references.bib devem estar no
+% mesmo diretório de trabalho (recomendado: abrir/compilar tcc.tex a partir
+% da pasta tcc_tex/).
+% ----------------------------------------------------------------------------------------------------- %
+
+\documentclass[tcc2]{uftex}
+% ---- Esse comando cria o nome uftex estilizado
+\newcommand\uftex{UF\TeX}
+
+\usepackage{graphicx}
+% Procura figuras na pasta atual E na raiz do projeto (../), para achar
+% modelos/relatorios/*.png (compilação local); compatível com Overleaf.
+\graphicspath{{./}{../}{imagens/}{../imagens/}}
+\usepackage[utf8]{inputenc}
+% babel é carregado pela classe uftex; não repetir aqui.
+\usepackage{quoting}
+\usepackage{lipsum}
+% tikz/circuitikz removidos: não são usados neste .tex e pesam muito no Overleaf (timeout).
+\usepackage{amsmath}
+\usepackage{bm}
+
+% ---- Pacotes adicionais necessários para o texto atualizado
+\usepackage{siunitx}
+\sisetup{
+  output-decimal-marker = {,},
+  group-separator       = {.},
+  group-minimum-digits  = 4
+}
+\usepackage{booktabs}
+
+\usepackage[alf,abnt-emphasize=bf]{abntex2cite}
+\usepackage{hyperref}
+\renewcommand{\backrefpagesname}{}
+\renewcommand{\backref}{}
+\renewcommand*{\backrefalt}[4]{}
+% ----  Esse comandos são necessário no pré-ambulo para a impressão da lista de lista abreviatuas e de símbolos
+\makelosymbols
+\makeloabbreviations
+% ---- Início do documento
+\begin{document}
+  % ---- Descrição do título do trabalho
+  \title{Aprendizado de Máquina e Sensoriamento Remoto: Previsão da Ocorrência de Incêndios Florestais na Amazônia Legal}
+  % ---- Nome do autor ou autores do trabalho
+  \author{Ítalo}{Machado Vilarino}
+  % ---- Nome do orientador do trabalho. O último campo representa o título do professor
+  \advisor{Prof.}{Glenda}{Michele Botelho}{Dra.}
+
+  \examiner{Prof.}{Dr.}{Nome do Primeiro Examinador Sobrenome}
+  \examiner{Profa.}{Dra.}{Nome do Segundo Examinador Sobrenome}
+  \examiner{Profa.}{Ma.}{Nome do Terceiro Examinador Sobrenome}
+  % ---- Departamento representa o curso ao qual o trabalho está sendo apresentado. Descrito por meio de duas iniciais do curso
+  \department{CC}
+  % ---- Data da apresentação do trabalho
+  \date{12}{05}{2026}
+  % ---- Palavras-chaves em português do trabalho
+  \keyword{Aprendizado de Máquina}
+  \keyword{Classificação}
+  \keyword{Previsão}
+  \keyword{Queimadas}
+  \keyword{Ensemble Stacking}
+  \keyword{Interpretabilidade}
+  % ---- Palavras-chaves em inglês do trabalho
+  \foreignkeyword{Machine Learning}
+  \foreignkeyword{Classification}
+  \foreignkeyword{Wildfires}
+  \foreignkeyword{Legal Amazon}
+  \foreignkeyword{Stacking Ensemble}
+  \foreignkeyword{Interpretability}
+
+  % ---- Comando responsável por criar a capa do trabalho, logo em seguida está o comando que insere a folha de rosto conforme a configuração exigida
+ \maketitle
+
+% Esse comando Insere a Folha de Rosto
+  \frontmatter
+
+  % ----------------------------------------------------------------------------------------------------- %
+  %  Este trecho deve ser inserido somente no caso do TCC2 já na versão FINAL
+  % ----------------------------------------------------------------------------------------------------- %
+  \includepdf{ficha_catalografica}
+
+  % ----------------------------------------------------------------------------------------------------- %
+  % Esse comando insere a Folha de Aprovação
+  \makepageapprove
+
+  % A Ata de aprovacao nao deve fazer parte do TCC 2, mas deve-se incluir a folha de aprovacao assinada pelos membros da banca
+  %\includepdf{ata_de_aprovacao}
+  % ----------------------------------------------------------------------------------------------------- %
+  \dedication{A algu\'em cujo valor \'e digno desta dedicat\'oria.}
+
+  \begin{acknowledgement}
+Agradeço sinceramente a todos que contribuíram para a realização deste trabalho de conclusão de curso.
+
+Primeiramente, gostaria de agradecer à Deus por todas as oportunidades que tenho diariamente de crescer e pelo dom da vida que nos foi dado. Gostaria de expressar minha gratidão à minha orientadora/professora Glenda, cuja orientação e apoio foram fundamentais para o desenvolvimento deste trabalho. Principalmente, pela paciência que sempre teve durante meus (muitos) dias de procrastinação.
+
+Também gostaria de agradecer à minha família, por simplesmente estarem sempre lá por mim. À minha mãe, meu pai e meus dois irmãos: sem vocês eu nada seria e nem mesmo teria algo pelo qual lutar, amo vocês. E claro, aos meus gatos, que também são parte essencial da família, hahaha.
+
+Agradeço aos meus grandes amigos e colegas de curso, que covardemente não me esperaram para formarmos juntos (risos), mas sempre contribuíram com nossos debates construtivos e aquelas grandes saidinhas para o bar da esquina, que acreditem, é fundamental para um universitário sobreviver...
+
+Além disso, gostaria de expressar minha gratidão a todas as instituições, professores e pesquisadores cujo trabalho e estudos foram referências importantes para este projeto.
+
+Este trabalho não teria sido possível sem a existência de cada um dos que foram mencionados acima, direta ou indiretamente. Muito obrigado por fazerem parte desta jornada e por ajudarem a tornar este projeto uma realidade.
+
+Atenciosamente,
+
+Ítalo Machado Vilarino.
+  \end{acknowledgement}
+
+  \begin{abstract}
+O crescimento da temperatura global é um fato alarmante. Segundo a \emph{World Meteorological Organization}~\cite{wmo2021}, o ano de 2020 atingiu uma média histórica de \SI{1,2}{\degree C} acima das temperaturas aferidas na era pré-industrial. Aragão \emph{et al.}~\cite{aragao2018amazon} documentam que, desde o início do século~XXI, o fogo associado à seca passou a \emph{neutralizar} os ganhos obtidos com a redução do desmatamento na Amazônia; Silva-Junior \emph{et al.}~\cite{silvajunior2025amazon} mostram que 2024 marcou a pior degradação por fogo em mais de duas décadas --- \SI{3,3}{\mega\hectare} queimados (\(+400\%\) em relação aos 2 anos anteriores), com emissão estimada de \SI{791}{\mega\tonne} de CO$_{2}$. A preservação das áreas verdes é crucial para mitigar este cenário, e ferramentas de previsão automatizadas, baseadas em aprendizado de máquina, representam uma abordagem promissora.
+
+Este trabalho desenvolve um sistema de \textbf{previsão da ocorrência de fogo observado} na Amazônia Legal. A partir de mais de \num{900000} focos ativos do Programa Queimadas/INPE (2014--2023), formula-se um problema de classificação bem-posto sobre uma grade regular de \SI{0,25}{\degree} $\times$ mês: para cada célula propensa a fogo, prevê-se se haverá foco no mês seguinte (\(t+1\)), com \textbf{classe negativa real} (células-mês sem foco) --- corrigindo a limitação de bases \emph{presence-only}, em que só existem registros de fogo. O conjunto final tem \num{450144} células-mês (prevalência do alvo de \SI{24,7}{\percent}). As \emph{features} são \textbf{estritamente causais} (apenas informação até \(t\): histórico de fogo defasado, sazonalidade, climatologia local e desmatamento recente PRODES/DETER), e a avaliação emprega \textbf{validação espaço-temporal em bloco}~\cite{roberts2017cv} --- \emph{rolling-origin} por ano e \emph{leave-region-out} ---, que evita o otimismo do \emph{split} aleatório em dados geográficos.
+
+O modelo (\emph{Histogram-based Gradient Boosting}~\cite{friedman2001greedy}) atinge \textbf{\num{0,777} de PR-AUC} na validação temporal e \num{0,759} na espacial, superando as linhas de base de \emph{persistência} (\num{0,449}) e \emph{climatologia} (\num{0,715}). No \emph{benchmark} contra índices físicos operacionais, avaliados sobre \emph{fogo observado} nas mesmas amostras, o modelo (\num{0,858}) \textbf{supera} tanto o \emph{Fire Weather Index} canadense (\num{0,608})~\cite{vanwagner1985fwi} quanto o índice Risco de Fogo do INPE (\num{0,398}) --- evidenciando o ganho do aprendizado de máquina sobre os índices meteorológicos que a literatura toma como referência operacional. A incerteza é quantificada por \emph{conformal prediction}~\cite{sadinle2019lac} (cobertura empírica de \SI{88,8}{\percent}), a robustez é confirmada por comparação entre famílias de modelo com intervalos de confiança, e experimentos controlados de covariáveis identificam o \textbf{desmatamento recente} (PRODES/DETER) como o principal sinal preditivo da \emph{nova ignição} --- coerente com a natureza majoritariamente antrópica do fogo amazônico~\cite{aragao2018amazon}. O sistema é exposto por uma aplicação web interativa (\emph{Flask} + \emph{Folium}~\cite{folium,leafletjs}) que mapeia a probabilidade de fogo por célula, com rótulo conformal e integração de clima (NASA POWER~\cite{nasapower}) e focos ativos (NASA FIRMS~\cite{nasafirms}) em tempo quase-real. Uma etapa exploratória inicial --- a classificação supervisionada do índice de risco do INPE em faixas de severidade, cuja circularidade metodológica (o alvo era a saída de outro modelo) motivou a reformulação aqui adotada --- é documentada como material complementar.
+  \end{abstract}
+
+  \begin{foreignabstract}
+The alarming rise in global temperatures is an undeniable reality. According to the World Meteorological Organization~\cite{wmo2021}, the year 2020 witnessed a historical average temperature increase of \SI{1.2}{\degree C} above pre-industrial levels. Aragão \emph{et al.}~\cite{aragao2018amazon} document that, since the beginning of the 21st century, drought-related fires have started to \emph{offset} the gains obtained from reductions in Amazon deforestation; Silva-Junior \emph{et al.}~\cite{silvajunior2025amazon} report that 2024 marked the worst fire-driven degradation event in over two decades --- \SI{3.3}{\mega\hectare} burned (\(+400\%\) over the previous two years), with estimated emissions of \SI{791}{\mega\tonne} of CO$_{2}$. Preserving forested areas is therefore crucial, and automated prediction tools based on machine learning represent a promising approach.
+
+This work develops a system for \textbf{predicting observed fire occurrence} in the Brazilian Legal Amazon. From over \num{900000} active-fire detections of the INPE Fire Programme (2014--2023), a well-posed classification problem is formulated on a regular \SI{0.25}{\degree} $\times$ month grid: for each fire-prone cell, the model predicts whether a fire detection will occur in the following month (\(t+1\)), with a \textbf{real negative class} (cell-months without fire) --- correcting the limitation of \emph{presence-only} datasets that contain fire records only. The final set has \num{450144} cell-months (target prevalence \SI{24.7}{\percent}). Features are \textbf{strictly causal} (only information up to \(t\): lagged fire history, seasonality, local climatology, and recent PRODES/DETER deforestation), and evaluation uses \textbf{blocked spatio-temporal validation}~\cite{roberts2017cv} --- yearly \emph{rolling-origin} and \emph{leave-region-out} ---, which avoids the optimism of random splits on geographic data.
+
+The model (\emph{Histogram-based Gradient Boosting}~\cite{friedman2001greedy}) reaches \textbf{\num{0.777} PR-AUC} in temporal validation and \num{0.759} in spatial validation, outperforming the \emph{persistence} (\num{0.449}) and \emph{climatology} (\num{0.715}) baselines. In a \emph{benchmark} against operational physical indices, evaluated on \emph{observed} fire over the same samples, the model (\num{0.858}) \textbf{outperforms} both the Canadian \emph{Fire Weather Index} (\num{0.608})~\cite{vanwagner1985fwi} and the INPE Fire Risk index (\num{0.398}) --- evidencing the added value of machine learning over the meteorological indices the literature adopts as an operational reference. Uncertainty is quantified via \emph{conformal prediction}~\cite{sadinle2019lac} (empirical coverage \SI{88.8}{\percent}), robustness is confirmed by a confidence-interval comparison across model families, and controlled covariate experiments identify \textbf{recent deforestation} (PRODES/DETER) as the main predictive signal for \emph{new ignitions} --- consistent with the predominantly anthropogenic nature of Amazon fire~\cite{aragao2018amazon}. The system is exposed through an interactive web application (\emph{Flask} + \emph{Folium}~\cite{folium,leafletjs}) that maps per-cell fire probability, with a conformal label and near-real-time climate (NASA POWER~\cite{nasapower}) and active-fire (NASA FIRMS~\cite{nasafirms}) integration. An initial exploratory stage --- the supervised classification of the INPE risk index into severity bands, whose methodological circularity (the target was another model's output) motivated the reformulation adopted here --- is documented as supplementary material.
+  \end{foreignabstract}
+  \printlosymbols
+  \printloabbreviations
+  % ---- Cria a lista de figuras. OPCIONAL
+  \listoffigures
+  % ---- Cria a lista de tabelas. OPCIONAL
+  \listoftables
+  % ---- Cria o sumário. OBRIGATÓRIO
+  \tableofcontents % sumário
+% --- Marca o inicio dos elementos textuais. Capítulos.
+\mainmatter
+% ---- Defino o espaçamento de um e meio centímetros
+\onehalfspacing
+% ----------------------------------------------------------------------------------------------------- %
+% Capítulos do trabalho
+% ----------------------------------------------------------------------------------------------------- %
+\ChapterStart{first}{First chapter}
+\chapter{Introdução}
+
+``Tempo seco e altas temperaturas são fatores que favorecem o aumento de incêndios ambientais'' \cite{Silva21}. Em tempos como os atuais, faz-se ainda mais necessário encontrar ferramentas que auxiliem a frenagem destes eventos. Recentemente, o Instituto Nacional de Metereologia (INMET) emitiu diversos alertas sobre as ondas de calor que viriam a atingir algumas regiões do país. Como consequência o segundo semestre do ano de 2023, em especial os meses de agosto à novembro, registraram um recorde histórico na média de temperaturas, conforme exposto na reportagem publicada pelo próprio instituto, ``Temperatura média atinge recorde no Brasil pelo quarto mês seguido'' \cite{inmet23:ondadecalor}.
+
+Os prejuízos causados por incêndios e queimadas, principalmente quando se trata da Amazônia, que é considerada por muitos como o pulmão do mundo, são diversos. Silva (\citeyear{Silva21}) argumenta como estes eventos introduzem um processo de degradação do solo, perda de matéria-prima e poluição do ar, desencadeando impactos devastadores que reverberam além das fronteiras da floresta, afetando ecossistemas globais e sendo gerador de prejuízos econômicos com uma magnitude preocupante.
+
+Estes danos, apesar de já se mostrarem severos, podem ir muito além. Muitos estudos evidenciam que a nossa participação na emissão de gases, como o dióxido de carbono, alavancam o fenômeno de aquecimento global. Existem, claro, opiniões sobre o tema que se contrapõem e devem ser consideradas. Segundo a reportagem ``Aquecimento global: quem é culpado?" \cite{Aguiar13}, o efeito estufa é uma realidade inegável, mas a dúvida paira sobre a real contribuição do homem neste âmbito. Caso o aquecimento global antropogênico seja factual, as incidências de queimadas corroboram para o cenário atual, o que torna ainda mais importante o estudo e a prevenção das mesmas.
+
+A utilização de agentes inteligentes (como máquinas de aprendizado) para este escopo de pesquisa representa uma abordagem promissora no campo da gestão ambiental e prevenção de desastres. Os modelos de aprendizado de máquina são sistemas computacionais inspirados na racionalidade humana, capazes de aprender padrões complexos a partir de dados. Ao serem aplicadas na previsão de incêndios florestais, esses agentes podem ter a capacidade de assimilar grandes volumes de informações (por exemplo, no espectro de Redes Neurais Artificiais), considerando variáveis ambientais, climáticas e históricas. De acordo com o modelo utilizado pode-se ter flexibilidade na modelagem da sua arquitetura, o que permite a adaptação a padrões não-lineares presentes nos dados, objeto fundamental para modelar a dinâmica complexa dos incêndios florestais \cite{Ferneda06}.
+
+Treinar um modelo com conjuntos de dados históricos que contêm informações detalhadas sobre a topologia e vegetação de uma região é um desafio desde o tratamento dos dados até a avaliação dos mesmos. A realização deste projeto busca desenvolver uma inteligência apta a reconhecer similaridades sutis e correlações que podem ser cruciais na identificação das áreas propensas a incêndios. O uso desse tipo de tecnologia pode ser útil às unidades competentes, contribuindo com o enfrentamento da degradação ambiental por meio de um mapa de risco capaz de orientar sobre as áreas que possuem mais suscetibilidade a combustão. Assim, a proposta é ser capaz de obter um sistema eficiente e de baixo custo computacional para a previsão de incêndios em um ambiente com uma grande quantidade de dados disponíveis.
+
+\section{Justificativa}
+
+O monitoramento de incêndios florestais é uma tarefa que transita entre os espectros de previsão sobre o risco de fogo e a detecção em tempo real. Prever é frequentemente considerado mais interessante ou valioso do que simplesmente detectá-los após o início de uma incidência, por várias razões. Primeiro, permite que medidas preventivas sejam tomadas antes mesmo do início do fogo. Isso pode incluir a alocação mais eficiente de recursos de combate a incêndios e decisões de gestão florestal a longo prazo, como o planejamento de zonas de proteção em torno de áreas sensíveis.
+
+Além disso, prever incêndios pode simplesmente ajudar a reduzir as perdas econômicas associadas a danos à propriedade, perda de colheitas e interrupção de atividades comerciais. Isso é especialmente importante em áreas onde a agricultura, o turismo e outras atividades econômicas dependem da saúde dos ecossistemas naturais. Do outro lado da moeda, um dos principais benefícios de sistemas de detecção é a capacidade de identificar incêndios em estágios iniciais. Isso permite uma resposta rápida e eficaz para conter o fogo antes que ele se espalhe e cause danos significativos. Em suma, pode-se dizer que tanto a detecção quanto a previsão de incêndios são importantes; a capacidade de detectá-los fornece uma resposta rápida e eficaz, enquanto a de prevê-los oferece uma gama mais ampla de benefícios, desde a prevenção completa de danos até a redução de perdas econômicas.
+
+A urgência do tema é corroborada por publicações recentes na literatura internacional. Aragão \emph{et al.}~\cite{aragao2018amazon} documentaram, no periódico \emph{Nature Communications}, que desde o início do século~XXI o fogo associado à seca passou a \emph{neutralizar} os ganhos obtidos com a redução do desmatamento na Amazônia. Mais recentemente, Silva-Junior \emph{et al.}~\cite{silvajunior2025amazon}, em \emph{Biogeosciences}, mostraram que 2024 marcou a pior degradação por fogo em mais de duas décadas: \SI{3,3}{\mega\hectare} queimados (acréscimo de \(\approx 400\%\) em relação aos dois anos anteriores), com emissão estimada de \SI{791}{\mega\tonne} de CO$_{2}$. Esses números reforçam a urgência operacional do desenvolvimento de ferramentas modernas de previsão e vigilância, capazes de produzir mapas de risco em tempo quase-real e auditáveis por gestores ambientais.
+
+Dada a magnitude e complexidade das queimadas na região da Amazônia, abordagens eficientes para prevenção, monitoramento e resposta rápida são cruciais. A utilização de agentes inteligentes para mapear focos de incêndio não é uma novidade, contudo, dadas as especificidades de cada região atacada, diferentes variáveis podem se destacar nos algoritmos para a previsão dos focos. Além disso, deve-se considerar o contexto global das mudanças climáticas e o impacto direto que possuem as queimadas sobre a vegetação e biodiversidade amazônica nessas alterações. Isto posto, este projeto deve instituir uma base de conhecimento sólida, integrando conceitos de sensoriamento remoto e aprendizado de máquinas na intenção de entender e mitigar os efeitos adversos dos incêndios florestais.
+
+
+\section{Objetivos}
+
+\subsection{Objetivo Geral}
+
+Desenvolver e validar um sistema de aprendizado de máquina para a \textbf{previsão da ocorrência de fogo observado} na Amazônia Legal, estimando, para cada célula de uma grade regular, a probabilidade de haver foco de incêndio no mês seguinte, e demonstrar seu ganho preditivo frente aos índices de risco meteorológicos operacionais (\emph{Fire Weather Index} e Risco de Fogo do INPE).
+
+\subsection{Objetivos Específicos}
+
+\begin{itemize}
+    \item[1.] Realizar uma revisão bibliográfica sobre a previsão de ocorrência de incêndios florestais e o estado da arte em aprendizado de máquina aplicado a fogo, incluindo trabalhos de 2022--2025 sobre validação espaço-temporal, previsão de fogo observado e quantificação de incerteza.
+    \item[2.] Construir um conjunto de dados de ocorrência bem-posto sobre uma grade regular de \SI{0,25}{\degree} $\times$ mês, definindo a presença por focos observados do Programa Queimadas/INPE e uma \textbf{classe negativa real} (células-mês sem foco), a partir de mais de \num{900000} focos registrados na última década (2014--2023).
+    \item[3.] Realizar a engenharia de \emph{features} \textbf{estritamente causais} (apenas informação disponível até o instante \(t\)): histórico de fogo defasado, sazonalidade, climatologia local e \emph{drivers} antrópicos de desmatamento (PRODES/DETER), evitando o vazamento temporal.
+    \item[4.] Treinar e comparar modelos de aprendizado de máquina (\emph{gradient boosting} e famílias alternativas) sob \textbf{validação espaço-temporal em bloco} (\emph{rolling-origin} por ano e \emph{leave-region-out})~\cite{roberts2017cv,bergmeir2012cv}, tendo o PR-AUC como métrica primária e as linhas de base de \emph{persistência} e \emph{climatologia} como referência mínima de desempenho.
+    \item[5.] Realizar o \emph{benchmark} do modelo contra os índices físicos operacionais (\emph{Fire Weather Index} canadense~\cite{vanwagner1985fwi} e Risco de Fogo do INPE) sobre fogo \emph{observado}; quantificar a incerteza por \emph{conformal prediction}~\cite{sadinle2019lac}; e analisar a contribuição das variáveis, com destaque para o papel do desmatamento recente na \emph{nova ignição}.
+    \item[6.] Disponibilizar os resultados em uma \textbf{aplicação web interativa} (\emph{Flask} + \emph{Folium}~\cite{folium,leafletjs}) que apresente, por célula, a probabilidade de fogo no próximo mês, o rótulo conformal de confiança e os principais \emph{drivers} associados, viabilizando o uso operacional por gestores ambientais.
+\end{itemize}
+
+\section{Estrutura da Monografia}
+
+Este trabalho está organizado em sete capítulos que abordam diferentes etapas da pesquisa, proporcionando uma compreensão abrangente do desenvolvimento do sistema de previsão de queimadas na Amazônia.
+
+\textbf{2. Estado da Arte:} são explorados trabalhos correlatos e avanços significativos na área de previsão de queimadas, com foco em estudos que propõem o mapeamento de regiões suscetíveis a fogo. A revisão aborda a extensão do problema considerando seus impactos ambientais, sociais e econômicos. Adicionalmente, são examinadas abordagens tradicionais de aprendizado de máquina e o início dos sistemas de prevenção, complementadas por uma seção de \textbf{literatura recente 2024--2025} (\emph{ensembles} explicáveis, índice KBDI no Cerrado-Amazônia, validação temporal estrita).
+
+\textbf{3. Fundamentação Teórica:} estabelece as bases conceituais necessárias para a compreensão do problema das queimadas na Amazônia. Inicia-se com a contextualização do bioma amazônico e a problemática dos incêndios florestais, seguida pela discussão do sensoriamento remoto e das tecnologias espaciais. O capítulo prossegue com os fundamentos da inteligência artificial e do aprendizado de máquina, contemplando \textbf{modelos clássicos} (Regressão Logística, Random Forest), \textbf{modelos modernos de \emph{boosting}} (XGBoost, LightGBM, CatBoost), \textbf{\emph{ensembles}} (Voting e Stacking), \textbf{otimização de hiperparâmetros} (Optuna), \textbf{interpretabilidade} (SHAP e Permutation Importance), \textbf{tratamento de desbalanceamento}, \textbf{calibração de probabilidades}, \textbf{índices físico-climáticos de fogo} (KBDI, SPI, VPD, De Martonne) e \textbf{validação temporal} de modelos.
+
+\textbf{4. Metodologia:} descreve detalhadamente os passos e procedimentos adotados para desenvolver o sistema de previsão. São delineados os métodos de coleta e enriquecimento dos dados (Programa Queimadas + NASA POWER + NASA FIRMS), o pré-processamento, a engenharia das 24~\emph{features} Tier~1, o protocolo de treinamento dos modelos, a avaliação (métricas, interpretabilidade, \emph{threshold tuning}, validação temporal), e o desenvolvimento da aplicação web interativa explicável.
+
+\textbf{5. Estudo Exploratório (baseline):} apresenta uma primeira abordagem, na qual se classificou o índice de Risco de Fogo do INPE em faixas de severidade. Documenta o comparativo entre as oito abordagens treinadas, a interpretabilidade (SHAP e \emph{Permutation Importance}), a validação temporal estrita e o estudo de caso externo (Pium--TO / CENSIPAM). Este capítulo é apresentado como \textbf{baseline exploratório}: a constatação de que o alvo era a saída de outro modelo (circularidade metodológica) motivou a reformulação central do trabalho, no Capítulo~6.
+
+\textbf{6. Previsão de Ocorrência de Fogo (contribuição central):} constitui o núcleo do trabalho. Reformula o problema para a \textbf{previsão de fogo observado} (mês~\(t+1\)) com classe negativa real, \emph{features} causais e validação espaço-temporal em bloco. Apresenta o desempenho frente a linhas de base, a comparação entre famílias de modelo com intervalos de confiança, o \textbf{benchmark contra índices físicos} (FWI canadense e Risco de Fogo INPE), a quantificação de incerteza por \emph{conformal prediction}, os \textbf{drivers antrópicos de desmatamento} (PRODES/DETER) e a validação do rótulo contra a área queimada do MapBiomas Fogo.
+
+\textbf{7. Conclusão:} sintetiza os principais achados, registra as limitações reconhecidas e enumera os trabalhos futuros prioritários para evoluir o sistema rumo à integração de novas fontes (NDVI/EVI MODIS, MapBiomas Fogo) e de causalidade estrita nas \emph{features} de janela móvel.
+
+\chapter{Estado da Arte}
+
+No capítulo de Estado da Arte serão explorados e analisados trabalhos correlatos que se destacam na literatura científica em relação ao tema proposto. Este capítulo fornecerá uma base de revisões e críticas das abordagens existentes para a previsão utilizando aprendizado de máquina, com foco em incêndios florestais e relatando, especialmente, estudos que envolvem a análise empírica e estatística dos dados para correlacionar as ocorrências e os eventos que se fazem presente. Serão apresentadas contribuições significativas, metodologias inovadoras, e resultados obtidos por pesquisadores que exploraram o emprego de técnicas avançadas de inteligência artificial na antecipação destes eventos.
+
+\section{Trabalhos Correlatos}
+
+Os trabalhos de previsão de incêndios florestais dividem seus esforços em dois principais métodos de análise, que de um lado consistem na utilização de modelos matemáticos e estatíscos e do outro, no Aprendizado de Máquinas.
+
+A previsão baseada em estatísticas ocorre por meio da correlação dos parâmetros metereológicos registrados nos incêndios históricos, tais como condições climáticas, terreno, temperatura média, pressão circunstancial e a frequência de incêndios que estes fatores causam ao ambiente. Pradeep et al.~\cite{pradeep2022eravikulam} utilizaram um Sistema de Informação Geográfica (SIG) para delinear as zonas de risco de incêndios florestais no Parque Nacional Eravikulam, na Índia, por meio dos métodos de Processo Analítico Hierárquico (AHP) e a Razão de Frequência (FR), chegando a categorizar 72\% e 24\%, respectivamente, das incidências de incêndio na zona de alto risco dos mapas preparados. Gülçin e Deniz~\cite{gulcin2020manisa} também elaboraram um mapa de risco de incêndio, dessa vez na província de Manisa, na Turquia, e utilizaram técnicas baseadas em Sensoriamento Remoto (SR) e SIG, reportando que 25,8\% da área de estudo apresentava risco alto ou muito alto de combustão espontânea.
+
+A velocidade de propagação do fogo e a proporção do alcance do mesmo dependem fortemente da topografia e a arborização da região. Jin e Lee~\cite{jin2022northkorea} realizaram um estudo sobre as características de incêndios florestais em duas províncias da Coréia do Norte (South Hamgyong e Gangwon) e concluíram que as árvores coníferas são muito mais suscetíveis à combustão em relação às demais plantas da região. Além disso, os resultados mostraram que a maioria dos grandes incêndios ocorreu ao longo de encostas abertas a favor do vento. Xu et al.~\cite{xu2016hubei} realizaram um estudo para relacionar os danos ao corredor das linhas de energia de Hubei, na China, com as incidências de incêndios florestais nas suas proximidades. Os resultados foram obtidos a partir da implementação de um modelo de Regressão Logística para prever as ocorrências de incêndio e sua correlação com os desligamentos da linha, cruzando dados históricos e topográficos.
+
+No que tange a previsão a partir de dados tabulares, os métodos de Aprendizado de Máquina que se mantém em evidência são os modelos mais tradicionais, como Regressão Logística, Floresta Aleatória e \textit{Suport Vector Machine} (SVM). Kalantar et al.~\cite{kalantar2020forest} previu a suscetibilidade de incêndios florestais na bacia hidrográfica de Chaloos Rood, no Irã, aplicando três modelos de aprendizado de máquina à um conjunto de 14 variáveis preditoras, que derivaram das características climáticas, ambientais e topográficas da região. Destaque para o modelo de \textit{boosted regression tree} (BRT), que superou os outros dois de forma geral, alcançando os maiores índices de Área Sob Curva (AUC) na métrica de desempenho. Tien Bui et al.~\cite{tienbui2016tropical} propôs a utilização de um modelo de aprendizado promissor para a classificação binária de suscetibilidade de fogo, chamado \textit{Kernel Logistic Regression} (KLR). A avaliação foi realizada nas proximidades do Parque Nacional Cat Ba, no Vietnã. De forma simplista, o algoritmo é capaz de mapear o conjunto de entrada de maneira linear e atribui um "peso" de influência para cada uma das características sobre o resultado final e, neste estudo, foi capaz de alcançar resultados extremamente satisfatórios. Para título de comparação, foi utilizada uma SVM de referência nesta mesma base dados e com os mesmos parâmetros do modelo proposto, e os resultados descriminaram uma leve vantagem no desempenho do modelo KLR.
+
+Na província de Heilongjiang, Chang et al.~\cite{chang2013predicting} utilizaram regressão logística para criar um mapa de probabilidade de ignição. Com uma proposta um pouco mais específica, este trabalho categorizou os incêndios entre antropogênicos (causados por humanos) e naturais. Dessa forma, a importância que as variáveis dependentes possuíam foi determinada a partir das correlações identificadas na incidência de cada um dos tipos de fogo. Concluiu-se na região estudada que os incêndios naturais possuem uma forte relação com a média anual de temperatura, enquanto que a variável mais influente para incêndios antropogênicos é o tipo de vegetação. Bisquert et al.~\cite{bisquert2012application} classificaram os seus resultados em três níveis de suscetibilidade. Para isso, utilizou-se o modelo de regressão logística para identificar as variáveis de maior importância dentre os verdadeiros positivos e, posterior à essa classificação, estes dados foram inseridos em um algoritmo de Rede Neural Artificial, atribuindo três possíveis saídas aos rótulos do modelo (de menor à maior risco de fogo).
+
+Al-Bashiti e Naser~\cite{albashiti2022wildfire} exploraram uma variedade de modelos de aprendizado de máquina, entre eles algoritmos de aprendizado profundo e árvore de decisão que apresentaram uma precisão superior a 80\% em bases de dados extremamente grandes. Além disso, os algoritmos genéticos também foram efetivos na previsão do tamanho esperado dos incêndios, também com margem de precisão acima de 80\%. A pesquisa concluiu que as performances atingidas tem uma ligação direta com a qualidade das observações dos incêndios que são documentados, tais como dados históricos, do clima e relevo. Malik et al.~\cite{malik2021datadriven} propuseram duas abordagens para o aprendizado de risco de incêndio. A primeira, a qual foi denominada modelo de conjunto, utiliza dois modelos base para segregar o conjunto de variáveis em escopos e, com os resultados alcançados nestes blocos, seguir para um novo treinamento. O modelo de conjunto se provou incapaz de derivar as relações entre as variáveis independentes para atingir resultados mais concisos. A segunda abordagem utilizou apenas um modelo que recebeu um conjunto completo dos dados selecionados, chamado de modelo combinado. Este segundo experimento revelou um agente capaz de deduzir efetivamente relações entre as variáveis independentes, uma vez que elas foram testadas em conjunto, e alcançou precisão superior a 90\%.
+
+Pode-se segmentar o monitoramento de incêndios florestais em dois grandes espectros: a previsão, que determina as áreas de risco e antecede as medidas preventivas; e a detecção, que viabiliza o monitoramento em tempo real e visa distinguir os incêndios reais de maneira pontual. Pode-se dizer que as pesquisas voltadas para previsão e detecção estão fortemente ligadas enquanto finalidade (prevenção de incêndios), mas se dissociam nas metodologias, modelos e resultados esperados. Todos os estudos supracitados baseiam-se no reconhecimento estatístico de padrões históricos de queimadas, mas quando cita-se monitoramento de incêndios, não se pode deixar de lado estudos que visam reconhecer o fogo por meio da visão computacional. Jin et al.~\cite{jin2024swvr} propuseram um modelo de Aprendizado Profundo através da combinação de duas arquiteturas tradicionais: o \textit{lightweigth vision transformer} (ViT) e as Redes Neurais Convolucionais (CNN's). O objetivo desta combinação era otimizar os resultados na detecção de incêndios florestais, diminuindo a complexidade computacional e conservando a perfomance dos algoritmos tradicionais. O SWVR, como foi chamado o modelo proposto, alcançou uma precisão de 79,6\% na identificação de incêndios reais. Além disso, foi capaz reduzir o custo computacional do modelo de referência em quase 37\%.
+
+\subsection{Literatura recente (2024--2025)}
+
+A última década consolidou o uso de \emph{ensembles} de árvores e métodos de interpretabilidade como prática essencial em estudos de suscetibilidade a incêndios florestais. Três tendências contemporâneas merecem destaque por nortearem as decisões metodológicas deste trabalho.
+
+\paragraph{Interpretabilidade via SHAP e \emph{Permutation Importance}.} Cheerala \emph{et al.}~\cite{cheerala2025probabilistic} aplicaram \emph{Random Forest} combinado com SHAP~\cite{lundberg2017unified} em regiões de \emph{grassland} e \emph{forest} da Califórnia, obtendo AUC de \num{0,996} e \num{0,997} respectivamente, com identificação clara das \emph{features} dominantes (NDVI, EVI, histórico de fogo, umidade do combustível). Vasconcelos \emph{et al.}~\cite{forests2024cerradoamazon} identificaram o índice KBDI (\emph{Keetch-Byram Drought Index})~\cite{keetch1968drought} como o melhor preditor de fogo em Canaã dos Carajás (Pará), na zona de transição Cerrado--Amazônia. Quesada-Ruiz \emph{et al.}~\cite{npjhazards2025fire}, em \emph{npj Natural Hazards}, propuseram um modelo híbrido (componente dinâmica do ECMWF + \emph{Random Forest}) que utiliza o SPI~\cite{mckee1993spi} observado para prever anomalia de área queimada com até um mês de antecedência em \(\approx 68\%\) das áreas queimáveis brasileiras. Esses trabalhos motivam, na presente pesquisa, a adoção combinada de KBDI \emph{proxy}, VPD \emph{proxy}~\cite{seager2015climatology} e SPI multi-escala como \emph{features} Tier~1 do \emph{pipeline} (Capítulo~\ref{cap:metodologia}).
+
+\paragraph{Validação temporal e \emph{drift} climático.} Bergmeir \& Benítez~\cite{bergmeir2012cv} alertam que o uso de \emph{cross-validation} estratificada padrão em séries temporais introduz viés otimista, sendo necessário utilizar \emph{rolling-origin} ou \emph{TimeSeriesSplit}. Esta recomendação é tomada como princípio metodológico no Apêndice~\ref{cap:resultados} deste trabalho. A relevância prática desse cuidado é amplificada por Silva-Junior \emph{et al.}~\cite{silvajunior2025amazon}, que documentam 2024 como o pior ano de degradação por fogo na Amazônia em mais de duas décadas (\SI{3,3}{\mega\hectare}), justificando o uso de janelas temporais recentes (2021--2023) como teste mais desafiador --- período em que os modelos devem provar robustez sob \emph{drift} climático real.
+
+\paragraph{\emph{Pseudo-labeling} para imputação climática.} Lopez-Garcia \emph{et al.}~\cite{lopezgarcia2024spatiotemporal} aplicaram \emph{pseudo-labeling}~\cite{lee2013pseudo} para imputar dados SMAP em \emph{grids} tropicais, com regressor supervisionado atingindo \(R^2 > 0{,}90\) em \emph{holdout}. A mesma estratégia é adotada neste projeto (Seção~\ref{sec:metodologia_pseudo_label}) para imputar a variável \texttt{Umidade} nos \num{763489} registros não enriquecidos via NASA POWER, com cuidados explícitos quanto ao viés de confirmação relatados por Arazo \emph{et al.}~\cite{arazo2020pseudo}.
+
+\paragraph{Fusão estação--grade, \emph{fire weather} e ambiguidade operacional.} Revisões recentes enfatizam variáveis dinâmicas de combustível e meteorologia de superfície (precipitação local, déficit de umidade, temperatura máxima, vento) como condicionantes de propagabilidade, frequentemente sintetizadas em índices de \emph{fire weather}. Em paralelo, a literatura de observação da Terra discute quantificação de incerteza preditiva --- ainda raramente operacionalizada em painéis acadêmicos. Estas tendências motivam extensões ao \emph{pipeline} de serviço documentadas na Seção~\ref{sec:res_estudo_caso_pium} (subsubseção~M4): busca hierárquica de estações INMET com rótulo de representatividade, vento WIS2 alinhado à precipitação da mesma estação, variáveis NASA POWER adicionais expostas na API, indicador escalar de \emph{fire weather} e métricas FNR/FPR na auditoria contra FIRMS --- implementadas de modo a não alterar o pré-processador de treino até um retreino controlado, evitando \emph{train/serve skew}.
+
+\paragraph{Previsão de \emph{ocorrência observada} e validação espaço-temporal.} Uma vertente recente distingue-se por prever o \emph{fenômeno observado} (focos ou área queimada), e não a saída de um índice. Huot \emph{et al.}~\cite{huot2022nextday} consolidaram o \emph{benchmark} \emph{Next Day Wildfire Spread}, que prevê a máscara de fogo observada do dia seguinte; Karasante \emph{et al.}~\cite{karasante2025firecastnet} propuseram o \emph{FireCastNet} (\emph{earth-as-a-graph}) para previsão sazonal de área queimada sobre grade de \SI{0,25}{\degree}; de Andrade \emph{et al.}~\cite{deandrade2024lstmgru} modelaram focos mensais na Amazônia com redes LSTM/GRU. No plano operacional, o sistema GEFF/EFFIS do Copernicus opera o \emph{Fire Weather Index} canadense em previsão dirigida por modelos numéricos~\cite{digiuseppe2024geff}. Metodologicamente, Roberts \emph{et al.}~\cite{roberts2017cv} estabelecem a validação em blocos espaço-temporais como padrão para dados geográficos, e a quantificação de incerteza por \emph{conformal prediction}~\cite{mortier2024conformal,sadinle2019lac} ganha tração em observação da Terra. Essas referências fundamentam a reformulação do problema apresentada no Capítulo~\ref{cap:ocorrencia}.
+
+Em resumo, a bibliografia discutida destaca o amplo espectro de abordagens e tecnologias disponíveis para mitigar o impacto devastador dos incêndios florestais. Desde métodos tradicionais, como modelos baseados em dados históricos e estatística, até avanços recentes em inteligência artificial e aprendizado de máquina, a pesquisa nesse campo está constantemente evoluindo. Destaca-se, nesta área, a importância de uma base de dados sólida e composta por múltiplas fontes, incluindo informações meteorológicas, dados geoespaciais e situação climática, que podem contribuir fundamentalmente para melhorar a precisão das previsões. Além disso, apesar de não ser parte do escopo desta pesquisa, técnicas avançadas, como o uso de redes neurais convolucionais e algoritmos de aprendizado profundo, tem entregue grandes expectivas na identificação precoce de áreas queimadas e na mensuração de propagação do fogo.
+
+\chapter{Fundamentação Teórica}
+
+Este capítulo busca apresentar, objetivamente, as informações necessárias para a compreensão deste trabalho. Ao longo das demais seções serão abordados diversos assuntos que se relacionam com as queimadas da Amazônia e com o desafio da implementação de um modelo capaz de prever suas áreas mais suscetíveis a incêndios florestais. Para estar imerso neste conteúdo, será necessário entender a base teórica das tecnologias mais promissoras da área de aprendizado de máquina (AM), os efeitos das queimadas a longo e curto prazo e o quão importante faz-se a compreensão do ambiente para impedir ou diminuir a ocorrência destes eventos.
+
+\section{O Bioma da Amazônia}
+
+Os biomas, geralmente, são definidos pelas características predominantes das formações vegetais de um ambiente \cite{TIMM05}. Eles se categorizam em grandes porções geográficas que são entendidas, portanto, como grupos de organismos semelhantes que podem ser compreendidos como uma unidade, dadas as similaridades. É importante afirmar que, além desta definição, também são relevantes as formas do relevo e condições climáticas da região para conceituar um bioma.
+
+O próprio termo ``bioma'' foi criado pelo ecólogo americano Frederic Clements (\citeyear{clements1916}), o qual foi responsável por estudar as relações existentes em comunidades vegetais e determinar que o comportamento de organismos inseridos em uma dessas comunidades busca a sua perpetuação. Este processo discorre pelo aumento das espécies e a evolução na complexidade de suas relações. O bioma é a concepção fundamental desta comunidade como uma unidade formada por partes semelhantes \cite{TIMM05}.
+
+A compreensão da importância do bioma amazônico parte destas características. Segundo o IBGE (\citeyear{ibge04:mapabioma}), a Amazônia é o maior bioma do Brasil, ocupando um território de mais de quatro milhões de quilômetros quadrados (km²). Um terço de toda a madeira tropical do mundo está localizada na região, que abriga cerca de duas mil e quinhentas espécies de árvores e trinta mil espécies de plantas, 30\% do total existente na América do Sul.
+
+\section{Queimadas e Incêndios Florestais}
+
+Desde a década de 90, a região da Amazônia sofre de um  aumento em ataques e queimadas às suas áreas verdes. Segundo FEARNSIDE (\citeyear{fearnside06}), esta tendência é causada, principalmente, pelo pico de desmatamento alcançado durante a instituição do Plano Real, em 1995, e às políticas de incentivo econômico que emergiram sem uma responsabilidade ambiental adequada na mesma época. Em 2005, com a promoção da ``Operação Curupira'' atrelada às grandes taxações imbuídas às exportações internacionais, houve uma política de freio e reversão desse cenário que, contudo, não foi capaz de retrair o suficiente a média negativa dessas últimas três décadas.
+
+As queimadas fazem parte da cultura e processo produtivo de pequenos, médios e grandes agricultores \cite{leonel00}. Trata-se de um método econômico e ágil para efetuar a limpeza de grandes pastos, remover árvores e preparar terras para o plantio. Este fenômeno se explica em seus inúmeros benefícios: as cinzas formadas no processo são ricas em nutrientes que fertilizam o solo e podem aumentar a produtividade; o fogo utilizado é capaz de estimular o crescimento de gramíneas forrageiras e matar as ervas daninhas, fatores prejudiciais para um bom cultivo \cite{sodre21}.
+
+A maior parte dos focos de calor mapeados na Amazônia são, portanto, incidências de fogo atribuído pela ação humana. Estas práticas agropastoris que utilizam o fogo de maneira controlada são chamadas de queimadas. Por outro lado, compreende-se como incêndio florestal toda e qualquer incidência de fogo sobre uma área vegetal por meios naturais ou através da negligência dos atores humanos; denomina o processo de combustão espontânea que ocorre, em sua maioria, nos períodos de seca e estiagem de maneira abrupta e desavisada \cite{vigano17,leonel00}.
+
+Segundo o Instituto Nacional de Pesquisas Espaciais (INPE), o Brasil registrou 131.327 queimadas florestais até o oitavo mês de 2019. Cerca de 33\% destas incidências ocorreram na Amazônia, onde foram registrados 43.573 focos. Segundo FLORENZANO (\citeyear{florenzano07}), o Brasil é o responsável por mais de trezentas mil queimadas anualmente, se contabilizados os dados desde a década de oitenta. Este trabalho que cerca o levantamento dos números das queimadas vem sendo realizado até os dias atuais em uma parceria entre o INPE e o Instituto Brasileiro do Meio Ambiente e dos Recursos Naturais Renováveis (IBAMA), por meio de um Programa de Monitoramento de Queimadas e Prevenção e Controle de Incêndios Florestais no Arco do Desflorestamento da Amazônia, também conhecido como PROARCO.
+
+\section{Programa Queimadas}
+
+O Programa Queimadas é um sistema de monitoramento de focos de calor em tempo real, que opera desde 1998 com imagens de satélites, dados meteorológicos e limites políticos oficiais \cite{INPE24}. Dentre as informações que podem ser extraídas estão a posição geográfica do foco, os limites territoriais que ele faz parte, a data e hora da captura, o bioma dominante, a quantidade de dias sem chuva, valor de precipitação, a potência radioativa do fogo e o risco de incêndio no momento capturado. A Figura \ref{fig:BDQueimadas} mostra todos os registros de focos de calor da America do Sul, no dia 25 de março de 2024, por volta das 12 horas no fuso horário de Brasília.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.4]{"imagens/Programa Queimadas.png"}
+    \caption{Captura de tela realizada no dia 25 de março de 2024 sobre o BDQueimadas, mostrando os focos de calor em tempo real registrados pelo satélite GOES-16 \cite{INPE24}}
+    \label{fig:BDQueimadas}
+\end{figure}
+
+\section{Sensoriamento Remoto e a Tecnologia Espacial}
+
+``Sensoriamento remoto consiste na aquisição de informação sobre um objeto sem que se entre em contato com ele'' \cite{novo10}. Segundo o autor, essa afirmação é muito ampla enquanto definição dos serviços de monitoramento remoto, dado que pode-se adquirir informação, por exemplo, de um jogo de futebol apenas ouvindo as eufóricas reações de seus espectadores. Uma concepção mais adequada seria, portanto, atribuir o sensoriamento remoto para todo tipo de processo que impõe a utilização de um dispositivo que, mediante a observação, é capaz de inferir os fenômenos que ocorrem na superfície terrestre, a partir de uma análise da interação entre as forças que o circundam (eletromagnéticos, acústicos ou potenciais) e os elementos que constituem esta superfície. O resultado imposto ao ambiente pode ser analisado com diferentes abordagens.
+
+Exemplificando, existem sensores capazes de detectar, por exemplo, ondas sonoras: os sonares. Eles utilizam a teoria de propagação do som para determinar a localização de objetos partindo da premissa que, em meios homogêneos, o som desloca-se em velocidade constante. Portanto, é possível determinar o posicionamento de um objeto com o cálculo da diferença entre a transmissão de um pulso e sua recepção, chamada de eco.
+
+Segundo IGOR (\citeyear{machado17:santos17}) e LIU (\citeyear{liu07}), esta metodologia encontra uma limitação dentro do escopo da tecnologia espacial. Os sensores espaciais, como satélites, restringem-se fundamentalmente às alterações que os objetos impõem ao campo eletromagnético. É apropriado dizer, portanto, que o SR\footnote[1]{Refere-se à abreviação da expressão "Sensoriamento Remoto", a qual estamos frequentemente referenciando neste capítulo.} cabe à todo processo de obtenção de informação que utiliza-se da radiação eletromagnética (REM) e de sua interação com objetos e fenômenos, uma vez que sua detecção é independente de um meio de propagação e menos propensa a ruídos.
+
+A Figura \ref{fig:REM} acompanha a definição de Novo (\citeyear{novo01:ponzoni}), que diz que sensoriamento remoto pode ser conceituado a partir de um esquema que possui três vértices que interagem entre si a partir de uma base em comum, a REM (radiação eletromagnética).
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=1]{"imagens/tcc image-SR.png"}
+    \caption{Representação dos pilares do Sensoriamento Remoto \cite{novo01:ponzoni}.}
+    \label{fig:REM}
+\end{figure}
+
+A base de todas as técnicas utilizadas para extrair informações de objetos remotamente está representada neste esquema. A  REM está no centro por tratar do elemento de ligação entre todos os vértices. Acima, tem-se a fonte, geralmente compreendida pelo sol ou a própria terra, a depender do tipo de sensor que vai catalisar o processo de sensoriamento, sendo que toda análise realizada é constituída pela mensuração de REM. Na base inferior esquerda do triângulo está o sensor. De forma sucinta, o sensor é definido como o dispositivo utilizado para captar a REM emitida ou refletida pelo objeto alvo. Uma vez que o alvo é o outro vértice base do triângulo, da qual se pretende extrair a informação, todos se conversam a partir da radiação eletromagnética.
+
+\subsection{Detecção de Focos de Calor}
+
+É fundamental conceituar que os objetos presentes na superfície terrestre emitem e refletem radiação solar. A transformação dessa energia emitida em valores de temperatura é acessível utilizando modelos físicos e, assim, é possível quantificar o calor dos ambientes monitorados. O trabalho do sensoriamento remoto é identificar estes dados que, ao ultrapassar um certo limiar (definido por especialistas), passa a relacionar estas áreas como focos de calor \cite{liu07}.
+
+Focos de calor, a princípio, não são identificados como áreas de incêndio ou queimada. Para um dado ser interpretado como tal, faz-se necessário uma série de eventos geográficos, climáticos e florestais relacionados à região, como informa o autor:
+
+\noindent
+\begin{quoting}[rightmargin=0cm,leftmargin=4cm]
+\begin{singlespace}
+{\footnotesize
+Para que um dado foco de calor seja interpretado como um possível foco de fogo, ou ocorrência de incêndio, a informação extraída do satélite precisa ser associada a outras informações em um Sistema de Informações Geográficas (SIG). As informações relevantes a serem associadas precisam ser definidas por meteorologistas (que vão informar se uma dada região apresenta as condições de precipitação, temperatura e umidade favoráveis à ocorrência de incêndio), por Engenheiros Florestais e Biólogos (que vão informar sobre a susceptibilidade da cobertura vegetal à combustão natural ou induzida por queimadas); por Geógrafos (que vão informar sobre a distribuição de usos da terra em diferentes áreas, sobre as práticas agrícolas, culturas dominantes etc.). \cite[p. 32]{novo10}
+}
+\end{singlespace}
+\end{quoting}
+
+Dessa forma, é imprescindível associar não apenas os dados mais concretos e diretos, como também informações menos relevantes e obtidas através de engenharia social para tornar a base de dados mais adequada possível para a análise.
+
+\section{Base de dados}
+
+Uma base de dados (ou banco de dados) é uma coleção organizada de informações ou dados, geralmente armazenados eletronicamente em um sistema de computador. É ideal que estes dados sejam estruturados de forma a permitir o armazenamento, recuperação, modificação e gestão eficientes das informações.
+
+A ideia por trás destes modelos de informação é conter uma ampla variedade de tipos de dados, incluindo textos, números, imagens, áudio, vídeos, entre outros. Esses dados podem representar informações sobre pessoas, produtos, transações, eventos, ou qualquer outra entidade do mundo real que seja relevante para a aplicação em questão.
+
+As bases de dados podem ser organizadas de diversas maneiras, dependendo das necessidades específicas da aplicação. Os tipos mais comuns de bases de dados incluem bases relacionais, NoSQL, orientadas a objetos, distribuídas, entre outras. Cada uma delas possui suas próprias características, estruturas e modelos de armazenamento de dados. Uma estrutura extremamente eficaz para organizar os dados, utilizada principalmente para pesquisas científicas, são as chamadas estruturas de dados tabulares. Os dados tabulares são uma forma comum e eficiente de organizar informações em uma estrutura de linhas e colunas, semelhante a uma planilha.
+
+Existem muitos motivos que justificam a utilização de dados tabulados em pesquisas. Esta forma de organização estruturada fornece um conteúdo fácil de entender, onde cada linha representa uma observação ou exemplo e cada coluna representa uma variável ou atributo. Isso auxilia a interpretação e análise dos dados. Outro fator é que estas estruturas são compatíveis com uma grande variedade de ferramentas e plataformas, o que facilita a manipulação, análise e visualização dos dados. Além disso, podem acomodar uma ampla gama de tipos de dados, incluindo números, texto, datas e categorias. Isso os torna adequados para as tarefas de análise, onde os dados tabulares podem ser facilmente compartilhados e comunicados entre diferentes partes interessadas e são visualmente claros e objetivos.
+
+Trabalhar com dados tabulares requer habilidades em manipulação de dados, análise exploratória, entendimento conceitual dos atributos e interpretação de resultados. Ao dominar essas habilidades, é possível extrair informações valiosas e tomar decisões fundamentadas nos dados fornecidos.
+
+\section{Técnicas de pré-processamento}
+
+A limpeza de dados, também conhecida como pré-processamento de dados, é uma etapa fundamental em qualquer trabalho de classificação e previsão de eventos com \textit{Machine Learning} (ML). Essa etapa envolve a identificação, correção e eliminação de problemas nos dados antes de serem usados para treinar um modelo de ML. Dados sujos ou mal formatados podem prejudicar a qualidade e a precisão de um modelo. Modelos treinados com dados limpos são mais fáceis de interpretar e entender, e isso é especialmente importante em cenários onde é necessário explicar ou justificar as previsões do modelo. Por fim, outro campo altamente influenciado por dados de alta qualidade é a eficiência computacional. Em casos onde há limitação de recursos computacionais, prover dados ``limpos'' para a máquina pode reduzir radicalmente o tempo de treinamento e auxiliar na inferência do modelo.
+
+A presença de ruído, valores ausentes, \textit{outliers} ou inconsistências nos dados pode levar a previsões imprecisas ou enviesadas, tendo um impacto direto nos resultados do modelo. Portanto, é necessário entender os principais problemas conhecidos em dados tabulares e como identificar e realizar o tratamento dos mesmos.
+
+\subsection{Ruídos e \textit{Outliers}}
+
+\textit{Outliers} são pontos de dados que se desviam significativamente do padrão geral de um conjunto de dados. Eles são observações que estão ``longe'' da maioria das outras observações nos dados. A presença de \textit{outliers} pode indicar uma variedade de situações, como erros de medição, flutuações naturais extremas nos dados, ou até mesmo eventos raros ou anomalias que merecem atenção especial.
+
+Entre as principais características dos \textit{outliers} estão os valores extremos, que estão significativamente distantes dos valores típicos ou centrais do conjunto de dados. Eles podem ser muito maiores ou menores do que a maioria dos outros valores e podem distorcer os resultados estatísticos, como média e desvio padrão e, assim, influenciar negativamente a precisão e a interpretação de modelos estatísticos ou de aprendizado de máquina.
+
+Semelhantes aos \textit{outliers}, tem-se os ruídos, que se referem a variações aleatórias ou flutuações nos dados que não estão relacionadas ao fenômeno que está sendo observado. Essas variações aleatórias podem ser introduzidas por uma variedade de razões, como erros de medição, imprecisões nos instrumentos de coleta de dados e interferência ambiental. Sendo assim, não seguem nenhum padrão discernível ou tendência. Enquanto os \textit{outliers} representam observações extremas que se desviam significativamente do padrão geral dos dados, os ruídos são variações aleatórias mais sutis que não são necessariamente extremas, mas podem contribuir para a variabilidade geral dos dados.
+
+A identificação destes tipos de dados geralmente envolve o uso das próprias técnicas estatísticas, como a análise \textit{z-score}. Visualizações de dados, como gráficos de dispersão, histogramas e \textit{boxplots}, também podem ajudar na detecção. Contudo, é importante destacar que nem todos os dados que estão distantes ou fora do padrão consistem em \textit{outliers}. Às vezes, eles representam variações genuínas nos dados e podem conter informações valiosas para as avaliações e testes de uma máquina de aprendizado, por exemplo. Mitigar a existência desses tipos de imprecisão envolve algumas técnicas tradicionais de suavização de dados, filtragem de ruído ou até mesmo melhorias nos processos de coleta para aumentar a eficiência dos detectores e da transcrição dos dados.
+
+\section{Imagens Digitais}
+
+Imagens são fontes de informação visuais compostas por pixels, unidades mínimas e finitas de dados em uma grade bidimensional. Estas pequenas unidades contém valores numéricos que indicam sua cor e intensidade, sendo armazenados digitalmente. A resolução da imagem é determinada pela quantidade de pixels, que influencia na qualidade e nitidez da representação. De todas as imagens podem ser extraídas duas importantes informações: visuais e descritivas. O que ocorre é que informações descritivas remetem ao modelo matemático que define a imagem, enquanto informação visual é a representação imagética que é exibida numa tela digital \cite{scuri02}.
+
+Ao contrário das imagens analógicas, que são registradas em meios físicos, como filmes fotográficos, as imagens digitais existem como arquivos eletrônicos. A transição para o formato digital trouxe benefícios significativos, como a facilidade de armazenamento, manipulação e compartilhamento de imagens. Além disso, as imagens digitais podem ser facilmente processadas e editadas usando \textit{software} de edição de imagem, oferecendo maior flexibilidade criativa. Outro ponto, e o mais importante para este estudo, é que as imagens digitais podem ser facilmente adequadas e utilizadas como objeto de pesquisa. O uso de imagens e fenômenos alinhados à utilização de dados precisos são poderosas ferramentas para análise e previsão de eventos, utilizando técnicas de inteligência artificial, como o aprendizado de máquinas.
+
+\subsection{Imagens Espectrais}
+
+O sensoriamento remoto, mais especificamente as informações oferecidas pela pesquisa advinda dos satélites que orbitam e mapeiam a superfície terrestre, é capaz de dialogar com as mais diversas áreas de análise de dados. Estes dispositivos são responsáveis pela captação em tempo real de dados descritivos e os modelos imagéticos que representam as regiões observadas, permitindo a análise e compreensão de alguns cenários ambientais \cite{fitz20}. As imagens obtidas pelos sensores espaciais possuem características que facilitam a identificação das superfícies e as situações climáticas do ambiente. São chamadas de imagens espectrais.
+
+As imagens espectrais referem-se a representações visuais de uma cena capturada em diferentes bandas do espectro eletromagnético. Cada banda corresponde a uma faixa específica de comprimentos de onda, abrangendo desde o visível até além do infravermelho \cite{novo01:ponzoni}. Ao analisar as respostas espectrais em diferentes bandas, é possível extrair dados sobre vegetação, uso do solo, recursos naturais e mudanças ambientais. A capacidade de capturar dados em diversas partes do espectro torna as imagens espectrais ferramentas valiosas em áreas como sensoriamento remoto. A diversidade de comprimentos de onda nas imagens, incluindo o infravermelho, permite análises diferenciadas, sendo amplamente utilizadas especialmente para monitorar a vegetação. Índices de vegetação, calculados a partir das respostas espectrais, são essenciais para estudar a atividade fotossintética e a biomassa vegetal, por exemplo. A compreensão das formas de relevo, níveis de densidade florestal e atribuição de focos de calor às regiões estudadas são características valiosas que podem ser extraídas do ambientes graças a esse tipo de representação.
+
+
+\section{Inteligência Artificial}
+
+O livro \textit{Artificial Intelligence: A Modern Approach} (\citeyear{russel20}) oferece uma perspectiva abrangente sobre o surgimento e a natureza da inteligência artificial (IA). A ideia de IA surgiu no meio do século XX, concebida logo após a segunda guerra mundial, com a visão de criar sistemas capazes de realizar tarefas que, normalmente, exigiriam inteligência humana. No cerne desse conceito está a capacidade de aprender, raciocinar, perceber e interagir de maneira adaptativa com o ambiente. Atribui-se essa denominação a qualquer sistema que pode realizar a ``função ideal'' para resolver um problema, dado o que se conhece sobre um determinado processo. A busca por replicar a cognição humana e a capacidade de raciocínio lógico de maneira artificial levou a quatro categorias fundamentais na constituição de IA's, conforme delineadas no livro de Russel e Norvig \cite{russel20}.
+
+A primeira é denominada \textit{thinking humanly}, que pode ser traduzida de forma literal para ``pensar como um humano'' e emprega a construção de sistemas que imitam os processos mentais humanos, buscando compreender e replicar a forma como os seres humanos pensam. A segunda, \textit{thinking rationally} (pensar racionalmente) centra-se na criação de agentes racionais capazes de tomar decisões lógicas e coerentes, independentemente de replicarem diretamente o pensamento humano. A terceira abordagem, \textit{acting humanly} (em português, agir como um humano) contempla a simulação de comportamentos humanos, priorizando a execução de tarefas de maneira semelhante às que são executadas por estes seres, de maneira geral, assimilando as decisões que são tomadas no mundo real e em situações específicas. Por fim, \textit{acting rationally} ou ``agir racionalmente'' é a quarta definição, que busca desenvolver agentes capazes de tomar ações que levem aos melhores resultados possíveis, alinhando-se com princípios de racionalidade e eficácia, independentemente de se assemelharem às ações humanas. Essas categorias abrangem uma diversidade de aspectos da IA, o que reflete a heterogeneidade de metas e abordagens na busca pela criação de sistemas inteligentes.
+
+Para Pereira (\citeyear{Pereira}), à parte da categorização dos modelos de inteligência discutidos na literatura disposta acima, existem ainda três abordagens que representam diferentes perspectivas teóricas e metodológicas do enfrentamento que passamos para alcançar a inteligência artificial, são elas:
+\begin{itemize}
+    \item \textbf{Conexionista:} Seu princípio fundamental é a hipótese de causa-efeito, onde garante que a efetividade de um modelo capaz de precisar o funcionamento do cérebro humano será também suficiente para reproduzir a sua inteligência. A visão conexionista tende a lidar com problemas mais complexos e imprecisos, que podem ser definidos indiretamente, como o reconhecimento de padrões. Uma de suas principais contribuições para a Inteligência Artificial são as Redes Neurais (RNs).
+\end{itemize}
+\begin{itemize}
+    \item \textbf{Simbólica:} Baseia-se na hipótese do sistema de símbolos físicos, que argumenta sobre um conjunto de estruturas simbólicas que, aliados a um conjunto de regras de manipulação para se manifestar sobre essas estruturas, seria o suficiente para criação de sistemas inteligentes. Concentra-se em problemas bem definidos, tal qual o planejamento de tarefas, e destaca-se em seu campo de contribuições o desenvolvimento dos chamados sistemas especialistas.
+\end{itemize}
+\begin{itemize}
+    \item \textbf{Evolucionista:} Esta abordagem inspira-se na teoria evolucionista de Charles Darwin (naturalista e geólogo vivido entre os anos de 1809-1882). A hipótese que é submetida relata que sistemas inteligentes seriam modelados como uma espécie de simulação sobre a teoria de Darwin. Desenvolve a ideia da criação de uma população artificial que deve evoluir seus indivíduos aleatoriamente, de acordo com seus genes e informações base que serão utilizadas para solucionar um problema. As operações envolvidas no processo se inspiram nas interações genéticas da biologia tradicional, como recombinação e mutação, e buscam abordar uma variedade de problemas, com a premissa de que a evolução pode levar à descoberta de soluções eficazes. Os algoritmos genéticos tratam de uma área muito importante da IA.
+\end{itemize}
+
+Pereira também cita a existência de uma quarta abordagem para alcançar soluções complexas. Chamada de IA híbrida, que consiste no uso de mais de uma das abordagens acima ao mesmo tempo \cite{Pereira}.
+
+Por muitos anos a Inteligência Artificial se viu presa em um conjunto de regras e lógica que demandavam tempo para serem codificadas e desgastava o vislumbre de uma tecnologia promissora. Se hoje pode-se presenciar a era das máquinas inteligentes, a IA deve uma grande parte desse sucesso à seu grande potencializador: o Aprendizado de Máquinas. Esta área é um subcampo da inteligência artificial que se concentra no desenvolvimento de algoritmos e técnicas que permitem aos computadores aprender a partir de dados.
+
+A relação entre a Inteligência Artificial e seus algoritmos de aprendizagem está disposta na Figura \ref{fig:EscoposIA} \cite{goodfellow16}. O Diagrama de Venn representado nesta imagem é uma abstração de como estão dispostos os escopos de trabalho no campo da IA.
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[scale=0.5]{"imagens/Inteligência Artificial.jpg"}
+    \caption{Representação dos escopos da Inteligência Artificial \cite{goodfellow16}.}
+    \label{fig:EscoposIA}
+\end{figure}
+
+A camada mais externa é o conceito de inteligência artificial, que possui diversos campos de estudo e abordagens em sua busca pela simulação da inteligência humana; em seguida, o aprendizado de máquinas que nada mais é que um subconjunto da área, fundamentado em desenvolver modelos que sejam capazes de permitir que um sistema artificial aprenda padrões a partir de dados, sem programação explícita; abrangendo uma área ainda mais reduzida e específica do AM, está o aprendizado de características, que são os modelos mais recentes da área, com sistemas capazes de identificar e extrair, automaticamente, as características mais relevantes dos dados, onde se encontra última camada, chamada de Aprendizado Profundo (ou \textit{Deep Learning}). O aprendizado profundo é uma subcategoria do AM que estuda as Redes Neurais Artificiais (RNAs). Esta área de pesquisa é definida pelo uso de arquiteturas complexas de RNAs com múltiplas camadas e é, especialmente, eficaz em lidar com conjuntos de dados grandes e complexos, sendo uma das razões para sua crescente popularidade e sucesso em diversas aplicações, como tarefas de visão computacional e processamento de linguagem natural.
+
+
+\subsection{Aprendizado de Máquinas}
+
+O escopo da inteligência artificial é muito abrangente e tem crescido de maneira exponencial nas últimas décadas, multiplicando suas áreas de aplicação e as metodologias de seus modelos e sistemas. A capacidade de raciocinar é o pivô que balanceia nossas métricas enquanto seres humanos para analisar, responder e, inclusive, aprender a executar tarefas baseando-se em nossa própria experiência. Conceder esta capacidade às máquinas é um desafio recorrente de pesquisadores e estudiosos da área, que buscam simular o processamento do cérebro humano. Os eventos biológicos que ocorrem milhões de vezes em pequenos intervalos de tempo e que são o cerne do raciocínio lógico, estimam a capacidade de memória que nosso cérebro é capaz de exprimir. Nossa existência reside fundamentalmente na capacidade de resguardar experiências e ser capaz de reproduzí-las a cada novo passo para avaliar a melhor decisão, considerando possíveis erros e acertos passados \cite{cerri17}. A ideia do Aprendizado de Máquina foi assimilada desta forma. A possibilidade de criar modelos capazes de analisar suas respostas e as respostas do ambiente para cada ação e, assim, evoluir por si. Estes modelos serão extremamente úteis para realizar tarefas de classificação e agrupamento de dados utilizadas nesta pesquisa.
+
+Os algoritmos ou sistemas que são desenvolvidos para reconhecer padrões ou realizar previsões de maneira geral, são conhecidos como modelos de aprendizado e podem ser classificados entre dois tipos, atribuídos principalmente pela forma que são arquitetados para projetar os seus resultados. Para Cerri (\citeyear{cerri17}), existe uma clara distinção entre estes processos, os quais foram conceituados na literatura como modelos descritivos e preditivos e estão delineados abaixo:
+
+As tarefas descritivas procuram compreender e descrever padrões ou relações nos dados para fornecer \textit{insights} sobre o comportamento subjacente do sistema. Para contribuir com este contexto, faz uso de técnicas que priorizam entender a estrutura dos dados, identificar tendências ou características importantes, em vez de fazer previsões específicas. Estes modelos que não possuem dados rotulados e, portanto, não tem uma orientação bem definida de resultados são chamados de aprendizado não supervisionado.
+
+Já os modelos preditivos visam fazer previsões ou inferências sobre resultados futuros com base em dados históricos ou entradas fornecidas. Basicamente, são algoritmos constituídos para antecipar ou estimar valores (saída), utilizando uma base de dados bem definida e processada (entrada). Dá-se o nome de Aprendizado Supervisionado aos modelos e processos que são treinados com dados rotulados, onde as entradas estão associadas a saídas conhecidas. Quanto mais alinhados estes dados estiverem, melhores deverão ser os resultados da tarefa realizada.
+
+\subsubsection{Regressão Logística}
+
+A regressão logística (RL) é um dos algoritmos mais utilizados na classificação de conjuntos de dados de resposta binária. A RL é definida como uma técnica de análise de dados que utiliza argumentos matemáticos na composição do relacionamento entre eventos. De modo simples e didático, pode-se dizer que um algoritmo de Regressão Logística consiste em um método estatístico que propõe uma função de relação entre pares, usada para determinar o valor dessa relação em um escopo binário: a função logística.
+
+A função logística (ou função sigmoidal) é uma função matemática caracterizada pela sua curva em ``S'' e é utilizada dentro do espectro do aprendizado de máquinas como uma fórmula para mapear os valores de previsão em probabilidades de acontecimento, que variam de 0 (0\%) à 1 (100\%). Dessa forma, pode-se estabelecer relações entre as variáveis independentes e as classes, para classificar a probabilidade de um acontecimento. Por exemplo, dada as saídas zero (0) e um (1) - Classe 0 e Classe 1 -  na previsão de um determinado fator, se o valor da função logística para a entrada fornecida for maior que 0.5, isso representa que aquela entrada pertence à Classe 1; caso contrário, Classe 0.
+
+A RL pode ainda ser classificada em três tipos, quanto às classes da classificação. Primeiro, a Binomial: caracteriza-se por relacionar suas variáveis de entrada a um evento binário, como zero e um, aprovado ou reprovado, entre outros; o tipo Multinomial representa os algoritmos que fazem o mapeamento de probabilidade para mais de duas variáveis dependentes sem um ordenamento entre essas variáveis, como uma classificação entre espécies de animais, por exemplo; por fim, os algoritmos ordinais, onde estão estabelecidas três ou mais variáveis dependentes que são ordenadas em sua classificação, como níveis de som - baixo, médio ou alto.
+
+\subsubsection{ \textit{Random Forest}}
+
+O modelo de \textit{Random Forest} (Floresta Aleatória - FA) é um algoritmo de aprendizado de máquina composto por múltiplas árvores de decisão~\cite{breiman2001random}. Portanto, a compreensão do funcionamento da Floresta Aleatória parte da compreensão dos algoritmos de árvores de decisão. O funcionamento destas árvores é baseado, como o nome sugere, na decisão de eventos. Por exemplo: um evento de ordem binária pode ou não acontecer, de acordo com algumas características do clima e do ambiente. A árvore de decisão utiliza essas características como nós e suas arestas são as decisões que são tomadas em cada instância até que se alcance os nós filhos (a decisão final - sim ou não). No escopo das FAs, as árvores de decisão são construídas de maneira aleatória, utilizando subconjuntos dos dados para mensurar partições do vetor de características, que podem ou não ser altamente relevantes para a classificação. O objetivo desse processo é introduzir uma não-linearidade nas relações para a decisão e reduzir o risco de overfitting nos modelos treinados.
+
+\subsubsection{Support Vector Machine}
+
+A Máquina de Vetores de Suporte (SVM) é um modelo de aprendizado de máquinas supervisionado utilizado em muitos estudos de classificação e que recorrentemente apresenta bons resultados (inserir exemplos de outros trabalhos). O SVM opera com uma função chamada de hiperplano, uma equação linear desenvolvida sob os parâmetros de entrada que tem a função de segmentar as características que se dissociam. Um hiperplano é um conceito geométrico em um espaço de dimensão N. Em um espaço bidimensional (2D), um hiperplano é uma linha reta que divide o espaço em duas regiões. Em um espaço tridimensional (3D), um hiperplano é um plano que divide o espaço em duas partes. Em geral, em um espaço N-dimensional, um hiperplano é uma superfície de dimensão N-1 que separa o espaço em duas partes. Portanto, o objetivo do algoritmo é encontrar o hiperplano ótimo que separa os pontos de dados de diferentes classificações no espaço de características. Essa função é determinada de forma a maximizar a margem entre os pontos mais próximos de diferentes classes, tornando-o eficaz para classificação.
+
+\subsubsection{XGBoost --- Gradient Boosting otimizado}
+\label{subsec:fund_xgboost}
+
+O \emph{XGBoost} (\emph{eXtreme Gradient Boosting})~\cite{chen2016xgboost} é uma implementação otimizada do \emph{Gradient Boosting Machine}~\cite{friedman2001greedy} que se popularizou em competições de aprendizado de máquina pela sua eficiência computacional, suporte nativo a regularização \(L_1\) e \(L_2\), \emph{early stopping} e paralelização. Em essência, o algoritmo treina iterativamente novas árvores de decisão para corrigir os erros residuais das árvores anteriores, com uma função objetivo que combina perda e regularização. Cada nova árvore é construída ponderando observações que o modelo atual erra mais --- processo conhecido como \emph{boosting}. Em datasets tabulares com forte sinal não-linear, o XGBoost tipicamente supera Random Forest puro em acurácia, conforme demonstrado por Quesada-Ruiz \emph{et al.}~\cite{npjhazards2025fire} em previsão sazonal de fogo no Brasil.
+
+\subsubsection{LightGBM --- \emph{boosting} baseado em histograma}
+\label{subsec:fund_lightgbm}
+
+O \emph{LightGBM}~\cite{ke2017lightgbm} implementa duas otimizações sobre o GBM tradicional: \emph{(i)} \emph{histogram-based learning}, em que valores contínuos são pré-discretizados em \emph{bins}, reduzindo significativamente o custo de busca por divisões (\emph{splits}) ótimas; \emph{(ii)} \emph{leaf-wise tree growth} (em oposição ao \emph{level-wise} tradicional), em que cada iteração expande o nó folha que mais reduz a perda, gerando árvores mais profundas e específicas. O resultado prático é treinamento entre cinco e dez vezes mais rápido que o XGBoost em \emph{datasets} grandes, com acurácia equivalente ou superior. A contrapartida é o maior risco de \emph{overfitting} em \emph{datasets} pequenos, mitigado pelo controle dos parâmetros \texttt{min\_child\_samples} e \texttt{num\_leaves}.
+
+\subsubsection{CatBoost --- \emph{boosting} nativo para \emph{features} categóricas}
+\label{subsec:fund_catboost}
+
+O \emph{CatBoost}~\cite{prokhorenkova2018catboost} endereça uma limitação dos GBMs anteriores: a necessidade de pré-codificação das \emph{features} categóricas via \emph{one-hot encoding} ou similar, que infla a dimensionalidade e gera viés de \emph{target leakage} quando o \emph{encoding} usa estatísticas do alvo. O CatBoost incorpora codificação categórica baseada em \emph{ordered target statistics}, que evita esse vazamento. Também oferece \texttt{auto\_class\_weights='Balanced'} de forma nativa para \emph{datasets} desbalanceados, o que o torna conveniente como \emph{base learner} em \emph{pipelines} de risco de fogo.
+
+\subsubsection{\emph{Ensembles} --- \emph{Voting} e \emph{Stacking}}
+\label{subsec:fund_ensembles}
+
+O conceito de combinar múltiplos modelos em um \emph{ensemble} foi formalizado por Wolpert~\cite{wolpert1992stacked} sob o nome \emph{Stacked Generalization}. A ideia central é que diferentes algoritmos exploram diferentes regiões do espaço de hipóteses; combinar suas saídas reduz a variância e o viés do classificador final. Duas estratégias são adotadas no presente trabalho:
+
+\begin{itemize}
+  \item \textbf{\emph{Voting Soft}}: cada modelo base produz probabilidades para cada classe; a predição final é a classe com a maior probabilidade média entre os modelos. Funciona melhor que \emph{hard voting} (média de classes preditas) porque preserva a incerteza dos modelos individuais.
+  \item \textbf{\emph{Stacking}}: as probabilidades dos modelos base servem como \emph{features} para um \emph{meta-classificador} que aprende a melhor combinação. Diferente do \emph{Voting}, o \emph{Stacking} pode aprender que certos modelos são mais confiáveis para certas classes. O meta-classificador costuma ser um modelo mais simples (Regressão Logística) para evitar \emph{overfitting}, mas modelos mais expressivos como \emph{Gradient Boosting}~\cite{friedman2001greedy} podem ser usados quando há volume suficiente de dados --- escolha adotada neste trabalho com ganho de 1~pp em acurácia (Apêndice~\ref{cap:resultados}).
+\end{itemize}
+
+\subsection{Reconhecimento de Padrões}
+
+``Reconhecimento de padrões é a transformação da informação do nível subsimbólico (sinais) para o nível simbólico (o do conhecimento)'' \cite[p.15]{Babini07}. Para Babini, os modelos de classificação de modo geral executam um processo composto por alguns passos sequênciais para atingir seus objetivos, denominado reconhecimento de padrões. Os algoritmos devem partir de um extrator de características, onde obtém informações genéricas sobre os dados de entrada para definir os rótulos das saídas; o que se sucede é o seletor de características, para o qual é atribuída a tarefa de extraír novas características dos dados, desta vez com o objetivo discriminar estes dados para o próximo passo; por fim, o classificador, a última etapa de reconhecimento de padrões, que utiliza um algoritmo de aprendizado de  características e os dados discriminados atribuir para as classes.
+
+As Redes Neurais Artificiais (RNAs) representam um subconjunto do aprendizado de máquinas que está intrinsicamente ligado aos algoritmos de aprendizado profundo. Magro (\citeyear{Magro21}) atribui que, resumidamente, as Redes Neurais Artificiais foram desenvolvidas para simular as Redes Neurais Biológicas quanto às relações entre neurônios - que foram reproduzidos computacionalmente como nós - e os processos de sinapse, para a comunicação e transmissão de sinais entre os mesmos. Assim como funciona o nosso cérebro, é centrado na ideia de aprendizado através de treinamento, sendo capaz de responder a estímulos incitados durante o mesmo. Na literatura, RNAs são utilizadas para muitos processos, inclusive, o reconhecimento de padrões.
+
+``A transmissão do sinal de um neurônio a outro no cérebro é um processo químico complexo, no qual substâncias especíﬁcas são liberadas pelo neurônio transmissor. O efeito é um aumento ou uma queda no potencial elétrico no corpo da célula receptora. Se este potencial alcançar o limite de ativação da célula, um pulso ou uma ação de potência e duração ﬁxa é enviado para outros neurônios'' \cite{Barioni17}. Na definição biológica, o neurônio passa a estar ativado. O processo artificial acontece de forma análoga, os neurônios atuam como unidades de processamento (nós) e estão distribuidos em camadas interconectadas. Apenas as camadas consecutivas possuem conexão direta, para as quais são atribuídos pesos, distinguindo-se como camada de entrada (nós iniciais), camada intermediária ou oculta (nós intermediários, que podem conter uma ou mais camadas) e camada de saída, que discriminam os nós de saída.
+
+Para cada conexão entre neurônios é associada a um peso. A entrada é multiplicada pelo peso associado a cada conexão, e esses valores ponderados são somados. Esse resultado é então submetido a uma função de ativação, que determina se o neurônio deve ser ativado ou não. O processo é repetido através das camadas da rede até que a saída desejada seja alcançada. A função de ativação é crucial para introduzir não-linearidades na rede, permitindo que ela aprenda padrões complexos e relações não lineares nos dados.
+
+\subsection{Aprendizado de Características e Profundo}
+
+O conhecimento formal é mais complexo para os seres humanos do que para as máquinas \cite{goodfellow16}. A compreensão que o cérebro desempenha intuitivamente, como reconhecer um rosto em uma imagem ou falas em um áudio, tem sido o maior desafio da inteligência artificial desde a introdução desta tecnologia. É indubitável que estas questões não possuem um tratamento formal, uma vez que trata do subjetivo e, portanto, torna-se um desafio ainda maior ensinar, matematicamente ou através de regras, um computador a desenvolver esta capacidade.
+
+Quando o Deep Blue, sistema de xadrez computacional desenvolvido por uma equipe de pesquisadores da IBM, obteve êxito na sua perfomance contra o atual campeão mundial Garry Kasparov, em 1997, acreditava-se que a máquina brevemente substituiria o homem em muitas das nossas funções \cite{deepblue02}. Algo que passou desapercebido nesta equação foi a necessidade de conhecer o mundo e não apenas uma série de lógicas lineares que geram um resultado. O escopo de aprendizado ainda era muito limitado.
+
+Por ironia do destino, como citado anteriormente, as tarefas formais que estão entre os maiores desafios para os seres humanos acabam por ser as mais fáceis para um computador. Há muitos anos as máquinas apresentam a capacidade de superar até mesmo o melhor jogador de xadrez do mundo, mas apenas há pouco tempo tem sido capazes de se aproximar dos desempenhos de um humano médio na fala ou reconhecimento de objetos. Estas dificuldades culminaram na introdução de mecanismos capazes de extrair padrões de dados e aprender com eles. Os algoritmos que sucederam o surgimento do aprendizado de máquina, como naive bayes e regressão logística, são artefatos muito interessantes mas que dependem fortemente de uma representação de dados consistente.
+
+Estes métodos atuam de modo geral ``projetando o conjunto certo de características a serem extraídas para essa tarefa e, em seguida, fornecendo essas características a um algoritmo de aprendizado de máquina simples'' \cite[p.3]{goodfellow16}.: a representação de imagens. De modo simples e objetivo, até então os dados de entrada eram a base para um objetivo - por exemplo: identifique que isto é um incêndio, sabendo que um incêndio tem estas características. A nova abordagem sugeriu a seguinte ideia: aprenda os traços que configuram um incêndio a partir das características que você conseguir identificar nas imagens de entrada e, com isso, melhore sua habilidade na identificação de incêndios. Dessa forma, a máquina passou a obter cada vez mais responsabilidade e o programador, menos. Contudo, representação de imagens não satisfaz todos os problemas para os quais é submetida. Por vezes, é quase tão difícil obter uma representação fiel quanto resolver o próprio problema. A resposta desenvolvida na literatura para superar estes problemas sustenta-se na hierarquia de conceitos, base para o que chamamos de Aprendizado Profundo.
+
+Como descreve Goodfellow (\citeyear{goodfellow16}), a prescindibilidade de expressar formalmente o conhecimento é essencial para aprimorar uma inteligência artificial. Quanto mais a operação humana desconecta-se do processo, significa que nos aproximamos mais da obtenção de êxito na criação de agentes verdadeiramente inteligentes, uma vez que sua evolução deve culminar na total independência da ação humana. Conceitualmente, o aprendizado profundo fundamenta-se da ideia de que a máquina seja capaz de aprender conceitos complexos interconectando ideias mais simples, construindo conceitos uns sobre os outros, de onde vem o nome deste tipo de aprendizado. Barioni (\citeyear{Barioni17}) descreve o aprendizado profundo como:
+
+\noindent
+\begin{quoting}[rightmargin=0cm,leftmargin=4cm]
+\begin{singlespace}
+{\footnotesize
+Aprendizagem profunda é o termo usado para denotar o problema de treinar redes neurais artiﬁciais que realizam o aprendizado de características de forma hierárquica, de tal forma que características nos níveis mais altos da hierarquia sejam formadas pela combinação de características de mais baixo nível [3, 4, 5, 6, 7, 8]. Muitos problemas práticos têm sido resolvidos por redes neurais compostas de uma única camada intermediária [9].De fato, o Teorema da Aproximação Universal [10] garante que redes neurais com uma única camada oculta são aproximadores universais, i.e., são estruturas capazes de aproximar qualquer função contínua, contanto que se possa deﬁnir a quantidade suﬁciente de neurônios nessa única camada intermediária. \cite[p. 58]{Barioni17}
+}
+\end{singlespace}
+\end{quoting}
+
+\section{Otimização de hiperparâmetros com Optuna}
+\label{sec:fund_optuna}
+
+Modelos de aprendizado de máquina possuem hiperparâmetros --- escolhas estruturais que não são aprendidas dos dados (por exemplo \texttt{n\_estimators}, \texttt{max\_depth}, \texttt{learning\_rate}). A escolha manual desses valores (``ajuste por intuição'') é subótima; a \textbf{otimização bayesiana} explora o espaço de hiperparâmetros de forma sistemática.
+
+O \emph{Optuna}~\cite{akiba2019optuna} implementa \emph{TPE} (\emph{Tree-structured Parzen Estimator}), um algoritmo de otimização bayesiana que modela \(P(\text{hiperparâmetros} \mid \text{resultado bom})\) e \(P(\text{hiperparâmetros} \mid \text{resultado ruim})\) separadamente, sugerindo o próximo conjunto de hiperparâmetros que maximiza a razão entre essas duas distribuições. Neste trabalho, o Optuna foi aplicado em quatro modelos (RF, LR, XGBoost, LightGBM), cada um com 15 \emph{trials} e validação cruzada estratificada em três \emph{folds}, otimizando \(\text{F}_1\)-macro. Os ganhos foram substanciais: XGBoost \(+8,4\,\text{pp}\) em \(\text{F}_1\)-macro CV; LightGBM \(+5,5\,\text{pp}\); RF \(+4,5\,\text{pp}\).
+
+\section{Interpretabilidade de modelos}
+\label{sec:fund_interpretabilidade}
+
+Modelos de \emph{ensemble} e \emph{boosting} funcionam como \emph{black boxes}: alta acurácia, baixa transparência. Para uso em decisões de gestão ambiental --- objetivo deste TCC --- é fundamental que o sistema \textbf{explique por que} classificou um ponto como de risco ``Muito Alto''. Duas técnicas modernas são adotadas neste trabalho:
+
+\paragraph{SHAP (\emph{SHapley Additive exPlanations})~\cite{lundberg2017unified}.} Baseado em teoria dos jogos cooperativos (valores de Shapley), atribui a cada \emph{feature} uma contribuição numérica para a predição individual, de modo que a soma das contribuições reconstitui a probabilidade predita. Para modelos baseados em árvores, há uma implementação exata em tempo polinomial denominada \emph{TreeExplainer}~\cite{lundberg2020local}. O cálculo de SHAP por classe permite identificar quais \emph{features} dirigem cada uma das 3 classes de risco separadamente.
+
+\paragraph{\emph{Permutation Importance}~\cite{breiman2001random,fisher2019all}.} Formaliza a importância de uma \emph{feature} como a degradação esperada da métrica de avaliação (\(\text{F}_1\)-macro, \(\text{F}_1\) por classe) quando os valores da \emph{feature} são permutados aleatoriamente, mantendo a distribuição marginal. É \emph{model-agnostic} (funciona com qualquer modelo) e não enviesada para \emph{features} de alta cardinalidade~\cite{strobl2007bias} --- propriedade relevante quando há OHE de variáveis como \texttt{Municipio} (542 categorias) ou \texttt{Estado} (9 categorias) pós-OHE. A análise complementar via importância \emph{condicional}~\cite{hooker2021unrestricted} é apontada como trabalho futuro no Capítulo~\ref{cap:conclusao}, dada a multicolinearidade nas \emph{features} de janela móvel.
+
+Molnar~\cite{molnar2022interpretable} oferece tratamento aprofundado de ambas as técnicas, incluindo limitações práticas (e.g.\ \textsection~8.5 sobre multicolinearidade na \emph{Permutation Importance}) que pautaram as decisões do Apêndice~\ref{cap:resultados}.
+
+\section{Tratamento de desbalanceamento de classes}
+\label{sec:fund_desbalanceamento}
+
+Em \emph{datasets} reais, classes raras são tipicamente minoritárias, e modelos treinados sem mitigação tendem a privilegiar as classes majoritárias~\cite{he2009learning}. Três estratégias foram avaliadas neste trabalho:
+
+\begin{enumerate}
+  \item \texttt{class\_weight='balanced'}: cada classe contribui para a função de perda com peso inversamente proporcional à sua frequência. Não cria amostras sintéticas; apenas re-pondera. É a estratégia adotada nos modelos finais \texttt{random\_forest\_balanced} e \texttt{logistic\_regression\_balanced}.
+
+  \item \textbf{SMOTE} (\emph{Synthetic Minority Over-sampling Technique})~\cite{chawla2002smote}: gera amostras sintéticas da classe minoritária interpolando vizinhos. Aumenta o suporte de classes raras, mas pode criar exemplos não-realistas em \emph{datasets} com forte estrutura espacial-temporal. Foi implementada com a biblioteca \emph{imbalanced-learn}~\cite{lemaitre2017imbalanced} na variante \texttt{random\_forest\_smote}.
+
+  \item \textbf{\emph{Threshold tuning} multi-classe}: em vez de aplicar \texttt{argmax} sobre as probabilidades calibradas, ajustam-se limiares \(\bigl(\text{thr}_{\text{Mod}}, \text{thr}_{\text{MuitoAlto}}\bigr)\) que privilegiam a revocação da classe minoritária, maximizando \(\text{F}_1\) na classe \emph{Moderado} sem custo de \(\text{F}_1\)-macro global.
+\end{enumerate}
+
+\section{Calibração de probabilidades}
+\label{sec:fund_calibracao}
+
+A predição padrão dos modelos retorna escores não-calibrados --- em particular, Random Forest e GBMs tendem a produzir probabilidades subestimadas próximas a 0 e superestimadas próximas a 1. Para que a saída do modelo seja interpretável como ``\(P(\text{classe} \mid \text{features}) = 0{,}73\)'', é necessário aplicar uma transformação de calibração após o treinamento.
+
+Duas técnicas clássicas existem: a calibração de Platt~\cite{platt1999probabilistic}, que ajusta uma sigmoide entre os escores brutos e a probabilidade empírica; e a calibração isotônica~\cite{zadrozny2002transforming}, que ajusta uma função monotônica não-paramétrica sem assumir forma sigmoidal. A última é a adotada neste trabalho via \texttt{CalibratedClassifierCV} do \emph{scikit-learn}~\cite{pedregosa2011scikit}, com validação cruzada em 3 \emph{folds} para evitar \emph{overfitting} da calibração.
+
+\section{Índices físico-climáticos de fogo}
+\label{sec:fund_indices_fogo}
+
+A literatura de risco de incêndio acumulou, desde os anos 1960, um conjunto de índices físicos para quantificar \textbf{déficit hídrico}, \textbf{estresse atmosférico} e \textbf{aridez}. Quatro deles são adotados neste trabalho como \emph{proxies} à variável \texttt{Umidade} (cuja integração via NASA POWER é cara em tempo):
+
+\begin{description}
+  \item[KBDI (\emph{Keetch-Byram Drought Index})~\cite{keetch1968drought}.] Integral acumulada de déficit de evapotranspiração; alta em períodos secos prolongados e baixa após chuvas. Identificado por Vasconcelos \emph{et al.}~\cite{forests2024cerradoamazon} como o melhor preditor de fogo em Canaã dos Carajás, no Pará, e portanto altamente relevante para o presente estudo.
+
+  \item[SPI (\emph{Standardized Precipitation Index})~\cite{mckee1993spi}.] Padroniza a precipitação acumulada em janelas (1, 3, 6, 12 meses) sobre a climatologia local. \(\text{SPI} < -1\) indica seca; \(\text{SPI} > +1\) indica regime chuvoso. Quesada-Ruiz \emph{et al.}~\cite{npjhazards2025fire} demonstraram que o SPI observado prevê anomalia de área queimada com até um mês de antecedência em \(\approx 68\%\) das áreas queimáveis brasileiras.
+
+  \item[VPD \emph{proxy} (\emph{Vapor Pressure Deficit})~\cite{seager2015climatology}.] Mede a capacidade absoluta da atmosfera de extrair água da superfície. Seager \emph{et al.} demonstram que o VPD é superior à umidade relativa isolada como métrica de risco de fogo.
+
+  \item[Aridez de De Martonne~\cite{demartonne1926aridity}.] Índice clássico \(P / (T + 10)\) baseado em precipitação anual e temperatura média; permite estratificação regional do risco em escala anual.
+\end{description}
+
+\section{Validação temporal de modelos}
+\label{sec:fund_validacao_temporal}
+
+Em \emph{datasets} com componente temporal, a divisão clássica \texttt{train\_test\_split(stratify=y)} mistura observações de todos os anos entre treino e teste. Quando o \emph{pipeline} computa \emph{features} de janela móvel (por exemplo \texttt{Precipitacao\_ma90}, \texttt{SPI\_3m}, \texttt{Incendios\_Ultimos\_180\_Dias}) sobre o \emph{conjunto inteiro antes do} \emph{split}, há risco de \textbf{vazamento temporal}: linhas de teste podem ter recebido contribuição estatística de linhas próximas no espaço-tempo que estão no treino. Esse efeito \textbf{superestima} a capacidade preditiva real do modelo em um cenário causal estrito~\cite{bergmeir2012cv}.
+
+A solução é o procedimento \emph{rolling-origin} por ano: para cada ano \(Y\) entre os três últimos com massa suficiente, treina-se em observações com \(\text{Ano} < Y\) e testa-se em observações com \(\text{Ano} = Y\). Simula o uso real: ``treine com tudo até hoje, prediga o ano seguinte''. Aplicada ao modelo final neste trabalho, revela uma queda de \SI{14,49}{pp} em acurácia e \SI{32,35}{pp} em \(\text{F}_1\)-Moderado (Apêndice~\ref{cap:resultados}) --- valores que são reportados explicitamente para balizar a interpretação das métricas do \emph{split} aleatório.
+
+\subsection{Métricas de Avaliação}
+
+Uma das decisões mais importantes e essenciais para realizar previsões consistentes é definir a metodologia adotada para avaliar os resultados apresentados pela máquina. Não existe uma regra linear para definir as métricas de avaliação de um modelo proposto. As funções e abordagens que podem ser utilizadas dependem essencialmente do próprio modelo de aprendizado, bem como do tipo do problema definido e dos dados de entrada da máquina.
+
+Quando um modelo de classificação faz previsões sobre um conjunto de dados, ele atribui uma classe a cada exemplo de dados com base em suas características. Essas classes atribuídas pelo modelo são as "classes preditas". Para avaliar a precisão do modelo, precisamos comparar suas previsões com a verdadeira classe de cada exemplo de dados. Essas são as "classes verdadeiras" ou "rótulos verdadeiros" de cada exemplo, que são conhecidos antes de realizar as previsões do modelo. Existem diferentes formas de fazer essa aproximação, mas todas compartilham um objetivo em comum: medir quão distante o modelo está da classificação perfeita.
+
+A matriz de confusão é uma ferramenta essencial para avaliar o desempenho de um modelo de classificação. Consiste em uma tabela que mostra a frequência com que as previsões do modelo são corretas ou incorretas em relação às classes reais dos dados. A matriz de confusão é especialmente útil quando se trata de problemas de classificação com mais de duas classes. A figura 4 apresenta a representação visual desta matriz, sendo uma tabela onde as classes reais estão dispostas nas suas linhas e as classes previstas pelo modelo são representadas nas colunas. A matriz é dividida em quatro células: Verdadeiros Positivos (TP), Falsos Positivos (FP), Verdadeiros Negativos (TN) e Falsos Negativos (FN).
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics{imagens/TCC-MC.png}
+    \caption{Representação gráfica de uma matriz de confusão}
+\end{figure}
+
+Contudo, precisamos entender os conceitos atribuídos à cada uma dessas definições. Verdadeiros positivos são as ocorrências em que o modelo previu corretamente a classe positiva. Em outras palavras, são instâncias que realmente pertencem à classe positiva e o modelo as classificou corretamente como positivas. Falsos positivos são atribuídos aos casos em que o modelo previu incorretamente a classe positiva. Ou seja, são instâncias que na verdade pertencem à classe negativa, mas o modelo as classificou erroneamente como positivas. Os verdadeiros negativos introduzem ocorrências em que o modelo previu corretamente a classe negativa. São instâncias que realmente pertencem à classe negativa e o modelo as classificou corretamente como negativas. Por fim, falsos negativos remetem aos casos em que o modelo previu incorretamente a classe negativa. Ou seja, são instâncias que na verdade pertencem à classe positiva, mas o modelo as classificou erroneamente como negativas.
+
+Estas frequências são fundamentais para entender o funcionamento do modelo. A partir da matriz de confusão, é possível calcular calcular métricas de desempenho como precisão, recall, F1-score e taxa de erro, utilizando a proporção destas ocorrências. A interpretação da matriz ajuda a entender os pontos fortes e fracos do modelo e pode orientar ajustes para melhorar sua performance.
+
+\subsubsection{Precisão}
+
+A métrica de precisão (ou acurácia) é uma medida que avalia a proporção de instâncias classificadas corretamente como positivas em relação ao total de instâncias classificadas como positivas, tanto corretamente quanto incorretamente. Matematicamente, a precisão é calculada pela fórmula:
+
+\[
+    Precisao = \frac{TP}{TP+FP}
+\]
+
+Essencialmente, a precisão indica a habilidade do modelo em classificar corretamente as instâncias positivas e é uma das métricas importantes para avaliar o desempenho de modelos de classificação. Neste cálculo, é considerada a proporção de exemplos corretamente classificados para uma determinada classe em relação ao total de exemplos dessa mesma classe. Em outras palavras, a métrica de precisão é constituida pela fração de previsões corretas em relação ao total de previsões feitas para uma classe específica.
+
+
+\subsubsection{recall}
+
+O recall, também conhecido como sensibilidade ou taxa de verdadeiros positivos, é outra das métricas mais utilizadas para avaliar o desempenho de modelos de classificação. Ele mede a proporção de exemplos positivos corretamente identificados pelo modelo em relação ao total de exemplos que realmente pertencem à classe positiva. É descrito pela relação:
+
+\[
+    Recall = \frac{TP}{TP+FN}
+\]
+
+Em outras palavras, o recall indica a capacidade do modelo em identificar corretamente todos os exemplos da classe positiva. Ele é especialmente importante em situações onde a identificação correta dos exemplos positivos é crucial, como em problemas de detecção de doenças, segurança e detecção de fraudes.
+
+\subsubsection{F1-score}
+
+Tanto a precisão quanto o recall têm como objetivo avaliar a capacidade de um modelo de classificação em identificar corretamente os exemplos positivos de uma classe. No entanto, a diferença fundamental entre essas duas métricas está na ênfase que cada uma dá a diferentes aspectos da classificação.
+
+A precisão se concentra na proporção de exemplos classificados como positivos pelo modelo que são realmente positivos. Em outras palavras, a precisão mede a precisão das previsões positivas do modelo, ou seja, quantas das previsões positivas foram realmente corretas. Ela responde à pergunta: "De todos os exemplos classificados como positivos pelo modelo, quantos foram classificados corretamente como positivos?".
+
+Por outro lado, o recall se concentra na proporção de exemplos positivos que foram corretamente identificados pelo modelo em relação ao total de exemplos positivos na base de dados. Em outras palavras, o recall mede a sensibilidade do modelo em detectar exemplos positivos, ou seja, quantos dos exemplos positivos reais o modelo conseguiu identificar corretamente. Ele responde à pergunta: "De todos os exemplos que realmente pertencem a uma determinada classe positiva, quantos o modelo conseguiu identificar?".
+
+O F1-score é uma métrica que combina ambos em um único número, fornecendo uma medida geral do desempenho de um modelo de classificação. Ele é especialmente útil quando temos um desequilíbrio entre as classes do conjunto de dados.
+
+O F1-score é calculado como a média harmônica da precisão e do recall e é definido pela seguinte fórmula:
+
+\[
+    F1 = 2*\frac{Precisao * Recall}{Precisao+Recall}
+\]
+
+Essencialmente, o F1-score fornece uma maneira de equilibrar a precisão e o recall, pois dá mais peso às classes que têm menor representação no conjunto de dados. Isso é importante porque, em conjuntos de dados desbalanceados, a precisão pode ser alta simplesmente devido à alta proporção de exemplos negativos, enquanto o recall pode ser baixo devido à baixa taxa de detecção dos exemplos positivos.
+
+Um F1-score alto indica um equilíbrio entre precisão e recall, enquanto um F1-score baixo indica que o modelo está tendendo para um dos dois extremos.
+
+\chapter{METODOLOGIA}
+\label{cap:metodologia}
+
+Este capítulo visa fornecer uma visão abrangente das etapas metodológicas empreendidas, desde a coleta de dados, passando pela implementação prática dos algoritmos utilizados e atigindo como objetivo o produto final do trabalho. A pesquisa foi elaborada para conduzir um breve estudo e avaliação sobre os modelos de aprendizado de máquina em evidência na literatura, objetivando ao fim desse processo, obter um mapeamento das regiões mais suscetíveis a incêndios florestais. Dessa forma, a proposta é utilizar alguns destes modelos e observar a efetividade de cada um deles na previsão das queimadas na Amazônia Legal, utilizando dados geoespaciais detalhados dos últimos dez anos (datado de 01/01/2014 à 01/01/2024), fornecidos pelo Programa Queimadas, do IBGE. O modelo que melhor se adaptar ao treinamento dos dados e assim apresentar os melhores resultados será utilizado para geração dos mapas preditores.
+
+Para atingir os objetivos da pesquisa, foi adotada uma abordagem quali-quantitativa, onde o componente quantitativo envolve a análise estatística dos dados históricos e a aplicação dos diferentes modelos de aprendizado de máquina para prever incêndios. Além disso, foram utilizadas algumas métricas de desempenho já consolidadas na literatura para a análise dos modelos utilizados, fornecendo segurança na etapa de validação e garantindo uma pesquisa robusta e precisa das tendências de queimadas. A pesquisa também investiga as razões pelas quais alguns modelos superam outros em termos de desempenho. Isso envolve a análise dos parâmetros e características dos modelos, a interpretação dos fatores que influenciam suas previsões e a avaliação das variáveis ambientais e climáticas que afetam a ocorrência de incêndios. Esta etapa metodológica introduz alguns valores detalhados da Amazônia Legal, permitindo uma exploração aprofundada das características regionais e das dinâmicas de seus incêndios florestais. Isso posto, temos um projeto de caráter experimental e teórico que deve extrair como produto final desse conjunto de métodos e processos, um mapeamento objetivo das áreas mais vulneráveis a queimadas nos próximos *(quantidade de tempo)* anos e contribuir para a elaboração de mais trabalhos sobre o tema.
+
+O fluxo do desenvolvimento do trabalho está disposto em seguida. Apesar da disposição de um fluxograma nos remeter à ideia de um trabalho parcial e linear, o treinamento de uma máquina que seja capaz de aprender consiste em uma prática de bastante retrocesso, onde as etapas se complementam e podem sofrer alterações para atingir resultados melhores. Entendendo isso, na figura 5, segue o fluxograma adotado neste projeto para treinar nossos modelos e criar um algoritmo eficaz:
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.5]{"imagens/fluxograma metodologia tcc.png"}
+    \caption{Fluxograma metodológico para a implementação do sistema de previsão de queimadas - Fonte: O Próprio Autor}
+\end{figure}
+
+\section{Coleta de Dados}
+Esta pesquisa contempla dados de boa parte do bioma amazônico, mais especificamente, a chamada Amazônia Legal. Esta parte do território brasileiro possui uma extensão de aproximadamente 5.015.146,008 km2, que representam cerca de 58,93\% do país e aproximadamente 60\% do território total do bioma Amazônia \cite{ibge04:mapabioma}. O foco principal da coleta de dados são os "Focos de Calor", característica atribuída à regiões potencialmente propícias ao início de incêndios. Inicialmente, foi realizada a busca por uma base de dados legítima advinda do programa, abrangendo os últimos dez anos de registros de queimadas no território do bioma Amazônia (2014-2024). A exportação dos dados foi feita de forma anual, em função das limitações da plataforma. Assim, o primeiro passo técnico consistiu em compilar todos esses dados em uma única tabela. Esse processo resultou em aproximadamente 1 milhão de focos de calor registrados, proporcionando uma base consistente para as análises futuras.
+
+\subsection{Uso do Programa Queimadas}
+
+A fonte de onde os dados foram retirados é o chamado ``Programa Queimadas'', um sistema que monitora e disponibiliza informações sobre focos de calor gratuitamente, com um repositório de dados relacionados à climatologia e geografia da região e que viabiliza, através de uma série de filtros e parâmetros, refinar a busca e extrair dados específicos conforme as necessidades de pesquisadores. Esta ferramenta foi fundamental para obter dados precisos e relevantes sobre os incêndios na Amazônia Legal. Ela faz parte de um projeto do Instituto Nacional de Pesquisas Espaciais (INPE). Além da sua extensa base de dados que cataloga informações desde o ano de 1998, é possível visualizar um mapa com os focos de calor observados diariamente e previsões de fogo para os próximos três dias.
+
+Estas informações são atualizadas frequentemente a partir do monitoramento de diferentes modelos de satélites, que atuam para alimentar sua base de dados. Para este estudo, será utilizado o satélite de referência (Aquamarine) para obter as informações geoespaciais da região e popular a base de dados do projeto. Todas as características de um foco podem ser exportadas do sistema, no formato “comma-separated-values” (CSV), JavaScript Object Notation (Json), Keyhole Markup Language (KML) ou Shapefile. A amostragem coletada para o desenvolvimento deste modelo concebe dados de 01 de janeiro de 2014 até o dia 01 de janeiro de 2024, totalizando dez (10) anos de dados históricos e aproximadamente um milhão de linhas (mais precisamente novecentros e trinta e três mil, novecentros e cinquenta e quatro dados) com os focos de calor registrados pelo sistema, afim de obter um bom espectro de variações de clima, temperatura, entre outros atributos que foram mensurados ao longo desse período.
+
+\subsection{Filtros, Escopo e Características da Coleta}
+
+Como citado na seção anterior, o programa queimadas fornece filtros que facilitam a nossa abordagem. Disposto na Figura 6 e explicado nas próximas linhas do capítulo, para diminuir o escopo da coleta apenas às regiões que interessam ao projeto, foram utilizados os seguintes filtros:
+
+\textbf{Localização:} O projeto abordou especificamente a Amazônia Legal, uma região que compreende a porção da floresta amazônica localizada no Brasil. Utilizando os filtros do Programa Queimadas, foi possível restringir a coleta a focos de calor dentro desta área geográfica, assegurando também que os dados fossem pertinentes ao bioma alvo do estudo posteriormente.
+
+\textbf{Temporalidade:} Para garantir uma análise histórica e detectar padrões ao longo do tempo, foram coletados dados dos últimos dez anos. Esse período foi escolhido para proporcionar uma visão abrangente das variações e tendências na frequência e intensidade dos incêndios ao longo do tempo e também possibilitar ao modelo a compreensão de fatores de longo prazo, como as mudanças climáticas. Dada uma limitação na exportação do sistema, os dados foram coletados anualmente.
+
+\textbf{Bioma:} O foco foi restrito ao bioma amazônico, o que exclui outros biomas brasileiros que poderiam diluir a análise e introduzir variáveis que não são relevantes para a previsão de incêndios na Amazônia Legal.
+
+Utilizando essa base de exportação de dados para todos os anos (Figura 6), foram obtidos arquivos que compreendem os últimos dez anos de focos de calor da Amazônia. Cada um destes focos possui uma série de características, que variam de acordo com a época e a região identificada. A exportação dos dados fornece os seguintes atributos, que são úteis para análise e treinamento do nosso modelo:
+
+Latitude e Longitude: Coordenadas geográficas que permitem a localização precisa dos focos, importantes para o mapeamento das incidências;
+Data e Hora: Marcação temporal dos eventos, essencial para análise de tendências e padrões sazonais;
+Satélite: Informação sobre o satélite que detectou o foco de calor, fornecendo detalhes sobre a tecnologia de monitoramento utilizada;
+Município, Estado e País: Dados geográficos que permitem uma análise mais granular e contextualizada;
+Número de Dias Sem Chuva e Precipitação: Variáveis meteorológicas que são relevantes para entender as condições que podem favorecer a ocorrência de incêndios;
+Risco de Fogo: Avaliação do risco de fogo associada a cada foco, crucial para entender a gravidade e potencial dos eventos;
+Bioma e FRP (Fire Radiative Power): Dados sobre o bioma específico e a intensidade de radiação emitida por fogo na região, fornecendo uma visão detalhada sobre a severidade dos incêndios. Um detalhe importante é que os dados de FRP só passaram a ser coletados a partir de 2018, portanto este atributo não consta nos focos de calor anteriores, dos anos de 2014 a 2017;
+Abaixo, na figura 6, está disposta a interface de exportação de dados do Programa Queimadas:
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.4]{imagens/Programa Queimadas-2.png}
+    \caption{Interface de exportação de dados do Programa Queimadas - Fonte: IBGE}
+\end{figure}
+
+Com a base de dados obtida, o próximo passo realizado é o tratamento e normalização desses dados, para prepará-los para modelagem e análise preditiva.
+
+\subsection{Enriquecimento via APIs externas (NASA POWER e NASA FIRMS)}
+\label{subsec:metod_apis_externas}
+
+Além do Programa Queimadas, duas APIs externas são consultadas para enriquecer o conjunto de dados:
+
+\paragraph{NASA POWER (\emph{Prediction of Worldwide Energy Resources})~\cite{nasapower}.} Serve reanálise climática global em resolução de \(0{,}5^\circ \times 0{,}625^\circ\) com latência diária. Foi utilizada para extrair a variável RH2M (umidade relativa a 2~m), reconhecida na literatura como preditor relevante de fogo. A integração foi feita via \texttt{scripts/enriquecer\_dados\_umidade.py}, com \emph{cache} em disco, retomada após interrupção e respeito ao limite de taxa (\(\approx 32\)~requisições/min com duas chaves de API). Pela alta latência de enriquecimento total (\(\approx 16\)~dias para \num{755711} requisições únicas), o projeto adotou estratégia complementar: \num{170465} registros foram efetivamente enriquecidos (\(\approx \SI{18,3}{\percent}\) da base) e os \num{763489} restantes foram imputados via \emph{pseudo-labeling} com LightGBM \emph{regressor} (\(R^2 = 0{,}933\) em \emph{holdout} --- Seção~\ref{sec:metodologia_pseudo_label}).
+
+\paragraph{NASA FIRMS (\emph{Fire Information for Resource Management System})~\cite{nasafirms}.} Serve detecções ativas de fogo em quase-tempo-real, com FRP (\emph{Fire Radiative Power}) por píxel para os sensores VIIRS e MODIS. É consultada em \textbf{tempo de inferência} pelo aplicativo web (Seção~\ref{sec:metod_app_web}) para incrementar a \emph{feature} \texttt{FRP} com observações dos últimos 7~dias na vizinhança do ponto consultado.
+
+\section{Tecnologias, Bibliotecas e Ferramentas}
+
+Este projeto foi desenvolvido utilizando a linguagem de programação \textbf{Python 3.12}, amplamente reconhecida por sua sintaxe concisa e rica biblioteca de pacotes, particularmente úteis para \textbf{ciência de dados} e \textbf{aprendizado de máquina}. As bibliotecas e ferramentas abaixo descritas foram essenciais para o \textbf{pré-processamento dos dados}, \textbf{análise preditiva} e \textbf{treinamento dos modelos}:
+
+\begin{itemize}
+    \item \textbf{Pandas}~\cite{mckinney2010data}: Utilizada para manipulação e análise de dados. A biblioteca fornece estruturas de dados eficientes, como os \textbf{DataFrames}, que facilitaram a importação, limpeza, transformação e exploração dos conjuntos de dados. Foi essencial para a organização e filtragem das informações, além de possibilitar a aplicação de operações vetorizadas nas variáveis numéricas e categóricas.
+
+    \item \textbf{NumPy}~\cite{harris2020numpy}: Empregada para operações numéricas e manipulação de arrays. Como base para operações matemáticas e estatísticas em Python, a biblioteca \textbf{NumPy} proporcionou funções de alto desempenho para manipulação de dados, especialmente nas transformações numéricas aplicadas aos dados do projeto.
+
+    \item \textbf{Scikit-Learn}~\cite{pedregosa2011scikit}: Esta biblioteca é a espinha dorsal do aprendizado de máquina em Python. Ela oferece uma ampla gama de ferramentas para pré-processamento de dados, seleção de modelos, avaliação de desempenho e implementação de algoritmos de aprendizado supervisionado e não supervisionado. No contexto deste projeto, as seguintes funcionalidades se destacaram:
+    \begin{itemize}
+        \item \textbf{Pipeline}: Utilizada para criar um fluxo de trabalho eficiente, encadeando as etapas de pré-processamento e modelagem em uma única estrutura. Essa abordagem facilitou o treinamento e a avaliação dos modelos de forma modular e repetível.
+
+        \item \textbf{SimpleImputer}: Responsável pela imputação de valores ausentes. Essa ferramenta foi fundamental para preencher lacunas nos dados, utilizando estratégias como a mediana ou a moda, dependendo da natureza da variável.
+
+        \item \textbf{StandardScaler}: Aplicada para a padronização das variáveis numéricas. Essa técnica garantiu que os dados estivessem na mesma escala, o que é crucial para melhorar a performance de muitos algoritmos de aprendizado de máquina, especialmente os baseados em distâncias e gradientes.
+
+        \item \textbf{OneHotEncoder}: Utilizada para a codificação de variáveis categóricas, permitindo a conversão de dados categóricos em um formato binário adequado para a alimentação de modelos de aprendizado de máquina.
+
+        \item \textbf{ColumnTransformer}: Facilitou a aplicação simultânea de diferentes transformações para diferentes grupos de atributos, permitindo a separação clara entre as variáveis numéricas e categóricas, o que otimizou o pré-processamento dos dados.
+    \end{itemize}
+
+    \item \textbf{Matplotlib} e \textbf{Seaborn}: Ferramentas poderosas para visualização de dados. Ambas as bibliotecas foram utilizadas para criar gráficos informativos e intuitivos, ajudando a identificar padrões, tendências e relações entre variáveis. O uso de gráficos de dispersão, histogramas e heatmaps foi fundamental para a análise exploratória dos dados e para a avaliação das previsões dos modelos de aprendizado de máquina.
+\end{itemize}
+
+Além dessas ferramentas, o projeto também utilizou outras bibliotecas complementares, como \textbf{Joblib}, para a serialização e armazenamento dos modelos treinados, e \textbf{Geopy}, para geocodificação de municípios, permitindo a criação de um mapa de risco de incêndios florestais na região da Amazônia.
+
+\medskip
+\noindent
+Em complemento, o \emph{pipeline} atual incorpora também:
+
+\begin{itemize}
+  \item \textbf{XGBoost} (\texttt{xgboost})~\cite{chen2016xgboost}, \textbf{LightGBM} (\texttt{lightgbm})~\cite{ke2017lightgbm} e \textbf{CatBoost} (\texttt{catboost==1.2.10})~\cite{prokhorenkova2018catboost} --- modelos de \emph{gradient boosting} usados como classificadores autônomos e como \emph{base learners} dos \emph{ensembles}.
+  \item \textbf{Imbalanced-learn} (\texttt{imblearn})~\cite{lemaitre2017imbalanced} --- implementação do SMOTE para a variante \texttt{random\_forest\_smote}.
+  \item \textbf{Optuna} (\texttt{optuna})~\cite{akiba2019optuna} --- otimização bayesiana de hiperparâmetros via TPE.
+  \item \textbf{SHAP} (\texttt{shap}) --- interpretabilidade local e global via \texttt{TreeExplainer}~\cite{lundberg2017unified,lundberg2020local}.
+  \item \textbf{Flask} (\texttt{flask}) --- servidor web para a aplicação interativa.
+  \item \textbf{Folium} (\texttt{folium})~\cite{folium} --- visualização cartográfica baseada em \emph{Leaflet}~\cite{leafletjs} integrada à renderização do Flask.
+  \item \textbf{Geopandas} (\texttt{geopandas})~\cite{geopandas} e \textbf{Shapely} (\texttt{shapely}) --- manipulação de geometrias e do \emph{shapefile} da Amazônia Legal~\cite{ibgeamazonia2024}.
+  \item \textbf{Requests} (\texttt{requests}) --- chamadas HTTP às APIs NASA POWER e NASA FIRMS.
+\end{itemize}
+
+\section{Pré-processamento dos dados}
+\label{sec:metodologia_pre_processamento}
+
+A primeira etapa técnica e prática do projeto foi o pré-tratamento dos dados. De maneira geral, as informações extraídas do Programa Queimadas mostraram-se bastante consistentes. No entanto, para assegurar a qualidade e a relevância dos dados em sua totalidade, essa fase é essencial para qualquer análise preditiva. O processo de pré-tratamento envolveu a aplicação de diversas técnicas descritas na fundamentação teórica, visando garantir que os dados estivessem prontos para as análises subsequentes.
+
+\subsection{Carregamento dos Dados}
+
+A função \texttt{carregar\_csv()} foi responsável por carregar o conjunto de dados a partir de um arquivo CSV. Caso o arquivo não seja encontrado no caminho especificado, a função gera um erro indicando a ausência do arquivo. Uma vez carregado, o arquivo é lido como um \texttt{DataFrame} utilizando a biblioteca \texttt{pandas}. O caminho para o arquivo CSV foi especificado como sendo relativo ao diretório do projeto.
+
+\subsection{Limpeza dos Dados}
+
+Após o carregamento dos dados, a função \texttt{limpar\_dados()} realiza o processo de limpeza e tratamento dos dados. Entre as principais etapas dessa função, destacam-se:
+
+\begin{itemize}
+    \item \textbf{Remoção de Colunas Irrelevantes:} As colunas \texttt{Satelite}, \texttt{Pais} e \texttt{Bioma} são removidas, uma vez que não são relevantes para a análise do risco de queimadas.
+    \item \textbf{Substituição de Valores Inválidos:} Valores de \texttt{-999} são substituídos por \texttt{NaN}, indicando dados ausentes ou corrompidos.
+    \item \textbf{Filtragem de Linhas com Dados Inválidos:} Linhas com valores inválidos ou nulos na coluna \texttt{RiscoFogo} são removidas, garantindo que os dados utilizados na análise contenham apenas informações válidas.
+\end{itemize}
+
+Durante a execução desta função, a quantidade de registros que atendem a essa condição de validade (\texttt{RiscoFogo}) é reportada, proporcionando uma visão sobre a quantidade de dados descartados nesse processo.
+
+\subsection{Classificação do Risco de Queimadas}
+
+Após a limpeza dos dados, a função \texttt{classificar\_risco()} é responsável por categorizar o risco de queimadas com base nos valores da coluna \texttt{RiscoFogo}. A classificação é realizada utilizando os quantis da distribuição dessa variável, dividindo os dados em três categorias:
+
+\begin{itemize}
+    \item \textbf{Muito Alto:} Valores de \texttt{RiscoFogo} acima do quantil superior (66\%).
+    \item \textbf{Moderado:} Valores de \texttt{RiscoFogo} entre os quantis inferior (33\%) e superior (66\%).
+    \item \textbf{Baixo:} Valores de \texttt{RiscoFogo} abaixo do quantil inferior (33\%).
+\end{itemize}
+
+Essas categorias são atribuídas a uma nova coluna chamada \texttt{RiscoClassificado}, que é utilizada como variável alvo (\texttt{y}) para o treinamento dos modelos de aprendizado de máquina.
+
+\subsection{Definição das Características e Variáveis}
+
+A função \texttt{carregar\_dados()} organiza os dados em variáveis preditoras (\texttt{X}) e variável alvo (\texttt{y}):
+
+\begin{itemize}
+    \item \textbf{Variáveis Preditivas (\texttt{X}):} Incluem as colunas numéricas (\texttt{DiaSemChuva}, \texttt{Precipitacao}, \texttt{Latitude}, \texttt{Longitude}, \texttt{FRP}, \texttt{Ano}, \texttt{Mes}, \texttt{Dia}, \texttt{Hora}) e as variáveis categóricas (\texttt{Estado}, \texttt{Municipio}).
+    \item \textbf{Variável Alvo (\texttt{y}):} A coluna \texttt{RiscoClassificado}, que representa a classificação do risco de queimadas.
+\end{itemize}
+
+\subsection{Pré-processamento dos Dados}
+
+O pré-processamento dos dados foi realizado através da classe \texttt{PreProcessor}, que aplica transformações adequadas tanto para variáveis numéricas quanto para variáveis categóricas. O pré-processamento foi dividido nas seguintes etapas:
+
+\begin{itemize}
+    \item \textbf{Transformação de Variáveis Numéricas:} As variáveis numéricas (\texttt{DiaSemChuva}, \texttt{Precipitacao}, \texttt{Latitude}, \texttt{Longitude}, \texttt{FRP}, \texttt{Ano}, \texttt{Mes}, \texttt{Dia}, \texttt{Hora}) passaram por duas operações: imputação de valores ausentes utilizando a mediana e normalização utilizando o \texttt{StandardScaler}.
+    \item \textbf{Transformação de Variáveis Categóricas:} As variáveis categóricas (\texttt{Estado}, \texttt{Municipio}) foram tratadas com imputação de valores ausentes pela moda (valor mais frequente) e transformação em variáveis numéricas através de \texttt{OneHotEncoder}, que cria variáveis binárias para cada categoria.
+\end{itemize}
+
+A transformação dos dados foi realizada utilizando um \texttt{ColumnTransformer}, que aplica as transformações apropriadas para cada tipo de variável, permitindo que o modelo trabalhe com dados prontos para a análise.
+
+A classe \texttt{PreProcessor} também oferece métodos para \texttt{fit} e \texttt{transform} dos dados, além de retornar um \texttt{DataFrame} com as variáveis transformadas. Essa etapa é crucial para garantir que os dados estejam em um formato adequado para o treinamento dos modelos.
+
+\subsection{Fluxo Completo de Carregamento e Pré-processamento}
+
+O fluxo de carregamento e pré-processamento dos dados é executado como segue:
+
+\begin{enumerate}
+    \item Carregamento dos dados do arquivo CSV.
+    \item Limpeza dos dados, removendo colunas irrelevantes e tratando valores ausentes ou inválidos.
+    \item Classificação do risco de queimadas com base na variável \texttt{RiscoFogo}.
+    \item Definição das variáveis preditoras (\texttt{X}) e alvo (\texttt{y}).
+    \item Aplicação do pré-processamento, incluindo imputação e normalização das variáveis.
+\end{enumerate}
+
+Esse processo assegura que os dados utilizados para o treinamento dos modelos estejam limpos, estruturados e prontos para análise preditiva.
+
+\subsection{Engenharia de \emph{features} físico-climáticas (Tier 1)}
+\label{subsec:metod_features_tier1}
+
+Em complemento às nove \emph{features} originais do Programa Queimadas, foram derivadas \textbf{24~\emph{features} físico-climáticas avançadas} (Tier~1), agrupadas em sete camadas (implementação em \texttt{scripts/features\_avancadas.py}). A Tabela~\ref{tab:metod_tier1} resume as camadas com a justificativa bibliográfica de cada uma.
+
+\begin{table}[h]
+\centering
+\caption{Camadas Tier~1 de \emph{features} físico-climáticas adicionadas ao \emph{dataset}.}
+\label{tab:metod_tier1}
+\small
+\begin{tabular}{clp{6cm}l}
+\toprule
+\textbf{\#} & \textbf{Camada} & \textbf{\emph{Features}} & \textbf{Justificativa} \\
+\midrule
+1 & Médias móveis estendidas & \texttt{Precipitacao\_ma14/30/90}, \texttt{DiaSemChuva\_ma14/30/90} & \emph{Fuel moisture lag}~\cite{seager2015climatology} \\
+2 & Precipitação acumulada & \texttt{Precipitacao\_acum\_30/90/180/365d} & \cite{seager2015climatology} \\
+3 & SPI & \texttt{SPI\_1m}, \texttt{SPI\_3m}, \texttt{SPI\_6m} & \cite{mckee1993spi,npjhazards2025fire} \\
+4 & Anomalia de precipitação & \texttt{Anomalia\_Precipitacao}, \texttt{Anomalia\_Precipitacao\_rel} & \cite{forests2024cerradoamazon} \\
+5 & KBDI, VPD, De Martonne & \texttt{Temp\_Climatologica}, \texttt{KBDI\_proxy}, \texttt{VPD\_proxy}, \texttt{Aridez\_DeMartonne} & \cite{keetch1968drought,seager2015climatology,demartonne1926aridity,forests2024cerradoamazon} \\
+6 & Histórico estendido de incêndios & \texttt{Incendios\_Ultimos\_90/180/365\_Dias}, \texttt{Media\_FRP\_Celula\_30d} & \cite{cheerala2025probabilistic} \\
+7 & Estação seca acumulada & \texttt{Dias\_Secos\_90d} & \emph{Canadian Drought Code} (FWI) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A granularidade espacial das camadas 1, 2, 6, 7 e do SPI usa \textbf{células de \(0{,}25^\circ\)} (\(\approx \SI{27}{\km}\)), o que evita colapso das janelas temporais que ocorreria com agrupamento por coordenadas literais (cada foco é um ponto único). A \emph{climatologia} de temperatura provém de uma tabela estática de médias mensais por estado, aproximada a partir das Normais Climatológicas do INMET 1981--2010~\cite{inmetnormais}. O CSV final \texttt{base\_de\_dados\_enriquecido.csv} contém \num{924306} linhas e 46~colunas, com tempo total de geração de \(\approx \SI{40}{\second}\) sobre os \num{933954} registros brutos.
+
+\subsection{Calibração de probabilidades}
+\label{subsec:metod_calibracao}
+
+A predição padrão dos modelos retorna escores não-calibrados. Para que a saída do modelo seja interpretável como ``\(P(\text{classe} \mid \text{features}) = 0{,}73\)'', aplicou-se \texttt{CalibratedClassifierCV(method='isotonic', cv=3)} aos modelos do \emph{ensemble} final. A calibração isotônica~\cite{zadrozny2002transforming} ajusta uma função monotônica não-paramétrica entre escores brutos e probabilidades empíricas, sem assumir forma sigmoide --- escolha defensável dada a natureza não linear dos GBMs envolvidos.
+
+\section{Treinamento dos Modelos de Previsão}
+\label{sec:metod_treinamento}
+
+Neste ponto, todos os algoritmos utilizaram a mesma \emph{pipeline}, garantindo que os dados fossem preparados de maneira consistente para os processos de treinamento e teste. O objetivo foi comparar os resultados gerados por cada modelo em um cenário base comum, assegurando que não houvesse qualquer tipo de viés, exceto aqueles originados exclusivamente pelo desempenho de cada algoritmo. A partir de um conjunto de dados previamente processados, foram aplicados algoritmos de classificação para identificar as áreas mais suscetíveis a queimadas com base em atributos climáticos, topográficos e históricos.
+
+O treinamento dos modelos foi realizado utilizando a biblioteca \texttt{scikit-learn}~\cite{pedregosa2011scikit}, complementada por \texttt{xgboost}~\cite{chen2016xgboost}, \texttt{lightgbm}~\cite{ke2017lightgbm}, \texttt{catboost}~\cite{prokhorenkova2018catboost}, \texttt{optuna}~\cite{akiba2019optuna} e \texttt{imbalanced-learn}~\cite{lemaitre2017imbalanced}.
+
+\subsection{Divisão dos dados e construção do \emph{pipeline}}
+
+O conjunto de dados foi dividido em treino (\SI{80}{\percent}) e teste (\SI{20}{\percent}) utilizando \texttt{train\_test\_split(stratify=y, random\_state=42)}, preservando a distribuição das três classes em ambos os subconjuntos. Os metadados do \emph{split} (\texttt{random\_state}, \texttt{test\_size}, estratificação) ficam persistidos em \texttt{modelos/split\_metadata.json} para garantir reprodutibilidade. O conjunto de teste contém \num{184862} observações.
+
+O \emph{pipeline} de processamento foi implementado via \texttt{sklearn.pipeline.Pipeline}, composto por:
+
+\begin{enumerate}
+  \item \texttt{ColumnTransformer} --- aplica \texttt{SimpleImputer(strategy='median')} + \texttt{StandardScaler} às \emph{features} numéricas e \texttt{SimpleImputer(strategy='most\_frequent')} + \texttt{OneHotEncoder} às \emph{features} categóricas.
+  \item \texttt{CalibratedClassifierCV(method='isotonic', cv=3)} --- envolve o classificador final para garantir calibração das probabilidades.
+  \item \textbf{Estimador} --- variável conforme o modelo avaliado.
+\end{enumerate}
+
+\subsection{Modelos avaliados}
+
+Oito abordagens foram comparadas no mesmo conjunto de treino/teste:
+
+\begin{enumerate}
+  \item \textbf{Regressão Logística balanceada} --- \texttt{class\_weight='balanced'}, hiperparâmetros otimizados via Optuna (\texttt{C=12.43, max\_iter=4768}).
+  \item \textbf{SGDClassifier} --- perda logística, \emph{online learning}; \emph{baseline} simples original do projeto.
+  \item \textbf{Random Forest com SMOTE}~\cite{chawla2002smote} --- variante para tratamento de desbalanceamento amostral.
+  \item \textbf{Random Forest balanceado otimizado}~\cite{breiman2001random} --- \texttt{class\_weight='balanced'}, Optuna (15 \emph{trials}, 3-\emph{fold} CV, \(\text{F}_1\)-macro): \texttt{n\_estimators=346, max\_depth=25, min\_samples\_split=3, max\_features='sqrt'}.
+  \item \textbf{XGBoost otimizado}~\cite{chen2016xgboost} --- Optuna (15 \emph{trials}, 3-\emph{fold} CV, \(\text{F}_1\)-macro, \emph{subsample} de 250\,k): \texttt{n\_estimators=346, learning\_rate=0.073, max\_depth=14, subsample=0.74, colsample\_bytree=0.93, gamma=0.03}.
+  \item \textbf{LightGBM otimizado}~\cite{ke2017lightgbm} --- Optuna (15 \emph{trials}, \(\text{F}_1\)-macro): \texttt{n\_estimators=683, learning\_rate=0.066, num\_leaves=204, min\_child\_samples=24, subsample=0.78, colsample\_bytree=0.77}.
+  \item \textbf{CatBoost}~\cite{prokhorenkova2018catboost} --- \texttt{iterations=1000, learning\_rate=0.05, depth=8, auto\_class\_weights='Balanced'}.
+  \item \textbf{Ensemble Voting Soft} --- média das probabilidades calibradas de RF, LR, XGBoost, LightGBM e CatBoost.
+  \item \textbf{Ensemble Stacking}~\cite{wolpert1992stacked} --- RF, LR, XGBoost, LightGBM e CatBoost como \emph{base learners}; \texttt{GradientBoostingClassifier}~\cite{friedman2001greedy} como meta-classificador (\texttt{n\_estimators=200, max\_depth=3, learning\_rate=0.1}). Esta é a configuração final adotada (\texttt{ensemble\_stacking\_gbm}).
+\end{enumerate}
+
+Todos os modelos foram salvos via \texttt{joblib.dump()} em arquivos \texttt{.pkl} no diretório \texttt{modelos/}. Os hiperparâmetros otimizados via Optuna ficam persistidos em \texttt{modelos/relatorios/optuna\_*.json}.
+
+\subsection{Tempo de treinamento}
+
+A Tabela~\ref{tab:metod_tempos} apresenta o tempo de treinamento de cada abordagem em ambiente CPU com 8~núcleos e \SI{16}{\giga\byte} de RAM.
+
+\begin{table}[h]
+\centering
+\caption{Tempo de treinamento por modelo.}
+\label{tab:metod_tempos}
+\small
+\begin{tabular}{lr}
+\toprule
+\textbf{Modelo} & \textbf{Tempo (segundos)} \\
+\midrule
+Regressão Logística balanceada & 25 \\
+SGDClassifier                  & 8 \\
+Random Forest + SMOTE          & 480 \\
+Random Forest balanceado (Optuna) & 1\,100 \\
+XGBoost (Optuna, 250k \emph{subsample}) & 540 \\
+LightGBM (Optuna, 250k \emph{subsample}) & 290 \\
+CatBoost                       & 410 \\
+Ensemble Voting Soft           & 2\,360 (soma dos \emph{base learners} + agregação) \\
+\textbf{Ensemble Stacking GBM} & \textbf{5\,100 (\(\approx\) 85~min)} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Avaliação dos Modelos de Previsão}
+\label{sec:metod_avaliacao}
+
+A avaliação foi realizada sobre o conjunto de teste de \num{184862} observações. Quatro componentes complementares foram considerados: métricas tradicionais (Seção~\ref{subsec:metod_metricas}), interpretabilidade (Seção~\ref{subsec:metod_interpretabilidade}), ajuste multi-classe de limiares (Seção~\ref{subsec:metod_thresholds}) e validação temporal estrita (Seção~\ref{subsec:metod_validacao_temporal}).
+
+\subsection{Métricas utilizadas}
+\label{subsec:metod_metricas}
+
+\begin{itemize}
+  \item \textbf{Acurácia global} --- fração de predições corretas (\texttt{accuracy\_score}).
+  \item \textbf{\(\text{F}_1\) por classe e \(\text{F}_1\)-macro} --- \texttt{f1\_score(average='macro')}. A \(\text{F}_1\)-macro é a média não ponderada entre as três classes; é a métrica primária por ser robusta a desbalanceamento.
+  \item \textbf{Precisão e revocação por classe} --- via \texttt{classification\_report}.
+  \item \textbf{Matriz de confusão normalizada} --- \texttt{confusion\_matrix(normalize='true')}.
+  \item \textbf{Confiança média e distribuição} --- média e histograma de \(\max\) de \texttt{predict\_proba(X\_test)}.
+  \item \textbf{Curva de calibração} --- \texttt{calibration\_curve}, para confirmar que a probabilidade predita corresponde à frequência empírica observada.
+\end{itemize}
+
+\subsection{Análise de interpretabilidade}
+\label{subsec:metod_interpretabilidade}
+
+Duas técnicas complementares são aplicadas para identificar as \emph{features} mais relevantes:
+
+\paragraph{SHAP por classe via Random Forest leve \emph{proxy}~\cite{lundberg2017unified,lundberg2020local}.} O \texttt{TreeExplainer} aplicado ao \emph{Stacking GBM} final e ao RF Optuna produtivo demanda mais de \num{2}\,\text{GiB} por classe em CPU pós-OHE. Como solução cientificamente defensável~\cite{lundberg2020local}, treina-se um Random Forest \emph{compacto} (100 árvores, \texttt{max\_depth=12}, \texttt{class\_weight='balanced'}, \num{60000} amostras de treino) como \emph{proxy interpretativo}. O script \texttt{scripts/analise\_shap\_rf\_leve.py} aplica \texttt{shap.TreeExplainer} sobre 500 amostras de teste e exporta as importâncias médias absolutas por classe em \texttt{modelos/relatorios/shap\_per\_class.json}.
+
+\paragraph{\emph{Permutation Importance}~\cite{breiman2001random,fisher2019all}.} Aplicada diretamente sobre o \texttt{ensemble\_stacking\_gbm} em produção (5\,000 amostras de teste, três repetições, \emph{seed}=42). Para cada \emph{feature}, calcula-se a queda em \(\text{F}_1\) por classe e em \(\text{F}_1\)-macro quando os valores são permutados aleatoriamente. Diferentemente da importância Gini/MDI, é \emph{model-agnostic} e \textbf{não tendenciosa} para \emph{features} de alta cardinalidade~\cite{strobl2007bias} --- característica relevante dado o OHE de \texttt{Municipio} (542 categorias). A saída fica em \texttt{modelos/relatorios/permutation\_importance\_por\_classe.json}.
+
+\subsection{Ajuste multi-classe de limiares de decisão}
+\label{subsec:metod_thresholds}
+
+A predição padrão usa \texttt{argmax} sobre as probabilidades calibradas. Embora maximize \(P(\text{classe} \mid x)\), penaliza a classe \emph{Moderado} --- fronteira ambígua entre \emph{Baixo} e \emph{Muito Alto}~\cite{he2009learning}. O procedimento implementado em \texttt{scripts/ajustar\_threshold.py} varre uma grade de pares (\texttt{thr\_Moderado}, \texttt{thr\_Muito\_Alto}) \(\in \{0{,}30; 0{,}35; \ldots; 0{,}55\}^2\) (36 combinações), com critério primário \(\text{F}_1\)-macro e secundário \(\text{F}_1\)-Moderado. Os limiares finais são persistidos em \texttt{modelos/prediction\_thresholds.json} e aplicados em \emph{runtime} no aplicativo web via parâmetro \texttt{estrategia\_thresholds} do \emph{endpoint} \texttt{/api/predict}.
+
+A lógica de decisão multi-classe em \emph{runtime} é:
+
+\begin{verbatim}
+se      P(Moderado)   >= thr_Moderado    -> classe = "Moderado"
+senao se P(Muito Alto) >= thr_Muito_Alto -> classe = "Muito Alto"
+senao                                    -> classe = "Baixo"
+\end{verbatim}
+
+\subsection{Validação temporal (\emph{rolling-origin})}
+\label{subsec:metod_validacao_temporal}
+
+Em complemento à validação no \emph{split} aleatório, foi implementado em \texttt{scripts/validacao\_temporal.py} um procedimento de \textbf{\emph{rolling-origin} por ano}~\cite{bergmeir2012cv}. Para cada ano \(Y \in \{2021, 2022, 2023\}\) (três últimos com massa suficiente), o modelo é treinado em \(\text{Ano} < Y\) (\emph{subsample} estratificado de \num{60000} amostras por \emph{fold} para o \emph{Stacking}, limite de memória do OHE denso de \texttt{Municipio}) e avaliado em \(\text{Ano} = Y\). Cobre o uso operacional realista: ``treine com o passado, prediga o ano seguinte''. O resultado é apresentado no Apêndice~\ref{cap:resultados}.
+
+\section{Aplicação web interativa explicável}
+\label{sec:metod_app_web}
+
+Para tornar o modelo final utilizável e auditável por gestores ambientais, foi desenvolvida uma aplicação web (\texttt{scripts/app\_map\_interativo.py}) baseada em \emph{Flask} + \emph{Folium}~\cite{folium} + \emph{Leaflet}~\cite{leafletjs} que serve como interface explicável sobre o \emph{pipeline}. O usuário clica em qualquer ponto da Amazônia Legal e o sistema responde, em \(\approx 10\)--\SI{20}{\second}, com a predição classificada, acompanhada das 24~\emph{features} Tier~1 calculadas para o ponto, da explicação local das \emph{features} mais influentes e do contexto histórico comparativo.
+
+\subsection{\emph{Pipeline} de predição pontual}
+
+Como o aplicativo prediz \textbf{um único ponto isolado}, sem histórico temporal local, as \emph{features} Tier~1 que dependem de séries (SPI, acumulados longos, histórico estendido de focos) não podem ser calculadas em tempo real. Adota-se a estratégia de \textbf{\emph{lookup} espaço-sazonal} (\texttt{scripts/feature\_lookup.py}):
+
+\begin{enumerate}
+  \item Pré-cálculo das medianas das 24~\emph{features} Tier~1 do \emph{dataset} enriquecido, agregadas em três níveis de granularidade decrescente: \((\text{LatBin}~0{,}25^\circ, \text{LonBin}~0{,}25^\circ, \text{Mes})\), depois \((\text{Estado}, \text{Mes})\) e, por fim, \text{Mes} global.
+
+  \item Para o ponto consultado, \emph{lookup} em cascata (do mais fino ao mais grosso) com tolerância de \(\pm 1\) célula.
+
+  \item \emph{Features} físicas independentes de série temporal (\texttt{Temp\_Climatologica}, \texttt{KBDI\_proxy}, \texttt{VPD\_proxy}, \texttt{Aridez\_DeMartonne}, \texttt{Anomalia\_Precipitacao}) são recalculadas em tempo real com o clima NASA POWER atual e a climatologia local da precipitação --- o \emph{lookup} fornece apenas os ``blocos de construção'' históricos imutáveis.
+\end{enumerate}
+
+\subsection{Integração de dados em tempo real}
+
+\begin{itemize}
+  \item \textbf{Geocodificação reversa} via Nominatim/OpenStreetMap para extrair Estado e Município do clique.
+  \item \textbf{Clima atual} via NASA POWER~\cite{nasapower} (precipitação, dias sem chuva, RH2M dos últimos 28~dias).
+  \item \textbf{Focos ativos} via NASA FIRMS~\cite{nasafirms} para \texttt{FRP} dos últimos 7~dias no raio de \SI{10}{\km} do ponto.
+\end{itemize}
+
+\subsection{Explicabilidade local}
+
+Em \emph{runtime}, \texttt{scripts/explainer.py} aproxima a contribuição de cada \emph{feature} como
+\begin{equation}
+\text{contrib}(f) = \text{importância}(f) \times \text{zscore}(f) \times \text{sinal\_físico}(f),
+\end{equation}
+onde \(\text{importância}(f)\) é carregada de \texttt{shap\_per\_class.json} (importância por classe predita, quando disponível) ou de \texttt{shap\_feature\_importance.json} (Gini global como \emph{fallback}); \(\text{zscore}(f)\) mede a anormalidade do valor no ponto em relação à distribuição global do \emph{dataset}; e \(\text{sinal\_físico}(f) \in \{-1, +1\}\) codifica o efeito esperado (por exemplo, \(+1\) para \texttt{Indice\_Seca}, \(-1\) para \texttt{Precipitacao\_ma90}). A predição é classificada como \emph{AUMENTA RISCO}, \emph{REDUZ RISCO} ou \emph{neutro}; o \emph{top-6 features} por \(|\text{contrib}|\) é exibido no painel lateral.
+
+\subsection{Interface}
+
+O \emph{front-end} é organizado em \textbf{seis \emph{cards}} dentro de um painel lateral de \num{420}\,px:
+
+\begin{enumerate}
+  \item \textbf{Previsão} --- \emph{badge} com a classe, barras de probabilidade por classe, métricas do modelo, fonte do clima, granularidade do \emph{lookup} e \emph{trace} da decisão (\emph{argmax} \emph{vs.}\ \emph{thresholds} calibrados).
+  \item \textbf{Por que esse risco?} --- \emph{top-6 features} com valor, faixa típica (\(p_{10}\)--\(p_{90}\) da distribuição global), \emph{z-score} e direção do impacto.
+  \item \textbf{Dados climáticos atuais} --- precipitação, dias sem chuva, umidade NASA, temperatura climatológica, estação, período do dia.
+  \item \textbf{Índices de seca e aridez} --- Índice de Seca, SPI 1m/3m/6m, KBDI \emph{proxy}, Aridez De Martonne, VPD \emph{proxy}, Dias\_Secos\_90d.
+  \item \textbf{Precipitação acumulada e anomalia} --- acumulados 30/90/180/365~dias com narrativa textual comparando precipitação atual e a média histórica do município/mês.
+  \item \textbf{Histórico de focos} --- focos NASA FIRMS em 7/30/90/180/365~dias, dias desde o último foco, FRP médio/máximo 7d, FRP no ponto agora.
+\end{enumerate}
+
+O mapa estático (versão original da Seção 4.6 do TCC~II) permanece disponível como artefato \emph{batch} (\texttt{scripts/gerar\_mapa.py}).
+
+\section{Imputação de \emph{Umidade} via \emph{pseudo-labeling}}
+\label{sec:metodologia_pseudo_label}
+
+Como discutido na Seção~\ref{subsec:metod_apis_externas}, a integração via NASA POWER produziu \num{170465} linhas com \texttt{Umidade} real (\(\approx \SI{18,3}{\percent}\) da base). Para mitigar essa cobertura parcial sem aguardar 13~dias adicionais de enriquecimento, foi implementada a estratégia de \textbf{\emph{pseudo-labeling}}~\cite{lee2013pseudo}, com precedente recente em imputação climática~\cite{lopezgarcia2024spatiotemporal}. O \emph{script} \texttt{scripts/pseudo\_label\_umidade.py} executa as etapas:
+
+\begin{enumerate}
+  \item Treina um \textbf{LightGBM regressor}~\cite{ke2017lightgbm} sobre os \(\approx \num{170000}\) registros com \texttt{Umidade} real, usando 15~\emph{features} (precipitação, dias sem chuva, lat/lon, sazonalidade cíclica \texttt{Mes\_sin/cos}, histórico de fogo) --- \emph{features} que existem para todas as linhas, com ou sem \texttt{Umidade} real.
+
+  \item Avalia o erro real em \emph{holdout} 20\%: \textbf{RMSE = \SI{4,33}{\percent} RH, MAE = \SI{3,19}{\percent} RH, \(R^2 = 0{,}933\)}. O \(R^2\) alto é cientificamente justificável: a umidade tem alta autocorrelação espaço-sazonal com as \emph{features} usadas --- lat/lon definem o regime de monção, mês define a estação seca/chuvosa, precipitação recente define o estado higroscópico do ar.
+
+  \item Refit no \SI{100}{\percent} dos \emph{labels} reais e imputa os \num{763489} registros sem \emph{label} (\emph{clip} [5, 100]\%).
+
+  \item Salva o \emph{dataset} enriquecido em \texttt{base\_de\_dados\_umidade\_pseudo.csv} com coluna auxiliar \texttt{Umidade\_origem} \(\in\) \{\texttt{nasa\_power}, \texttt{pseudo\_label\_lgbm}\} para auditoria.
+\end{enumerate}
+
+\paragraph{Status no \emph{pipeline} final.} O \emph{dataset} \texttt{base\_de\_dados\_umidade\_pseudo.csv} está disponível mas \textbf{não é usado nos números finais reportados} no Apêndice~\ref{cap:resultados}. Razão: incluir \texttt{Umidade} (pseudo-rotulada ou real) exigiria retreino completo do \texttt{ensemble\_stacking\_gbm} (\(\approx \SI{85}{\minute}\) CPU) + revalidação das \emph{thresholds} + revalidação temporal --- fora do orçamento computacional desta entrega. O artefato fica registrado como \textbf{etapa preparatória} para a sequência natural do trabalho. Cautela registrada: \emph{pseudo-labels} devem ser interpretados considerando potencial viés de confirmação~\cite{arazo2020pseudo}.
+
+\section{Geração do Mapa de Risco com Previsões do Modelo}
+
+A versão original do mapa de risco --- gerada em modo \emph{batch} sobre um conjunto pré-definido de pontos e exportada como arquivo HTML estático --- permanece disponível em \texttt{scripts/gerar\_mapa.py} como artefato histórico. A entrega operacional final do projeto, contudo, é a \textbf{aplicação web interativa} descrita na Seção~\ref{sec:metod_app_web}, em que o usuário aponta qualquer ponto da Amazônia Legal e recebe imediatamente predição, intervalo de confiança, explicação local e contexto climático/histórico --- tornando obsoleta a estratégia batch para uso prático e, em particular, eliminando o gargalo de geocodificação prévia. As bibliotecas envolvidas (\texttt{pandas}, \texttt{joblib}, \texttt{geopy}, \texttt{folium}, \texttt{webbrowser}) seguem em uso, agora orquestradas pelo servidor Flask.
+
+\input{08_previsao_ocorrencia}
+
+
+\chapter{Conclusão}
+\label{cap:conclusao}
+
+Este trabalho desenvolveu um sistema completo de classificação supervisionada de risco de incêndio em três níveis (\emph{Baixo}, \emph{Moderado}, \emph{Muito Alto}) para a Amazônia Legal, integrando dados do Programa Queimadas/INPE~\cite{INPE24} (2014--2023), reanálise climática NASA POWER~\cite{nasapower}, detecções em tempo real NASA FIRMS~\cite{nasafirms}, e o \emph{shapefile} oficial do IBGE~\cite{ibgeamazonia2024}. Os principais achados são os seguintes.
+
+\paragraph{1. Desempenho final.} O modelo final --- \textbf{\emph{Ensemble Stacking}} com meta-classificador \emph{Gradient Boosting}~\cite{friedman2001greedy,wolpert1992stacked} (\texttt{ensemble\_stacking\_gbm}) --- atingiu \textbf{\SI{84,61}{\percent}} de acurácia, \textbf{\num{0,7995}} de \(\text{F}_1\)-macro e \textbf{\num{0,6375}} de \(\text{F}_1\)-Moderado em \emph{hold-out} estratificado de \num{184862} amostras. Esse resultado supera em quase \SI{15}{pp} a meta acadêmica original do projeto (\(\geq \SI{70}{\percent}\)) e em mais de \SI{22}{pp} o \emph{baseline} SGDClassifier do TCC~II original.
+
+\paragraph{2. A engenharia de \emph{features} físico-climáticas é o fator dominante de ganho.} A introdução das 24~\emph{features} Tier~1 (SPI~\cite{mckee1993spi}, KBDI \emph{proxy}~\cite{keetch1968drought}, VPD \emph{proxy}~\cite{seager2015climatology}, médias móveis estendidas, \emph{lags} acumulados, histórico estendido de fogo, dias secos), substituindo a variável \texttt{Umidade} por \emph{proxies} amparados pela literatura recente~\cite{seager2015climatology,forests2024cerradoamazon,npjhazards2025fire}, entregou \SI{+3,11}{pp} em acurácia e \SI{+6,70}{pp} em \(\text{F}_1\)-Moderado, ao custo de apenas \SI{40}{\second} de geração \emph{offline}. Esse achado reforça a tese de que \emph{engenharia de variáveis bem embasada na literatura é tão importante quanto a escolha do algoritmo} em problemas de domínio.
+
+\paragraph{3. Interpretabilidade convergente entre duas técnicas independentes.} Análise SHAP via Random Forest \emph{compacto proxy}~\cite{lundberg2017unified,lundberg2020local} e \emph{Permutation Importance} \emph{model-agnostic}~\cite{breiman2001random,fisher2019all} sobre o \emph{Stacking} GBM final identificam, coerentemente, \texttt{KBDI\_proxy}, \texttt{VPD\_proxy}, \texttt{Indice\_Seca}, \texttt{DiaSemChuva\_ma90} e \texttt{Precipitacao\_acum\_180d} como \emph{features} dominantes. A \texttt{VPD\_proxy} aparece no \emph{Top-5} da classe \emph{Muito Alto} por ambas as técnicas independentes --- validação cruzada que sustenta a escolha metodológica de substituir \texttt{Umidade} por \emph{proxies} físicos.
+
+\paragraph{4. Validação temporal estrita revela o viés do \emph{split} aleatório.} A acurácia média em três \emph{folds} \emph{rolling-origin}~\cite{bergmeir2012cv} (2021--2023) é de \textbf{\SI{70,13}{\percent} \(\pm\) 4,06}, com queda de \SI{14,49}{pp} em relação ao \emph{split} aleatório. Mesmo assim, o modelo \emph{mantém-se acima da meta acadêmica original} (\(\geq \SI{70}{\percent}\)) sob esse regime muito mais exigente. O \emph{Stacking} GBM mantém vantagem de \SI{+1,4}{pp} em \(\text{F}_1\)-macro e \SI{+4,2}{pp} em \(\text{F}_1\)-Moderado sobre o Random Forest, mesmo no regime causal estrito --- sinal de que o ganho do \emph{ensemble} \textbf{não é mero \emph{overfitting} do \emph{split} aleatório}. A queda em \(\text{F}_1\)-Moderado (\SI{-32,35}{pp}) sob validação temporal indica que as fronteiras de transição entre regimes são intrinsecamente difíceis em horizontes maiores e motivam um trabalho futuro prioritário.
+
+\paragraph{5. Calibração e ajuste de limiares.} A calibração isotônica das probabilidades~\cite{zadrozny2002transforming} e o ajuste multi-classe de limiares (\texttt{thr\_Moderado=0,35}, \texttt{thr\_Muito\_Alto=0,45}) elevam o \(\text{F}_1\)-Moderado para \num{0,6375} (+\SI{1,44}{pp} sobre o \texttt{argmax}), com custo de apenas \SI{0,44}{pp} em acurácia global --- \emph{trade-off} considerado favorável dada a importância da classe intermediária no contexto operacional.
+
+\paragraph{6. Aplicação web interativa explicável.} A aplicação \emph{Flask} + \emph{Folium}~\cite{folium} + \emph{Leaflet}~\cite{leafletjs} demonstra a viabilidade operacional do sistema: ao receber um clique do usuário em qualquer ponto da Amazônia Legal, o servidor compõe em \(\approx 11\)--\SI{18}{\second} um vetor de 44~\emph{features} (incluindo 24~Tier~1 via \emph{lookup} espaço-sazonal, 5 calculadas em tempo real a partir do clima atual NASA POWER, 9 originais e histórico FIRMS), classifica o risco com \emph{thresholds} calibrados, e exibe \textbf{explicação local} das \emph{features} responsáveis pela decisão. \emph{Smoke-tests} em zonas opostas (centro úmido do Amazonas em setembro \(\times\) Sul do Pará em pleno setembro) confirmam que o modelo discrimina corretamente, com explicações fisicamente defensáveis.
+
+\paragraph{7. Reprodutibilidade tratada como requisito não funcional.} Todas as métricas, hiperparâmetros, \emph{thresholds} e metadados de \emph{split} estão persistidos em JSON versionado (\texttt{modelos/relatorios/*.json}); o \emph{pipeline} completo é reexecutável via \emph{scripts} modulares; o aplicativo expõe \texttt{thresholds\_aplicados} e \texttt{fonte\_importance} na resposta de cada predição para auditoria.
+
+\paragraph{8. Imputação de \emph{Umidade} via \emph{pseudo-labeling}.} A integração via NASA POWER cobriu apenas \SI{18,3}{\percent} da base, em razão dos limites de taxa do serviço. Como mitigação, foi implementada a estratégia de \emph{pseudo-labeling} com LightGBM \emph{regressor}~\cite{lee2013pseudo,lopezgarcia2024spatiotemporal}, atingindo \(R^2 = 0{,}933\), RMSE = \SI{4,33}{\percent} RH e MAE = \SI{3,19}{\percent} RH em \emph{holdout}, com cobertura final de \SI{100}{\percent} no \emph{dataset} enriquecido. O retreino do \texttt{ensemble\_stacking\_gbm} incluindo \texttt{Umidade} (pseudo-rotulada e real) permanece como trabalho futuro imediato, com quantificação de eventual viés de confirmação~\cite{arazo2020pseudo}.
+
+\section{Limitações reconhecidas}
+\label{sec:conclusao_limitacoes}
+
+\begin{enumerate}
+  \item \textbf{Viés temporal de janelas móveis} quantificado na Seção~\ref{sec:res_temporal} (queda de \SI{14,49}{pp} em acurácia sob validação temporal estrita). Para \emph{deployment} em horizontes maiores, sugere-se reimplementar as \emph{features} com causalidade estrita (computar \texttt{Precipitacao\_ma30} usando apenas dados \(\leq t\) do registro).
+
+  \item \textbf{Cobertura parcial da \texttt{Umidade} real} (\SI{18,3}{\percent}) --- mitigada via \emph{pseudo-labeling} mas o retreino do \emph{Stacking} incluindo \texttt{Umidade} fica como trabalho futuro imediato.
+
+  \item \textbf{SHAP exato sobre o \emph{Stacking} GBM} não é viável em CPU por requisitos de memória; SHAP via Random Forest \emph{compacto proxy} é defensável~\cite{lundberg2020local} mas tem perda qualitativa em relação ao modelo de produção. A \emph{Permutation Importance} sobre o modelo real complementa a análise.
+
+  \item \textbf{Subamostragem em \emph{boosting} e em validação temporal} (250k em XGBoost/LightGBM, 60--120k por \emph{fold} no \emph{rolling-origin}) por limitação de memória do OHE denso de \texttt{Municipio} com \(\approx 542\) categorias. Migração para representação esparsa é trabalho futuro técnico.
+
+  \item \textbf{Generalização espacial} --- o modelo pode estar parcialmente ajustado a padrões idiossincráticos de municípios com muitos exemplos. Avaliação em \emph{folds} espaciais (\emph{leave-one-state-out}) seria complemento desejável.
+
+  \item \textbf{Multicolinearidade nas \emph{features} de janela móvel} --- a \emph{Permutation Importance} assume independência marginal entre \emph{features} e pode sub-estimar o \(\Delta \text{F}_1\) quando \emph{features} correlatas estão disponíveis~\cite{molnar2022interpretable}. Análise condicional~\cite{hooker2021unrestricted} permanece como complemento metodológico desejável.
+
+  \item \textbf{O alvo do \emph{pipeline} inicial é um índice, não o fenômeno observado.} O rótulo \texttt{RiscoFogo} é a saída do índice operacional do INPE, e a base é \emph{presence-only} (sem exemplos de não-fogo), o que limita a interpretação da acurácia e introduz extrapolação ao consultar pontos arbitrários no aplicativo. Essa limitação é \emph{endereçada} pela reformulação para previsão de ocorrência observada com classe negativa real (Capítulo~\ref{cap:ocorrencia}), cujo rótulo foi validado contra a área queimada do MapBiomas Fogo tanto no nível estado/ano (Spearman interanual \(\approx\)\num{0,81}) quanto \emph{célula a célula} (concordância \SI{78}{\percent}, revocação \num{0,90}; Seção~\ref{sec:oco_mapbiomas}).
+\end{enumerate}
+
+\section{Trabalhos futuros}
+\label{sec:conclusao_futuros}
+
+Parte das direções abaixo foi \emph{realizada} na reformulação do Capítulo~\ref{cap:ocorrencia} --- causalidade estrita das \emph{features}, validação espacial em bloco, \emph{benchmark} contra índices físicos (FWI e Risco de Fogo INPE), \emph{conformal prediction} e \emph{drivers} antrópicos de desmatamento (PRODES/DETER). Permanecem como continuidade:
+
+\begin{enumerate}
+  \item \textbf{Validação contra área queimada em escala mensal e por anos recentes} --- a concordância célula a célula (Seção~\ref{sec:oco_mapbiomas}) usou rasters anuais até 2020 (COGs públicos); estendê-la aos anos 2021--2024 e à resolução mensal do MapBiomas refinaria a auditoria de omissão/comissão dos focos.
+
+  \item \textbf{Modelos espaço-temporais profundos} (ConvLSTM/U-Net ou \emph{graph neural networks} no estilo \emph{FireCastNet}~\cite{karasante2025firecastnet}) para capturar a propagação entre células vizinhas, ausente na formulação tabular.
+
+  \item Retreinar \texttt{ensemble\_stacking\_gbm} incluindo \texttt{Umidade} (pseudo-rotulada e real) e quantificar ganho marginal, com controle explícito do viés de confirmação~\cite{arazo2020pseudo}.
+
+  \item Implementar causalidade estrita das \emph{features} de janela móvel para reduzir o viés temporal (computar \texttt{Precipitacao\_ma30}, \texttt{DiaSemChuva\_ma*}, \texttt{SPI\_*}, \texttt{Incendios\_Ultimos\_*} usando apenas dados \(\leq t\) do registro).
+
+  \item Integração de NDVI/EVI MODIS via Google Earth Engine como \emph{features} Tier~2~\cite{cheerala2025probabilistic}.
+
+  \item Integração de MapBiomas Fogo Coleção~4~\cite{mapbiomasfogo} como \emph{feature} adicional de histórico de área queimada.
+
+  \item Migração do SHAP para \texttt{shap.GPUTreeExplainer} (CUDA) para análise exata sobre o RF Optuna produtivo, e \emph{Permutation Importance} condicional~\cite{hooker2021unrestricted} para mitigar multicolinearidade.
+
+  \item Substituição do \emph{lookup} espaço-sazonal por séries temporais reais (NASA POWER \texttt{PRECTOTCORR} diário 28d) no aplicativo para cálculo \emph{exato} de SPI, anomalia e acumulados na data consultada.
+
+  \item Validação espacial \emph{leave-one-state-out} para quantificar a generalização do modelo a estados pouco representados no treino.
+\end{enumerate}
+
+\section{Considerações finais}
+\label{sec:conclusao_consideracoes}
+
+A revisão abrangente da literatura, descrita no Capítulo~2, evidenciou a complexidade do fenômeno das queimadas na Amazônia, ressaltando sua amplitude ambiental, social e econômica. Os resultados experimentais sustentam que ferramentas modernas de aprendizado de máquina, combinadas a engenharia de \emph{features} físico-climáticas embasada na literatura recente e a uma interface explicável de uso interativo, representam contribuição relevante para o monitoramento da Amazônia Legal.
+
+Os números reportados devem ser lidos em três formulações complementares: (i) \emph{nowcast} de nível de risco em \emph{hold-out} aleatório, com \SI{84,61}{\percent} de acurácia, atendendo ao requisito acadêmico original (\(\geq \SI{70}{\percent}\)); (ii) validação temporal estrita (\emph{rolling-origin}), com \SI{70,13}{\percent}, que quantifica o viés do \emph{split} aleatório; e (iii) \textbf{previsão de ocorrência de fogo observado} (Capítulo~\ref{cap:ocorrencia}), avaliada por PR-AUC (\num{0,777}), que \emph{supera} os índices físicos operacionais (FWI~\num{0,608}; Risco de Fogo INPE~\num{0,294}) e quantifica a incerteza de forma calibrada. A terceira formulação constitui o principal avanço científico do trabalho: reposiciona o problema de ``reproduzir um índice'' para ``prever o fenômeno observado e validá-lo contra a realidade'', identifica a \textbf{nova ignição} como o gargalo operacional e o \textbf{desmatamento recente} como o seu principal sinal preditivo. Como continuidade natural, destacam-se a validação \emph{célula a célula} contra a área queimada do MapBiomas Fogo e a adoção de modelos espaço-temporais profundos, conforme detalhado na Seção~\ref{sec:conclusao_futuros}.
+
+
+\backmatter
+\singlespacing
+% ----------------------------------------------------------------------------------------------------- %
+\bibliography{references}
+
+\appendix
+\onehalfspacing
+
+% Estudo exploratório (antigo Cap. 5): classificação do índice de risco do INPE.
+% Rebaixado a apêndice — o alvo era a saída de outro modelo (circularidade);
+% a contribuição central é a previsão de fogo observado (Cap. de Previsão de Ocorrência).
+\input{AP_estudo_exploratorio}
+
+% Estudo de caso Pium--TO: era a Seção 5.9 do antigo Cap. Resultados; segue como
+% seção final do estudo exploratório (apêndice), preservando seu contexto.
+\input{07_estudo_caso_pium_to}
+
+\end{document}

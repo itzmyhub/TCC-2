@@ -1,0 +1,74 @@
+{
+  "gerado_em_utc": "2026-05-12T21:52:49.685885+00:00",
+  "parametros": {
+    "horizon_days": 3,
+    "radius_km": 5.0,
+    "min_age_days": 0,
+    "firms_days_per_call": 5,
+    "rolling_windows_dias": [
+      7,
+      14,
+      30
+    ]
+  },
+  "n_predicoes_total_log": 5,
+  "n_predicoes_auditadas": 5,
+  "n_predicoes_recentes_ignoradas": 0,
+  "metricas_global": {
+    "n": 5,
+    "TP": 0,
+    "FP": 3,
+    "FN": 1,
+    "TN": 1,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "accuracy": 0.2
+  },
+  "metricas_rolling": {
+    "ultimos_7_dias": {
+      "n": 1,
+      "TP": 0,
+      "FP": 0,
+      "FN": 1,
+      "TN": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "accuracy": 0.0
+    },
+    "ultimos_14_dias": {
+      "n": 1,
+      "TP": 0,
+      "FP": 0,
+      "FN": 1,
+      "TN": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "accuracy": 0.0
+    },
+    "ultimos_30_dias": {
+      "n": 1,
+      "TP": 0,
+      "FP": 0,
+      "FN": 1,
+      "TN": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "accuracy": 0.0
+    }
+  },
+  "metricas_por_estado": {},
+  "distribuicao_por_classe_predita": {
+    "Muito Alto": {
+      "n": 3,
+      "y_true_pos": 0
+    },
+    "Baixo": {
+      "n": 2,
+      "y_true_pos": 1
+    }
+  }
+}

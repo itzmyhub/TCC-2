@@ -1,0 +1,41 @@
+{
+  "metodo": "pseudo-labeling (Lee 2013) com LightGBM regressor",
+  "features": [
+    "DiaSemChuva",
+    "Precipitacao",
+    "Latitude",
+    "Longitude",
+    "Ano",
+    "Mes",
+    "Dia",
+    "Hora",
+    "Incendios_Ultimos_7_Dias",
+    "Incendios_Ultimos_30_Dias",
+    "Dias_Desde_Ultimo_Incendio",
+    "Media_FRP_Ultimos_7_Dias",
+    "Max_FRP_Ultimos_7_Dias",
+    "Mes_sin",
+    "Mes_cos"
+  ],
+  "n_labeled": 170465,
+  "n_unlabeled": 763489,
+  "cobertura_inicial": 0.18251969583084393,
+  "cobertura_final": 1.0,
+  "modelo_path": "modelos\\lgbm_regressor_umidade.pkl",
+  "output_csv": "base_de_dados_umidade_pseudo.csv",
+  "metricas_validacao": {
+    "rmse": 4.331927192160553,
+    "mae": 3.187151952218206,
+    "r2": 0.9333893976318789,
+    "n_treino": 136372,
+    "n_validacao": 34093
+  },
+  "umidade_origem_field": "Umidade_origem (nasa_power | pseudo_label_lgbm)",
+  "pseudo_label_stats": {
+    "mean": 56.10196583411761,
+    "std": 13.339589737703383,
+    "min": 20.185103703116646,
+    "max": 100.0
+  },
+  "observacoes_metodologicas": "Pseudo-labels DEVEM ser usados com cautela: foram gerados pelo próprio modelo a partir das features pré-existentes. Em modelagem de risco de fogo, é boa prática (a) reportar métricas com/sem pseudo-labels, (b) marcar a coluna Umidade_origem para auditoria, e (c) avaliar viés de confirmação (Arazo et al. 2020)."
+}

@@ -1,0 +1,25 @@
+{
+  "modelo": "ensemble_stacking_gbm",
+  "gerado_em": "2026-05-12T03:00:32",
+  "estrategia": "threshold_tuning_multi_classe",
+  "logica": "Se P(Moderado) >= threshold_moderado → Moderado; senão se P(Muito Alto) >= threshold_muito_alto → Muito Alto; senão → Baixo. Prioriza captura de Moderado (classe minoritária).",
+  "thresholds_otimizados_f1_macro": {
+    "threshold_moderado": 0.35,
+    "threshold_muito_alto": 0.45,
+    "accuracy_esperada": 0.8388,
+    "f1_macro_esperado": 0.7981,
+    "f1_moderado_esperado": 0.6375
+  },
+  "thresholds_otimizados_f1_moderado": {
+    "threshold_moderado": 0.35,
+    "threshold_muito_alto": 0.45,
+    "accuracy_esperada": 0.8388,
+    "f1_macro_esperado": 0.7981,
+    "f1_moderado_esperado": 0.6375
+  },
+  "baseline_argmax": {
+    "accuracy": 0.8432,
+    "f1_macro": 0.7957,
+    "f1_moderado": 0.6231
+  }
+}

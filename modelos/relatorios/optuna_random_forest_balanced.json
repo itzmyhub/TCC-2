@@ -1,0 +1,14 @@
+{
+  "model_name": "random_forest_balanced",
+  "n_trials": 15,
+  "best_value_accuracy": 0.7799386783164882,
+  "best_params": {
+    "n_estimators": 346,
+    "max_depth": 25,
+    "min_samples_split": 3,
+    "min_samples_leaf": 1,
+    "max_features": "sqrt"
+  },
+  "cv_folds": 3,
+  "dataset_path": "base_de_dados_com_historico.csv"
+}

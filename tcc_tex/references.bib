@@ -1,0 +1,920 @@
+% ============================================================================
+% references.bib -- Bibliografia consolidada do TCC
+% "Aprendizado de Maquina e Sensoriamento Remoto: Uma Ferramenta de
+%  Mapeamento e Previsao da Suscetibilidade de Incendios Florestais
+%  na Amazonia Legal"
+%
+% Autor: Italo Machado Vilarino - UFT, Campus Universitario de Palmas
+% Versao: 13/05/2026 (rev. 3 - dedup INPE/WMO; sem chaves BibTeX repetidas)
+%
+% ATENCAO: nao acrescente um segundo arquivo .bib inteiro ao final. Chaves
+% (as chaves como breiman2001random, etc.) devem aparecer uma unica vez.
+% [nota: BibTeX nao trata "%" como comentario e le qualquer "@arroba{...}";
+%  por isso nao se deve escrever entradas de exemplo com arroba aqui.]
+%
+% Estilo recomendado: abntex2cite (abnt-numeric ou abnt-alf)
+%   \usepackage[alf,abnt-emphasize=bf]{abntex2cite}
+%   \bibliography{references}
+% ============================================================================
+
+% ----------------------------------------------------------------------------
+% 1. MODELOS BASE E ENSEMBLES
+% ----------------------------------------------------------------------------
+
+@article{breiman2001random,
+  title     = {Random forests},
+  author    = {Breiman, Leo},
+  journal   = {Machine Learning},
+  volume    = {45},
+  number    = {1},
+  pages     = {5--32},
+  year      = {2001},
+  publisher = {Springer},
+  doi       = {10.1023/A:1010933404324}
+}
+
+@article{wolpert1992stacked,
+  title     = {Stacked generalization},
+  author    = {Wolpert, David H.},
+  journal   = {Neural Networks},
+  volume    = {5},
+  number    = {2},
+  pages     = {241--259},
+  year      = {1992},
+  publisher = {Elsevier},
+  doi       = {10.1016/S0893-6080(05)80023-1}
+}
+
+@inproceedings{chen2016xgboost,
+  title     = {{XGBoost}: A Scalable Tree Boosting System},
+  author    = {Chen, Tianqi and Guestrin, Carlos},
+  booktitle = {Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD '16)},
+  pages     = {785--794},
+  year      = {2016},
+  doi       = {10.1145/2939672.2939785}
+}
+
+@inproceedings{ke2017lightgbm,
+  title     = {{LightGBM}: A Highly Efficient Gradient Boosting Decision Tree},
+  author    = {Ke, Guolin and Meng, Qi and Finley, Thomas and Wang, Taifeng and Chen, Wei and Ma, Weidong and Ye, Qiwei and Liu, Tie-Yan},
+  booktitle = {Advances in Neural Information Processing Systems (NIPS 2017)},
+  volume    = {30},
+  year      = {2017}
+}
+
+@inproceedings{prokhorenkova2018catboost,
+  title     = {{CatBoost}: unbiased boosting with categorical features},
+  author    = {Prokhorenkova, Liudmila and Gusev, Gleb and Vorobev, Aleksandr and Dorogush, Anna Veronika and Gulin, Andrey},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS 2018)},
+  volume    = {31},
+  year      = {2018}
+}
+
+@article{friedman2001greedy,
+  title   = {Greedy function approximation: A gradient boosting machine},
+  author  = {Friedman, Jerome H.},
+  journal = {The Annals of Statistics},
+  volume  = {29},
+  number  = {5},
+  pages   = {1189--1232},
+  year    = {2001},
+  doi     = {10.1214/aos/1013203451}
+}
+
+@article{chawla2002smote,
+  title   = {{SMOTE}: Synthetic Minority Over-sampling Technique},
+  author  = {Chawla, Nitesh V. and Bowyer, Kevin W. and Hall, Lawrence O. and Kegelmeyer, W. Philip},
+  journal = {Journal of Artificial Intelligence Research},
+  volume  = {16},
+  pages   = {321--357},
+  year    = {2002},
+  doi     = {10.1613/jair.953}
+}
+
+% ----------------------------------------------------------------------------
+% 2. OTIMIZACAO DE HIPERPARAMETROS, CALIBRACAO E THRESHOLDS
+% ----------------------------------------------------------------------------
+
+@inproceedings{akiba2019optuna,
+  title     = {{Optuna}: A Next-generation Hyperparameter Optimization Framework},
+  author    = {Akiba, Takuya and Sano, Shotaro and Yanase, Toshihiko and Ohta, Takeru and Koyama, Masanori},
+  booktitle = {Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD '19)},
+  pages     = {2623--2631},
+  year      = {2019},
+  doi       = {10.1145/3292500.3330701}
+}
+
+@incollection{platt1999probabilistic,
+  title     = {Probabilistic outputs for support vector machines and comparisons to regularized likelihood methods},
+  author    = {Platt, John},
+  booktitle = {Advances in Large Margin Classifiers},
+  editor    = {Smola, A. and Bartlett, P. and Sch{\"o}lkopf, B. and Schuurmans, D.},
+  publisher = {MIT Press},
+  pages     = {61--74},
+  year      = {1999}
+}
+
+@inproceedings{zadrozny2002transforming,
+  title     = {Transforming classifier scores into accurate multiclass probability estimates},
+  author    = {Zadrozny, Bianca and Elkan, Charles},
+  booktitle = {Proceedings of the 8th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD '02)},
+  pages     = {694--699},
+  year      = {2002},
+  doi       = {10.1145/775047.775151}
+}
+
+@article{he2009learning,
+  title   = {Learning from imbalanced data},
+  author  = {He, Haibo and Garcia, Edwardo A.},
+  journal = {IEEE Transactions on Knowledge and Data Engineering},
+  volume  = {21},
+  number  = {9},
+  pages   = {1263--1284},
+  year    = {2009},
+  doi     = {10.1109/TKDE.2008.239}
+}
+
+% ----------------------------------------------------------------------------
+% 3. INTERPRETABILIDADE - SHAP, PERMUTATION, RFE
+% ----------------------------------------------------------------------------
+
+@inproceedings{lundberg2017unified,
+  title     = {A Unified Approach to Interpreting Model Predictions},
+  author    = {Lundberg, Scott M. and Lee, Su-In},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS 2017)},
+  volume    = {30},
+  pages     = {4765--4774},
+  year      = {2017},
+  url       = {https://arxiv.org/abs/1705.07874}
+}
+
+@article{lundberg2020local,
+  title     = {From local explanations to global understanding with explainable {AI} for trees},
+  author    = {Lundberg, Scott M. and Erion, Gabriel and Chen, Hugh and DeGrave, Alex and Prutkin, Jordan M. and Nair, Bala and Katz, Ronit and Himmelfarb, Jonathan and Bansal, Nisha and Lee, Su-In},
+  journal   = {Nature Machine Intelligence},
+  volume    = {2},
+  number    = {1},
+  pages     = {56--67},
+  year      = {2020},
+  doi       = {10.1038/s42256-019-0138-9}
+}
+
+@article{guyon2002gene,
+  title   = {Gene selection for cancer classification using support vector machines},
+  author  = {Guyon, Isabelle and Weston, Jason and Barnhill, Stephen and Vapnik, Vladimir},
+  journal = {Machine Learning},
+  volume  = {46},
+  number  = {1--3},
+  pages   = {389--422},
+  year    = {2002},
+  doi     = {10.1023/A:1012487302797}
+}
+
+@misc{cheerala2025probabilistic,
+  title         = {Probabilistic Wildfire Susceptibility from Remote Sensing Using Random Forests and {SHAP}},
+  author        = {Cheerala, Udaya Bhasker and others},
+  year          = {2025},
+  eprint        = {2511.11680},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  url           = {https://arxiv.org/abs/2511.11680}
+}
+
+@article{fisher2019all,
+  title   = {All Models are Wrong, but Many are Useful: Learning a Variable's Importance by Studying an Entire Class of Prediction Models Simultaneously},
+  author  = {Fisher, Aaron and Rudin, Cynthia and Dominici, Francesca},
+  journal = {Journal of Machine Learning Research},
+  volume  = {20},
+  number  = {177},
+  pages   = {1--81},
+  year    = {2019},
+  url     = {http://jmlr.org/papers/v20/18-760.html}
+}
+
+@article{strobl2007bias,
+  title   = {Bias in random forest variable importance measures: Illustrations, sources and a solution},
+  author  = {Strobl, Carolin and Boulesteix, Anne-Laure and Zeileis, Achim and Hothorn, Torsten},
+  journal = {BMC Bioinformatics},
+  volume  = {8},
+  number  = {25},
+  year    = {2007},
+  doi     = {10.1186/1471-2105-8-25}
+}
+
+@book{molnar2022interpretable,
+  title     = {Interpretable Machine Learning: A Guide for Making Black Box Models Explainable},
+  author    = {Molnar, Christoph},
+  year      = {2022},
+  edition   = {2},
+  publisher = {Independently published},
+  url       = {https://christophm.github.io/interpretable-ml-book/}
+}
+
+@article{hooker2021unrestricted,
+  title   = {Unrestricted Permutation forces extrapolation: variable importance requires at least one more model, or there is no free variable importance},
+  author  = {Hooker, Giles and Mentch, Lucas and Zhou, Siyu},
+  journal = {Statistics and Computing},
+  volume  = {31},
+  number  = {6},
+  pages   = {82},
+  year    = {2021},
+  doi     = {10.1007/s11222-021-10057-z}
+}
+
+% ----------------------------------------------------------------------------
+% 4. PSEUDO-LABELING E SEMI-SUPERVISIONADO
+% ----------------------------------------------------------------------------
+
+@inproceedings{lee2013pseudo,
+  title     = {{Pseudo-Label}: The Simple and Efficient Semi-Supervised Learning Method for Deep Neural Networks},
+  author    = {Lee, Dong-Hyun},
+  booktitle = {Workshop on Challenges in Representation Learning, ICML},
+  volume    = {3},
+  number    = {2},
+  pages     = {896},
+  year      = {2013}
+}
+
+@inproceedings{arazo2020pseudo,
+  title        = {Pseudo-Labeling and Confirmation Bias in Deep Semi-Supervised Learning},
+  author       = {Arazo, Eric and Ortego, Diego and Albert, Paul and O'Connor, Noel E. and McGuinness, Kevin},
+  booktitle    = {2020 International Joint Conference on Neural Networks (IJCNN)},
+  pages        = {1--8},
+  year         = {2020},
+  organization = {IEEE},
+  doi          = {10.1109/IJCNN48605.2020.9207304}
+}
+
+@article{lopezgarcia2024spatiotemporal,
+  title   = {Spatiotemporal soil moisture imputation for {A}mazon-basin land surface models},
+  author  = {Lopez-Garcia, V. and {colaboradores}},
+  journal = {Remote Sensing},
+  year    = {2024},
+  note    = {Refer{\^e}ncia indicativa; conferir DOI exato antes da entrega final.}
+}
+
+% ----------------------------------------------------------------------------
+% 5. DOMINIO - CLIMA, INDICES DE SECA E FOGO
+% ----------------------------------------------------------------------------
+
+@article{seager2015climatology,
+  title   = {Climatology, Variability, and Trends in the {U.S.} Vapor Pressure Deficit, an Important Fire-Related Meteorological Quantity},
+  author  = {Seager, Richard and Hooks, Aiken and Williams, A. Park and Cook, Benjamin and Nakamura, Jennifer and Henderson, Naomi},
+  journal = {Journal of Applied Meteorology and Climatology},
+  volume  = {54},
+  number  = {6},
+  pages   = {1121--1141},
+  year    = {2015},
+  doi     = {10.1175/JAMC-D-14-0321.1}
+}
+
+@techreport{keetch1968drought,
+  title       = {A drought index for forest fire control},
+  author      = {Keetch, John J. and Byram, George M.},
+  institution = {U.S.D.A. Forest Service, Southeastern Forest Experiment Station},
+  number      = {Research Paper SE-38},
+  address     = {Asheville, NC},
+  year        = {1968},
+  note        = {Revised 1988}
+}
+
+@inproceedings{mckee1993spi,
+  title        = {The relationship of drought frequency and duration to time scales},
+  author       = {McKee, Thomas B. and Doesken, Nolan J. and Kleist, John},
+  booktitle    = {Proceedings of the 8th Conference on Applied Climatology},
+  pages        = {179--184},
+  year         = {1993},
+  organization = {American Meteorological Society},
+  address      = {Anaheim, CA}
+}
+
+@article{demartonne1926aridity,
+  title   = {Une nouvelle fonction climatologique: l'indice d'aridit{\'e}},
+  author  = {De Martonne, Emmanuel},
+  journal = {La M{\'e}t{\'e}orologie},
+  volume  = {2},
+  pages   = {449--458},
+  year    = {1926}
+}
+
+@article{forests2024cerradoamazon,
+  title   = {Danger of Vegetation Fires in the Cerrado-{A}mazon Transition Region Based on In Situ and Reanalysis Meteorological Data},
+  author  = {Vasconcelos, Karine T. F. and others},
+  journal = {Forests (MDPI)},
+  volume  = {17},
+  number  = {4},
+  pages   = {437},
+  year    = {2024},
+  doi     = {10.3390/f17040437}
+}
+
+@article{npjhazards2025fire,
+  title   = {Enhancing seasonal fire predictions with hybrid dynamical and random forest models},
+  author  = {Quesada-Ruiz, Luis Carlos and others},
+  journal = {npj Natural Hazards},
+  year    = {2025},
+  doi     = {10.1038/s44304-025-00069-4},
+  url     = {https://www.nature.com/articles/s44304-025-00069-4}
+}
+
+@article{aragao2018amazon,
+  title   = {21st century drought-related fires counteract the decline of {A}mazon deforestation carbon emissions},
+  author  = {Arag{\~a}o, Luiz E. O. C. and others},
+  journal = {Nature Communications},
+  volume  = {9},
+  number  = {536},
+  year    = {2018},
+  doi     = {10.1038/s41467-017-02771-y}
+}
+
+@article{bergmeir2012cv,
+  title   = {On the use of cross-validation for time series predictor evaluation},
+  author  = {Bergmeir, Christoph and Ben{\'i}tez, Jos{\'e} M.},
+  journal = {Information Sciences},
+  volume  = {191},
+  pages   = {192--213},
+  year    = {2012},
+  doi     = {10.1016/j.ins.2011.12.028}
+}
+
+@article{silvajunior2025amazon,
+  title   = {Extensive fire-driven degradation in 2024 marks worst {A}mazon forest disturbance in over 2 decades},
+  author  = {Silva-Junior, Celso H. L. and others},
+  journal = {Biogeosciences},
+  volume  = {22},
+  pages   = {5247--5267},
+  year    = {2025},
+  doi     = {10.5194/bg-22-5247-2025},
+  url     = {https://bg.copernicus.org/articles/22/5247/2025/}
+}
+
+% ----------------------------------------------------------------------------
+% 6. DADOS E FONTES OPERACIONAIS
+% ----------------------------------------------------------------------------
+
+@misc{nasapower,
+  title  = {{NASA Prediction of Worldwide Energy Resource (POWER)} Project},
+  author = {{NASA Langley Research Center}},
+  year   = {2026},
+  url    = {https://power.larc.nasa.gov/},
+  note   = {Acesso em maio de 2026}
+}
+
+@misc{nasafirms,
+  title  = {{NASA Fire Information for Resource Management System (FIRMS)}},
+  author = {{NASA Earth Science Data and Information System}},
+  year   = {2026},
+  url    = {https://firms.modaps.eosdis.nasa.gov/},
+  note   = {Acesso em maio de 2026}
+}
+
+@misc{inmetnormais,
+  title  = {Normais Climatol{\'o}gicas do {B}rasil 1981--2010},
+  author = {{Instituto Nacional de Meteorologia (INMET)}},
+  year   = {2018},
+  url    = {https://portal.inmet.gov.br/normais},
+  note   = {Acesso em maio de 2026}
+}
+
+@misc{ibgeamazonia2024,
+  title  = {Amaz{\^o}nia {L}egal -- Limites territoriais 2024},
+  author = {{Instituto Brasileiro de Geografia e Estat{\'i}stica (IBGE)}},
+  year   = {2024},
+  url    = {https://www.ibge.gov.br/geociencias/cartas-e-mapas/redes-geograficas/15819-amazonia-legal.html}
+}
+
+@misc{mapbiomasfogo,
+  title  = {Cole{\c{c}}{\~a}o 4 de Mapeamento Anual da Cicatriz de {F}ogo do {B}rasil 1985--2024},
+  author = {{Projeto MapBiomas}},
+  year   = {2025},
+  url    = {https://brasil.mapbiomas.org/}
+}
+
+% ----------------------------------------------------------------------------
+% 7. BIBLIOTECAS E INFRAESTRUTURA TECNICA
+% ----------------------------------------------------------------------------
+
+@article{pedregosa2011scikit,
+  title   = {Scikit-learn: Machine Learning in {P}ython},
+  author  = {Pedregosa, F. and Varoquaux, G. and Gramfort, A. and Michel, V. and Thirion, B. and Grisel, O. and Blondel, M. and Prettenhofer, P. and Weiss, R. and Dubourg, V. and Vanderplas, J. and Passos, A. and Cournapeau, D. and Brucher, M. and Perrot, M. and Duchesnay, E.},
+  journal = {Journal of Machine Learning Research},
+  volume  = {12},
+  pages   = {2825--2830},
+  year    = {2011}
+}
+
+@article{harris2020numpy,
+  title   = {Array programming with {NumPy}},
+  author  = {Harris, Charles R. and Millman, K. Jarrod and van der Walt, St{\'e}fan J. and others},
+  journal = {Nature},
+  volume  = {585},
+  pages   = {357--362},
+  year    = {2020},
+  doi     = {10.1038/s41586-020-2649-2}
+}
+
+@inproceedings{mckinney2010data,
+  title     = {Data structures for statistical computing in {P}ython},
+  author    = {McKinney, Wes},
+  booktitle = {Proceedings of the 9th Python in Science Conference},
+  editor    = {van der Walt, St{\'e}fan and Millman, Jarrod},
+  pages     = {56--61},
+  year      = {2010},
+  doi       = {10.25080/Majora-92bf1922-00a}
+}
+
+@article{lemaitre2017imbalanced,
+  title   = {Imbalanced-learn: A {P}ython Toolbox to Tackle the Curse of Imbalanced Datasets in Machine Learning},
+  author  = {Lema{\^i}tre, Guillaume and Nogueira, Fernando and Aridas, Christos K.},
+  journal = {Journal of Machine Learning Research},
+  volume  = {18},
+  number  = {17},
+  pages   = {1--5},
+  year    = {2017}
+}
+
+@misc{folium,
+  title  = {{Folium}: Python data visualization library on {L}eaflet.js},
+  author = {{Folium contributors}},
+  year   = {2026},
+  url    = {https://python-visualization.github.io/folium/}
+}
+
+@misc{leafletjs,
+  title  = {{Leaflet}: An Open-Source {J}ava{S}cript Library for Mobile-Friendly Interactive Maps},
+  author = {Agafonkin, Vladimir},
+  year   = {2026},
+  url    = {https://leafletjs.com/}
+}
+
+@misc{geopandas,
+  title  = {{GeoPandas}: {P}ython tools for geographic data},
+  author = {Jordahl, Kelsey and others},
+  year   = {2024},
+  doi    = {10.5281/zenodo.2585848}
+}
+
+% ----------------------------------------------------------------------------
+% 8. REFERENCIAS DO RESUMO / WMO (wmo2021 + alias wmo21 para citacao legada)
+% ----------------------------------------------------------------------------
+
+@misc{wmo2021,
+  title  = {2020 was one of three warmest years on record},
+  author = {{World Meteorological Organization (WMO)}},
+  year   = {2021},
+  url    = {https://public-old.wmo.int/en/media/press-release/2020-was-one-of-three-warmest-years-record},
+  note   = {Acesso em 15/01/2021}
+}
+
+% Alias da chave legada do resumo/abstract (\cite{wmo21}) --- mesma fonte que wmo2021
+@misc{wmo21,
+  title  = {2020 was one of three warmest years on record},
+  author = {{World Meteorological Organization (WMO)}},
+  year   = {2021},
+  url    = {https://public-old.wmo.int/en/media/press-release/2020-was-one-of-three-warmest-years-record},
+  note   = {Acesso em 15/01/2021}
+}
+
+% ============================================================================
+% 9. CHAVES "LEGADAS" DO TCC II ORIGINAL
+%
+% As entradas a seguir foram preservadas para que o texto original (Caps. 1, 2
+% e 3) continue a compilar sem alterar suas citacoes. Algumas correspondem a
+% obras conhecidas e podem ser confirmadas/preenchidas pelo autor antes da
+% entrega final.
+% ============================================================================
+
+@misc{Silva21,
+  author = {Silva, [verificar]},
+  title  = {Tempo seco e altas temperaturas: fatores que favorecem inc{\^e}ndios ambientais},
+  year   = {2021},
+  note   = {Refer{\^e}ncia herdada do TCC II original; conferir dados completos antes da entrega final.}
+}
+
+@misc{inmet23:ondadecalor,
+  author = {{Instituto Nacional de Meteorologia (INMET)}},
+  title  = {Temperatura m{\'e}dia atinge recorde no {B}rasil pelo quarto m{\^e}s seguido},
+  year   = {2023},
+  url    = {https://portal.inmet.gov.br/},
+  note   = {Reportagem do INMET sobre ondas de calor (2023).}
+}
+
+@misc{Aguiar13,
+  author = {Aguiar, [verificar]},
+  title  = {Aquecimento global: quem {\'e} culpado?},
+  year   = {2013},
+  note   = {Refer{\^e}ncia herdada do TCC II original; conferir dados completos antes da entrega final.}
+}
+
+@article{Ferneda06,
+  author  = {Ferneda, Edberto},
+  title   = {Redes neurais e sua aplica{\c{c}}{\~a}o em sistemas de recupera{\c{c}}{\~a}o de informa{\c{c}}{\~a}o},
+  journal = {Ci{\^e}ncia da Informa{\c{c}}{\~a}o},
+  volume  = {35},
+  number  = {1},
+  pages   = {25--30},
+  year    = {2006}
+}
+
+@book{TIMM05,
+  author    = {Timm, Paulo},
+  title     = {Caderno de Estudo: Bioma Amaz{\^o}nia e Desmatamento},
+  year      = {2005},
+  note      = {Conferir editora e local para vers{\~a}o final, se exigido pelo template.}
+}
+
+@book{clements1916,
+  author    = {Clements, Frederic E.},
+  title     = {Plant Succession: An Analysis of the Development of Vegetation},
+  publisher = {Carnegie Institution of Washington},
+  year      = {1916}
+}
+
+@misc{ibge04:mapabioma,
+  author       = {{Instituto Brasileiro de Geografia e Estat{\'i}stica (IBGE)}},
+  title        = {Mapa de Biomas do {B}rasil},
+  year         = {2004},
+  month        = may,
+  howpublished = {\url{https://www.ibge.gov.br/}},
+  note         = {{\'U}ltimo acesso em 27/09/2023.}
+}
+
+@article{fearnside06,
+  author  = {Fearnside, Philip M.},
+  title   = {Deforestation in {A}mazonia: dynamics, impacts and control},
+  journal = {Acta Amazonica},
+  volume  = {36},
+  number  = {3},
+  pages   = {395--400},
+  year    = {2006}
+}
+
+@article{leonel00,
+  author  = {Leonel, Mauro},
+  title   = {O uso do fogo: o manejo ind{\'i}gena e a piromania da monocultura},
+  journal = {Estudos Avan{\c{c}}ados},
+  volume  = {14},
+  number  = {40},
+  pages   = {231--250},
+  year    = {2000}
+}
+
+@article{sodre21,
+  author  = {Sodr{\'e}, Giordani Rafael Concei{\c{c}}{\~a}o and Souza, Everaldo Barreiros de and Moraes, Bergson Cavalcanti de},
+  title   = {Queimadas na {A}maz{\^o}nia: uma an{\'a}lise das pesquisas desenvolvidas nos {\'u}ltimos 25 anos (1993--2017)},
+  journal = {Revista de Geografia},
+  volume  = {38},
+  number  = {1},
+  pages   = {1--13},
+  year    = {2021}
+}
+
+@article{vigano17,
+  author  = {Vigan{\'o}, Hevelyne Henn da Gama and Souza, Celso Correia de and Cristaldo, Marcia Ferreira and Jesus, Leandro de},
+  title   = {Redes neurais artificiais na previs{\~a}o de queimadas e inc{\^e}ndios no {P}antanal},
+  journal = {Revista Brasileira de Geografia F{\'i}sica},
+  volume  = {10},
+  number  = {5},
+  pages   = {1355--1367},
+  year    = {2017}
+}
+
+@book{florenzano07,
+  author    = {Florenzano, Teresa Gallotti},
+  title     = {Iniciac{\~a}o em Sensoriamento Remoto},
+  edition   = {2},
+  publisher = {Oficina de Textos},
+  year      = {2007}
+}
+
+@misc{INPE24,
+  author = {{Instituto Nacional de Pesquisas Espaciais (INPE)}},
+  title  = {Programa Queimadas -- BDQueimadas},
+  year   = {2024},
+  url    = {http://terrabrasilis.dpi.inpe.br/queimadas/bdqueimadas/},
+  note   = {Acesso em 25/03/2024.}
+}
+
+@book{novo10,
+  author    = {Novo, Evlyn Marcia Le{\~a}o de Moraes},
+  title     = {Sensoriamento Remoto: princ{\'i}pios e aplica{\c{c}}{\~o}es},
+  edition   = {4},
+  publisher = {Edgard Blucher Ltda.},
+  year      = {2010}
+}
+
+@article{machado17:santos17,
+  author  = {Machado, Igor Eloi Silva and Santos, Micael Moreira and Giongo, Marcos and Carvalho, Edmar Vinicius de and Ganassoli Neto, Eduardo},
+  title   = {Modelos para estimativa de vari{\'a}veis florestais com a utiliza{\c{c}}{\~a}o de imagens multiespectrais},
+  journal = {Pesquisa Florestal Brasileira},
+  volume  = {37},
+  number  = {90},
+  pages   = {171--181},
+  year    = {2017}
+}
+
+@book{liu07,
+  author    = {Liu, William Tse Horng},
+  title     = {Aplica{\c{c}}{\~o}es de sensoriamento remoto},
+  publisher = {Oficina de Textos},
+  year      = {2007}
+}
+
+@book{novo01:ponzoni,
+  author    = {Novo, Evlyn Marcia Le{\~a}o de Moraes and Ponzoni, Fl{\'a}vio Jorge},
+  title     = {Introdu{\c{c}}{\~a}o ao Sensoriamento Remoto},
+  publisher = {INPE},
+  year      = {2001}
+}
+
+@misc{scuri02,
+  author = {Scuri, Antonio Escan{\~a}o},
+  title  = {Fundamentos da imagem digital},
+  year   = {2002},
+  note   = {Refer{\^e}ncia herdada do TCC II original; conferir dados completos antes da entrega final.}
+}
+
+@book{fitz20,
+  author    = {Fitz, Paulo Roberto},
+  title     = {Cartografia b{\'a}sica e geoprocessamento aplicado{\`a}s ci{\^e}ncias geogr{\'a}ficas},
+  publisher = {Oficina de Textos},
+  year      = {2020}
+}
+
+@book{russel20,
+  author    = {Russell, Stuart and Norvig, Peter},
+  title     = {Artificial Intelligence: A Modern Approach},
+  edition   = {4},
+  publisher = {Pearson},
+  year      = {2020}
+}
+
+@misc{Pereira,
+  author = {Pereira, F{\'a}bio},
+  title  = {Abordagens da Intelig{\^e}ncia Artificial: conexionista, simb{\'o}lica e evolucionista},
+  year   = {2012},
+  note   = {Material de apoio acad{\^e}mico; conferir edi{\c{c}}{\~a}o e dados bibliogr{\'a}ficos completos antes da defesa.}
+}
+
+@book{goodfellow16,
+  author    = {Goodfellow, Ian and Bengio, Yoshua and Courville, Aaron},
+  title     = {Deep Learning},
+  publisher = {The MIT Press},
+  year      = {2016}
+}
+
+@article{cerri17,
+  author  = {Cerri, Ricardo and Carvalho, Andr{\'e} Carlos Ponce de Leon Ferreira de},
+  title   = {Aprendizado de m{\'a}quina: breve introdu{\c{c}}{\~a}o e aplica{\c{c}}{\~o}es},
+  journal = {Cadernos de Ci{\^e}ncia e Tecnologia},
+  volume  = {34},
+  number  = {3},
+  pages   = {297--313},
+  year    = {2017}
+}
+
+@book{Babini07,
+  author    = {Babini, Maurizio and Maranghello, Norian},
+  title     = {Introdu{\c{c}}{\~a}o {\`a}s Redes Neurais Artificiais},
+  publisher = {Cultura Acad{\^e}mica},
+  year      = {2007}
+}
+
+@mastersthesis{Magro21,
+  author = {Magro, Renata Bulling},
+  title  = {Aplica{\c{c}}{\~a}o de redes neurais artificiais para previs{\~a}o de inunda{\c{c}}{\~a}o em uma {\'a}rea urbana},
+  school = {Universidade do Estado de Santa Catarina --- UDESC},
+  year   = {2021},
+  type   = {Disserta{\c{c}}{\~a}o de Mestrado},
+  pages  = {133},
+  address = {Lages}
+}
+
+@book{Barioni17,
+  author    = {Vieira, Vaninha and Razente, Humberto L. and Barioni, Maria Camila N.},
+  title     = {T{\'o}picos em Gerenciamento de Dados e Informa{\c{c}}{\~o}es},
+  publisher = {SBC},
+  year      = {2017}
+}
+
+@article{deepblue02,
+  author  = {Campbell, Murray and Hoane Jr., A. Joseph and Hsu, Feng-hsiung},
+  title   = {{Deep Blue}},
+  journal = {Artificial Intelligence},
+  volume  = {134},
+  number  = {1--2},
+  pages   = {57--83},
+  year    = {2002}
+}
+
+% ---------------------------------------------------------------------------
+% Entradas do Capitulo 6 (Previsao de ocorrencia de fogo) -- 01/06/2026
+% ---------------------------------------------------------------------------
+
+@article{huot2022nextday,
+  author  = {Huot, Fantine and Hu, R. Lily and Goyal, Nita and Sankar, Tharun and Ihme, Matthias and Chen, Yi-Fan},
+  title   = {Next Day Wildfire Spread: A Machine Learning Dataset to Predict Wildfire Spreading From Remote-Sensing Data},
+  journal = {IEEE Transactions on Geoscience and Remote Sensing},
+  volume  = {60},
+  pages   = {1--13},
+  year    = {2022},
+  doi     = {10.1109/TGRS.2022.3192974}
+}
+
+@article{karasante2025firecastnet,
+  author  = {Karasante, Ioannis and Prapas, Ioannis and Kondylatos, Spyros and others},
+  title   = {{FireCastNet}: earth-as-a-graph for seasonal fire prediction},
+  journal = {Scientific Reports},
+  volume  = {15},
+  year    = {2025},
+  doi     = {10.1038/s41598-025-30645-7}
+}
+
+@misc{deandrade2024lstmgru,
+  author       = {de Andrade, Ramon Tavares and others},
+  title        = {Neural Networks with {LSTM} and {GRU} in Modeling Active Fires in the Amazon},
+  howpublished = {arXiv:2409.02681},
+  year         = {2024}
+}
+
+@article{digiuseppe2024geff,
+  author  = {Di Giuseppe, Francesca and Vitolo, Claudia and others},
+  title   = {Global seasonal prediction of fire danger},
+  journal = {Scientific Data},
+  volume  = {11},
+  year    = {2024},
+  doi     = {10.1038/s41597-024-02948-3}
+}
+
+@article{roberts2017cv,
+  author  = {Roberts, David R. and Bahn, Volker and Ciuti, Simone and others},
+  title   = {Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure},
+  journal = {Ecography},
+  volume  = {40},
+  number  = {8},
+  pages   = {913--929},
+  year    = {2017},
+  doi     = {10.1111/ecog.02881}
+}
+
+@article{mortier2024conformal,
+  author  = {Mortier, Thomas and others},
+  title   = {Uncertainty quantification for probabilistic machine learning in earth observation using conformal prediction},
+  journal = {Scientific Reports},
+  volume  = {14},
+  year    = {2024},
+  doi     = {10.1038/s41598-024-65954-w}
+}
+
+@article{sadinle2019lac,
+  author  = {Sadinle, Mauricio and Lei, Jing and Wasserman, Larry},
+  title   = {Least Ambiguous Set-Valued Classifiers With Bounded Error Levels},
+  journal = {Journal of the American Statistical Association},
+  volume  = {114},
+  number  = {525},
+  pages   = {223--234},
+  year    = {2019},
+  doi     = {10.1080/01621459.2017.1395341}
+}
+
+@techreport{vanwagner1985fwi,
+  author      = {Van Wagner, C. E. and Pickett, T. L.},
+  title       = {Equations and {FORTRAN} Program for the Canadian Forest Fire Weather Index System},
+  institution = {Canadian Forestry Service},
+  type        = {Forestry Technical Report},
+  number      = {33},
+  year        = {1985},
+  address     = {Ottawa}
+}
+
+@misc{terrabrasilisprodes,
+  author       = {{Instituto Nacional de Pesquisas Espaciais (INPE)}},
+  title        = {{PRODES/DETER}: Monitoramento do Desmatamento da Amaz{\^o}nia Legal por Sat{\'e}lite},
+  howpublished = {TerraBrasilis, \url{http://terrabrasilis.dpi.inpe.br/}},
+  year         = {2024}
+}
+
+% ============================================================================
+% Trabalhos correlatos (Cap. 2) — referências verificadas (2026-07)
+% ============================================================================
+
+@article{pradeep2022eravikulam,
+  author  = {Pradeep, G. S. and Danumah, Jean Homian and Nikhil, Sunil and Prasad, Megha K. and Patel, Nirmala and Mammen, Pradeep C. and Rajaneesh, A. and Oniga, Valeria-Ersilia and Ajin, R. S. and Kuriakose, Sekhar L.},
+  title   = {Forest Fire Risk Zone Mapping of Eravikulam National Park in India: A Comparison Between Frequency Ratio and Analytic Hierarchy Process Methods},
+  journal = {Croatian Journal of Forest Engineering},
+  year    = {2022},
+  volume  = {43},
+  number  = {1},
+  pages   = {199--217},
+  doi     = {10.5552/crojfe.2022.1137}
+}
+
+@article{gulcin2020manisa,
+  author  = {G{\"u}l{\c{c}}in, Derya and Deniz, B{\"u}lent},
+  title   = {Remote sensing and {GIS}-based forest fire risk zone mapping: The case of Manisa, Turkey},
+  journal = {Turkish Journal of Forestry},
+  year    = {2020},
+  volume  = {21},
+  number  = {1},
+  pages   = {15--24},
+  doi     = {10.18182/tjf.649747}
+}
+
+@article{jin2022northkorea,
+  author  = {Jin, Ri and Lee, Kyoo-Seock},
+  title   = {Investigation of Forest Fire Characteristics in North Korea Using Remote Sensing Data and {GIS}},
+  journal = {Remote Sensing},
+  year    = {2022},
+  volume  = {14},
+  number  = {22},
+  pages   = {5836},
+  doi     = {10.3390/rs14225836}
+}
+
+@article{xu2016hubei,
+  author  = {Xu, Kan and Zhang, Xiaozhi and Chen, Zhiguo and Wu, Wenhao and Li, Tao},
+  title   = {Risk assessment for wildfire occurrence in high-voltage power line corridors by using remote-sensing techniques: a case study in {Hubei} Province, {China}},
+  journal = {International Journal of Remote Sensing},
+  year    = {2016},
+  volume  = {37},
+  number  = {20},
+  pages   = {4818--4837},
+  doi     = {10.1080/01431161.2016.1220032}
+}
+
+@article{kalantar2020forest,
+  author  = {Kalantar, Bahareh and Ueda, Naonori and Idrees, Mohammed O. and Janizadeh, Saeid and Ahmadi, Kourosh and Shabani, Farzin},
+  title   = {Forest Fire Susceptibility Prediction Based on Machine Learning Models with Resampling Algorithms on Remote Sensing Data},
+  journal = {Remote Sensing},
+  year    = {2020},
+  volume  = {12},
+  number  = {22},
+  pages   = {3682},
+  doi     = {10.3390/rs12223682}
+}
+
+@article{tienbui2016tropical,
+  author  = {Tien Bui, Dieu and Le, Kim-Thoa T. and Nguyen, Van Cong and Le, Hoang Duc and Revhaug, Inge},
+  title   = {Tropical Forest Fire Susceptibility Mapping at the {Cat Ba} National Park Area, {Hai Phong} City, {Vietnam}, Using {GIS}-Based Kernel Logistic Regression},
+  journal = {Remote Sensing},
+  year    = {2016},
+  volume  = {8},
+  number  = {4},
+  pages   = {347},
+  doi     = {10.3390/rs8040347}
+}
+
+@article{chang2013predicting,
+  author  = {Chang, Yu and Zhu, Zhiliang and Bu, Rencang and Chen, Hongwei and Feng, Yuting and Li, Yuehui and Hu, Yuanman and Wang, Zhicheng},
+  title   = {Predicting fire occurrence patterns with logistic regression in {Heilongjiang} Province, {China}},
+  journal = {Landscape Ecology},
+  year    = {2013},
+  volume  = {28},
+  number  = {10},
+  pages   = {1989--2004},
+  doi     = {10.1007/s10980-013-9935-4}
+}
+
+@article{bisquert2012application,
+  author  = {Bisquert, Mar and Caselles, Eduardo and S{\'a}nchez, Juan Manuel and Caselles, Vicente},
+  title   = {Application of artificial neural networks and logistic regression to the prediction of forest fire danger in {Galicia} using {MODIS} data},
+  journal = {International Journal of Wildland Fire},
+  year    = {2012},
+  volume  = {21},
+  number  = {8},
+  pages   = {1025--1029},
+  doi     = {10.1071/WF11105}
+}
+
+@article{albashiti2022wildfire,
+  author  = {Al-Bashiti, Mohammad Khaled and Naser, M. Z.},
+  title   = {Machine learning for wildfire classification: Exploring blackbox, eXplainable, symbolic, and {SMOTE} methods},
+  journal = {Natural Hazards Research},
+  year    = {2022},
+  volume  = {2},
+  number  = {3},
+  pages   = {154--165},
+  doi     = {10.1016/j.nhres.2022.08.001}
+}
+
+@article{malik2021datadriven,
+  author  = {Malik, Ashima and Rao, Megha Rajam and Puppala, Nandini and Koouri, Prathusha and Thota, Venkata Anil Kumar and Liu, Qiao and Chiao, Sen and Gao, Jerry},
+  title   = {Data-Driven Wildfire Risk Prediction in Northern California},
+  journal = {Atmosphere},
+  year    = {2021},
+  volume  = {12},
+  number  = {1},
+  pages   = {109},
+  doi     = {10.3390/atmos12010109}
+}
+
+@article{jin2024swvr,
+  author  = {Jin, Li and Yu, Yanqi and Zhou, Jianing and Bai, Di and Lin, Haifeng and Zhou, Hongping},
+  title   = {{SWVR}: A Lightweight Deep Learning Algorithm for Forest Fire Detection and Recognition},
+  journal = {Forests},
+  year    = {2024},
+  volume  = {15},
+  number  = {1},
+  pages   = {204},
+  doi     = {10.3390/f15010204}
+}

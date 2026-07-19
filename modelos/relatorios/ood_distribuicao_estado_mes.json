@@ -1,0 +1,871 @@
+{
+  "n_total": 933954,
+  "n_focos_globais": 547845,
+  "pares_total": 108,
+  "pares": [
+    {
+      "Estado": "ACRE",
+      "Mes": 1,
+      "n_total": 71,
+      "n_focos": 55,
+      "media_focos_estado": 4150.666666666667,
+      "razao_vs_media_estado": 0.013250883392226147
+    },
+    {
+      "Estado": "ACRE",
+      "Mes": 2,
+      "n_total": 15,
+      "n_focos": 7,
+      "media_focos_estado": 4150.666666666667,
+      "razao_vs_media_estado": 0.0016864760681015096
+    },
+    {
+      "Estado": "ACRE",
+      "Mes": 3,
+      "n_total": 9,
+      "n_focos": 7,
+      "media_focos_estado": 4150.666666666667,
+      "razao_vs_media_estado": 0.0016864760681015096
+    },
+    {
+      "Estado": "ACRE",
+      "Mes": 4,
+      "n_total": 40,
+      "n_focos": 28,
+      "media_focos_estado": 4150.666666666667,
+      "razao_vs_media_estado": 0.006745904272406038
+    },
+    {
+      "Estado": "ACRE",
+      "Mes": 5,
+      "n_total": 192,
+      "n_focos": 157,
+      "media_focos_estado": 4150.666666666667,
+      "razao_vs_media_estado": 0.037825248955991
+    },
+    {
+      "Estado": "ACRE",
+      "Mes": 6,
+      "n_total": 529,
+      "n_focos": 324,
+      "media_focos_estado": 4150.666666666667,
+      "razao_vs_media_estado": 0.0780597494378413
+    },
+    {
+      "Estado": "ACRE",
+      "Mes": 7,
+      "n_total": 3105,
+      "n_focos": 1946,
+      "media_focos_estado": 4150.666666666667,
+      "razao_vs_media_estado": 0.4688403469322197
+    },
+    {
+      "Estado": "ACRE",
+      "Mes": 8,
+      "n_total": 21939,
+      "n_focos": 15164,
+      "media_focos_estado": 4150.666666666667,
+      "razao_vs_media_estado": 3.6533890138130416
+    },
+    {
+      "Estado": "ACRE",
+      "Mes": 9,
+      "n_total": 36903,
+      "n_focos": 24463,
+      "media_focos_estado": 4150.666666666667,
+      "razao_vs_media_estado": 5.893752007709605
+    },
+    {
+      "Estado": "ACRE",
+      "Mes": 10,
+      "n_total": 9516,
+      "n_focos": 6333,
+      "media_focos_estado": 4150.666666666667,
+      "razao_vs_media_estado": 1.5257789913266944
+    },
+    {
+      "Estado": "ACRE",
+      "Mes": 11,
+      "n_total": 1629,
+      "n_focos": 1296,
+      "media_focos_estado": 4150.666666666667,
+      "razao_vs_media_estado": 0.3122389977513652
+    },
+    {
+      "Estado": "ACRE",
+      "Mes": 12,
+      "n_total": 60,
+      "n_focos": 28,
+      "media_focos_estado": 4150.666666666667,
+      "razao_vs_media_estado": 0.006745904272406038
+    },
+    {
+      "Estado": "AMAPÁ",
+      "Mes": 1,
+      "n_total": 106,
+      "n_focos": 36,
+      "media_focos_estado": 620.9166666666666,
+      "razao_vs_media_estado": 0.05797879479264528
+    },
+    {
+      "Estado": "AMAPÁ",
+      "Mes": 2,
+      "n_total": 7,
+      "n_focos": 4,
+      "media_focos_estado": 620.9166666666666,
+      "razao_vs_media_estado": 0.006442088310293921
+    },
+    {
+      "Estado": "AMAPÁ",
+      "Mes": 3,
+      "n_total": 7,
+      "n_focos": 4,
+      "media_focos_estado": 620.9166666666666,
+      "razao_vs_media_estado": 0.006442088310293921
+    },
+    {
+      "Estado": "AMAPÁ",
+      "Mes": 4,
+      "n_total": 8,
+      "n_focos": 4,
+      "media_focos_estado": 620.9166666666666,
+      "razao_vs_media_estado": 0.006442088310293921
+    },
+    {
+      "Estado": "AMAPÁ",
+      "Mes": 5,
+      "n_total": 12,
+      "n_focos": 7,
+      "media_focos_estado": 620.9166666666666,
+      "razao_vs_media_estado": 0.011273654543014362
+    },
+    {
+      "Estado": "AMAPÁ",
+      "Mes": 6,
+      "n_total": 19,
+      "n_focos": 11,
+      "media_focos_estado": 620.9166666666666,
+      "razao_vs_media_estado": 0.01771574285330828
+    },
+    {
+      "Estado": "AMAPÁ",
+      "Mes": 7,
+      "n_total": 48,
+      "n_focos": 35,
+      "media_focos_estado": 620.9166666666666,
+      "razao_vs_media_estado": 0.056368272715071804
+    },
+    {
+      "Estado": "AMAPÁ",
+      "Mes": 8,
+      "n_total": 312,
+      "n_focos": 200,
+      "media_focos_estado": 620.9166666666666,
+      "razao_vs_media_estado": 0.32210441551469604
+    },
+    {
+      "Estado": "AMAPÁ",
+      "Mes": 9,
+      "n_total": 1712,
+      "n_focos": 1115,
+      "media_focos_estado": 620.9166666666666,
+      "razao_vs_media_estado": 1.7957321164944304
+    },
+    {
+      "Estado": "AMAPÁ",
+      "Mes": 10,
+      "n_total": 6489,
+      "n_focos": 3714,
+      "media_focos_estado": 620.9166666666666,
+      "razao_vs_media_estado": 5.981478996107906
+    },
+    {
+      "Estado": "AMAPÁ",
+      "Mes": 11,
+      "n_total": 6293,
+      "n_focos": 2140,
+      "media_focos_estado": 620.9166666666666,
+      "razao_vs_media_estado": 3.4465172460072475
+    },
+    {
+      "Estado": "AMAPÁ",
+      "Mes": 12,
+      "n_total": 1763,
+      "n_focos": 181,
+      "media_focos_estado": 620.9166666666666,
+      "razao_vs_media_estado": 0.2915044960407999
+    },
+    {
+      "Estado": "AMAZONAS",
+      "Mes": 1,
+      "n_total": 1388,
+      "n_focos": 563,
+      "media_focos_estado": 8019.25,
+      "razao_vs_media_estado": 0.07020606665211834
+    },
+    {
+      "Estado": "AMAZONAS",
+      "Mes": 2,
+      "n_total": 699,
+      "n_focos": 338,
+      "media_focos_estado": 8019.25,
+      "razao_vs_media_estado": 0.04214857997942451
+    },
+    {
+      "Estado": "AMAZONAS",
+      "Mes": 3,
+      "n_total": 489,
+      "n_focos": 305,
+      "media_focos_estado": 8019.25,
+      "razao_vs_media_estado": 0.03803348193409608
+    },
+    {
+      "Estado": "AMAZONAS",
+      "Mes": 4,
+      "n_total": 157,
+      "n_focos": 89,
+      "media_focos_estado": 8019.25,
+      "razao_vs_media_estado": 0.011098294728310004
+    },
+    {
+      "Estado": "AMAZONAS",
+      "Mes": 5,
+      "n_total": 298,
+      "n_focos": 211,
+      "media_focos_estado": 8019.25,
+      "razao_vs_media_estado": 0.026311687501948438
+    },
+    {
+      "Estado": "AMAZONAS",
+      "Mes": 6,
+      "n_total": 957,
+      "n_focos": 671,
+      "media_focos_estado": 8019.25,
+      "razao_vs_media_estado": 0.08367366025501138
+    },
+    {
+      "Estado": "AMAZONAS",
+      "Mes": 7,
+      "n_total": 12623,
+      "n_focos": 9384,
+      "media_focos_estado": 8019.25,
+      "razao_vs_media_estado": 1.1701842441624841
+    },
+    {
+      "Estado": "AMAZONAS",
+      "Mes": 8,
+      "n_total": 55748,
+      "n_focos": 39158,
+      "media_focos_estado": 8019.25,
+      "razao_vs_media_estado": 4.8830002805748665
+    },
+    {
+      "Estado": "AMAZONAS",
+      "Mes": 9,
+      "n_total": 44795,
+      "n_focos": 30671,
+      "media_focos_estado": 8019.25,
+      "razao_vs_media_estado": 3.8246718832808555
+    },
+    {
+      "Estado": "AMAZONAS",
+      "Mes": 10,
+      "n_total": 16801,
+      "n_focos": 10671,
+      "media_focos_estado": 8019.25,
+      "razao_vs_media_estado": 1.3306730679302927
+    },
+    {
+      "Estado": "AMAZONAS",
+      "Mes": 11,
+      "n_total": 6009,
+      "n_focos": 3425,
+      "media_focos_estado": 8019.25,
+      "razao_vs_media_estado": 0.42709729712878386
+    },
+    {
+      "Estado": "AMAZONAS",
+      "Mes": 12,
+      "n_total": 1860,
+      "n_focos": 745,
+      "media_focos_estado": 8019.25,
+      "razao_vs_media_estado": 0.09290145587180847
+    },
+    {
+      "Estado": "MARANHÃO",
+      "Mes": 1,
+      "n_total": 1506,
+      "n_focos": 714,
+      "media_focos_estado": 1962.4166666666667,
+      "razao_vs_media_estado": 0.36383710560958
+    },
+    {
+      "Estado": "MARANHÃO",
+      "Mes": 2,
+      "n_total": 237,
+      "n_focos": 84,
+      "media_focos_estado": 1962.4166666666667,
+      "razao_vs_media_estado": 0.042804365365832944
+    },
+    {
+      "Estado": "MARANHÃO",
+      "Mes": 3,
+      "n_total": 42,
+      "n_focos": 33,
+      "media_focos_estado": 1962.4166666666667,
+      "razao_vs_media_estado": 0.01681600067943437
+    },
+    {
+      "Estado": "MARANHÃO",
+      "Mes": 4,
+      "n_total": 37,
+      "n_focos": 19,
+      "media_focos_estado": 1962.4166666666667,
+      "razao_vs_media_estado": 0.009681939785128879
+    },
+    {
+      "Estado": "MARANHÃO",
+      "Mes": 5,
+      "n_total": 158,
+      "n_focos": 115,
+      "media_focos_estado": 1962.4166666666667,
+      "razao_vs_media_estado": 0.05860121448893796
+    },
+    {
+      "Estado": "MARANHÃO",
+      "Mes": 6,
+      "n_total": 617,
+      "n_focos": 383,
+      "media_focos_estado": 1962.4166666666667,
+      "razao_vs_media_estado": 0.19516752303707163
+    },
+    {
+      "Estado": "MARANHÃO",
+      "Mes": 7,
+      "n_total": 1536,
+      "n_focos": 817,
+      "media_focos_estado": 1962.4166666666667,
+      "razao_vs_media_estado": 0.41632341076054186
+    },
+    {
+      "Estado": "MARANHÃO",
+      "Mes": 8,
+      "n_total": 2752,
+      "n_focos": 1489,
+      "media_focos_estado": 1962.4166666666667,
+      "razao_vs_media_estado": 0.7587583336872054
+    },
+    {
+      "Estado": "MARANHÃO",
+      "Mes": 9,
+      "n_total": 4636,
+      "n_focos": 2420,
+      "media_focos_estado": 1962.4166666666667,
+      "razao_vs_media_estado": 1.2331733831585205
+    },
+    {
+      "Estado": "MARANHÃO",
+      "Mes": 10,
+      "n_total": 10353,
+      "n_focos": 5523,
+      "media_focos_estado": 1962.4166666666667,
+      "razao_vs_media_estado": 2.814387022803516
+    },
+    {
+      "Estado": "MARANHÃO",
+      "Mes": 11,
+      "n_total": 15309,
+      "n_focos": 8141,
+      "media_focos_estado": 1962.4166666666667,
+      "razao_vs_media_estado": 4.1484564100386425
+    },
+    {
+      "Estado": "MARANHÃO",
+      "Mes": 12,
+      "n_total": 10434,
+      "n_focos": 3811,
+      "media_focos_estado": 1962.4166666666667,
+      "razao_vs_media_estado": 1.9419932905855875
+    },
+    {
+      "Estado": "MATO GROSSO",
+      "Mes": 1,
+      "n_total": 2812,
+      "n_focos": 1762,
+      "media_focos_estado": 8043.583333333333,
+      "razao_vs_media_estado": 0.2190565979093066
+    },
+    {
+      "Estado": "MATO GROSSO",
+      "Mes": 2,
+      "n_total": 3371,
+      "n_focos": 2314,
+      "media_focos_estado": 8043.583333333333,
+      "razao_vs_media_estado": 0.28768272846886234
+    },
+    {
+      "Estado": "MATO GROSSO",
+      "Mes": 3,
+      "n_total": 4754,
+      "n_focos": 3038,
+      "media_focos_estado": 8043.583333333333,
+      "razao_vs_media_estado": 0.3776923634781348
+    },
+    {
+      "Estado": "MATO GROSSO",
+      "Mes": 4,
+      "n_total": 4440,
+      "n_focos": 2430,
+      "media_focos_estado": 8043.583333333333,
+      "razao_vs_media_estado": 0.3021041617023922
+    },
+    {
+      "Estado": "MATO GROSSO",
+      "Mes": 5,
+      "n_total": 7575,
+      "n_focos": 5644,
+      "media_focos_estado": 8043.583333333333,
+      "razao_vs_media_estado": 0.7016773204313997
+    },
+    {
+      "Estado": "MATO GROSSO",
+      "Mes": 6,
+      "n_total": 12242,
+      "n_focos": 8805,
+      "media_focos_estado": 8043.583333333333,
+      "razao_vs_media_estado": 1.0946613760450878
+    },
+    {
+      "Estado": "MATO GROSSO",
+      "Mes": 7,
+      "n_total": 11364,
+      "n_focos": 6662,
+      "media_focos_estado": 8043.583333333333,
+      "razao_vs_media_estado": 0.8282378293256529
+    },
+    {
+      "Estado": "MATO GROSSO",
+      "Mes": 8,
+      "n_total": 33555,
+      "n_focos": 21092,
+      "media_focos_estado": 8043.583333333333,
+      "razao_vs_media_estado": 2.6222143944966487
+    },
+    {
+      "Estado": "MATO GROSSO",
+      "Mes": 9,
+      "n_total": 54913,
+      "n_focos": 30631,
+      "media_focos_estado": 8043.583333333333,
+      "razao_vs_media_estado": 3.808128632553899
+    },
+    {
+      "Estado": "MATO GROSSO",
+      "Mes": 10,
+      "n_total": 18498,
+      "n_focos": 7946,
+      "media_focos_estado": 8043.583333333333,
+      "razao_vs_media_estado": 0.9878681764967936
+    },
+    {
+      "Estado": "MATO GROSSO",
+      "Mes": 11,
+      "n_total": 6962,
+      "n_focos": 4203,
+      "media_focos_estado": 8043.583333333333,
+      "razao_vs_media_estado": 0.5225283093148784
+    },
+    {
+      "Estado": "MATO GROSSO",
+      "Mes": 12,
+      "n_total": 3463,
+      "n_focos": 1996,
+      "media_focos_estado": 8043.583333333333,
+      "razao_vs_media_estado": 0.24814810977694438
+    },
+    {
+      "Estado": "PARÁ",
+      "Mes": 1,
+      "n_total": 5157,
+      "n_focos": 1927,
+      "media_focos_estado": 16309.25,
+      "razao_vs_media_estado": 0.11815380842160124
+    },
+    {
+      "Estado": "PARÁ",
+      "Mes": 2,
+      "n_total": 1122,
+      "n_focos": 616,
+      "media_focos_estado": 16309.25,
+      "razao_vs_media_estado": 0.0377699771602005
+    },
+    {
+      "Estado": "PARÁ",
+      "Mes": 3,
+      "n_total": 441,
+      "n_focos": 322,
+      "media_focos_estado": 16309.25,
+      "razao_vs_media_estado": 0.019743397151922987
+    },
+    {
+      "Estado": "PARÁ",
+      "Mes": 4,
+      "n_total": 377,
+      "n_focos": 239,
+      "media_focos_estado": 16309.25,
+      "razao_vs_media_estado": 0.014654260618973895
+    },
+    {
+      "Estado": "PARÁ",
+      "Mes": 5,
+      "n_total": 1293,
+      "n_focos": 885,
+      "media_focos_estado": 16309.25,
+      "razao_vs_media_estado": 0.05426368471879455
+    },
+    {
+      "Estado": "PARÁ",
+      "Mes": 6,
+      "n_total": 4442,
+      "n_focos": 2922,
+      "media_focos_estado": 16309.25,
+      "razao_vs_media_estado": 0.17916213191900301
+    },
+    {
+      "Estado": "PARÁ",
+      "Mes": 7,
+      "n_total": 17262,
+      "n_focos": 10139,
+      "media_focos_estado": 16309.25,
+      "razao_vs_media_estado": 0.6216717506936248
+    },
+    {
+      "Estado": "PARÁ",
+      "Mes": 8,
+      "n_total": 80667,
+      "n_focos": 49711,
+      "media_focos_estado": 16309.25,
+      "razao_vs_media_estado": 3.048024893848583
+    },
+    {
+      "Estado": "PARÁ",
+      "Mes": 9,
+      "n_total": 82057,
+      "n_focos": 46412,
+      "media_focos_estado": 16309.25,
+      "razao_vs_media_estado": 2.8457470453883533
+    },
+    {
+      "Estado": "PARÁ",
+      "Mes": 10,
+      "n_total": 65808,
+      "n_focos": 40083,
+      "media_focos_estado": 16309.25,
+      "razao_vs_media_estado": 2.457685056026488
+    },
+    {
+      "Estado": "PARÁ",
+      "Mes": 11,
+      "n_total": 67633,
+      "n_focos": 32987,
+      "media_focos_estado": 16309.25,
+      "razao_vs_media_estado": 2.0225945399083343
+    },
+    {
+      "Estado": "PARÁ",
+      "Mes": 12,
+      "n_total": 28918,
+      "n_focos": 9468,
+      "media_focos_estado": 16309.25,
+      "razao_vs_media_estado": 0.5805294541441207
+    },
+    {
+      "Estado": "RONDÔNIA",
+      "Mes": 1,
+      "n_total": 442,
+      "n_focos": 278,
+      "media_focos_estado": 5205.166666666667,
+      "razao_vs_media_estado": 0.05340847235118952
+    },
+    {
+      "Estado": "RONDÔNIA",
+      "Mes": 2,
+      "n_total": 235,
+      "n_focos": 128,
+      "media_focos_estado": 5205.166666666667,
+      "razao_vs_media_estado": 0.02459095129838942
+    },
+    {
+      "Estado": "RONDÔNIA",
+      "Mes": 3,
+      "n_total": 241,
+      "n_focos": 168,
+      "media_focos_estado": 5205.166666666667,
+      "razao_vs_media_estado": 0.03227562357913611
+    },
+    {
+      "Estado": "RONDÔNIA",
+      "Mes": 4,
+      "n_total": 240,
+      "n_focos": 136,
+      "media_focos_estado": 5205.166666666667,
+      "razao_vs_media_estado": 0.026127885754538758
+    },
+    {
+      "Estado": "RONDÔNIA",
+      "Mes": 5,
+      "n_total": 546,
+      "n_focos": 426,
+      "media_focos_estado": 5205.166666666667,
+      "razao_vs_media_estado": 0.08184175978995228
+    },
+    {
+      "Estado": "RONDÔNIA",
+      "Mes": 6,
+      "n_total": 1326,
+      "n_focos": 781,
+      "media_focos_estado": 5205.166666666667,
+      "razao_vs_media_estado": 0.15004322628157918
+    },
+    {
+      "Estado": "RONDÔNIA",
+      "Mes": 7,
+      "n_total": 6403,
+      "n_focos": 3828,
+      "media_focos_estado": 5205.166666666667,
+      "razao_vs_media_estado": 0.7354231372674586
+    },
+    {
+      "Estado": "RONDÔNIA",
+      "Mes": 8,
+      "n_total": 33497,
+      "n_focos": 20133,
+      "media_focos_estado": 5205.166666666667,
+      "razao_vs_media_estado": 3.8678876757068297
+    },
+    {
+      "Estado": "RONDÔNIA",
+      "Mes": 9,
+      "n_total": 40993,
+      "n_focos": 24512,
+      "media_focos_estado": 5205.166666666667,
+      "razao_vs_media_estado": 4.709167173641574
+    },
+    {
+      "Estado": "RONDÔNIA",
+      "Mes": 10,
+      "n_total": 14890,
+      "n_focos": 7680,
+      "media_focos_estado": 5205.166666666667,
+      "razao_vs_media_estado": 1.475457077903365
+    },
+    {
+      "Estado": "RONDÔNIA",
+      "Mes": 11,
+      "n_total": 5778,
+      "n_focos": 3856,
+      "media_focos_estado": 5205.166666666667,
+      "razao_vs_media_estado": 0.7408024078639812
+    },
+    {
+      "Estado": "RONDÔNIA",
+      "Mes": 12,
+      "n_total": 1130,
+      "n_focos": 536,
+      "media_focos_estado": 5205.166666666667,
+      "razao_vs_media_estado": 0.10297460856200569
+    },
+    {
+      "Estado": "RORAIMA",
+      "Mes": 1,
+      "n_total": 5005,
+      "n_focos": 1971,
+      "media_focos_estado": 1168.3333333333333,
+      "razao_vs_media_estado": 1.6870185449358062
+    },
+    {
+      "Estado": "RORAIMA",
+      "Mes": 2,
+      "n_total": 3335,
+      "n_focos": 2123,
+      "media_focos_estado": 1168.3333333333333,
+      "razao_vs_media_estado": 1.8171184022824538
+    },
+    {
+      "Estado": "RORAIMA",
+      "Mes": 3,
+      "n_total": 6869,
+      "n_focos": 4645,
+      "media_focos_estado": 1168.3333333333333,
+      "razao_vs_media_estado": 3.9757489300998574
+    },
+    {
+      "Estado": "RORAIMA",
+      "Mes": 4,
+      "n_total": 2538,
+      "n_focos": 1819,
+      "media_focos_estado": 1168.3333333333333,
+      "razao_vs_media_estado": 1.5569186875891585
+    },
+    {
+      "Estado": "RORAIMA",
+      "Mes": 5,
+      "n_total": 231,
+      "n_focos": 105,
+      "media_focos_estado": 1168.3333333333333,
+      "razao_vs_media_estado": 0.0898716119828816
+    },
+    {
+      "Estado": "RORAIMA",
+      "Mes": 6,
+      "n_total": 58,
+      "n_focos": 34,
+      "media_focos_estado": 1168.3333333333333,
+      "razao_vs_media_estado": 0.029101283880171185
+    },
+    {
+      "Estado": "RORAIMA",
+      "Mes": 7,
+      "n_total": 64,
+      "n_focos": 46,
+      "media_focos_estado": 1168.3333333333333,
+      "razao_vs_media_estado": 0.03937232524964337
+    },
+    {
+      "Estado": "RORAIMA",
+      "Mes": 8,
+      "n_total": 243,
+      "n_focos": 163,
+      "media_focos_estado": 1168.3333333333333,
+      "razao_vs_media_estado": 0.13951497860199716
+    },
+    {
+      "Estado": "RORAIMA",
+      "Mes": 9,
+      "n_total": 669,
+      "n_focos": 445,
+      "media_focos_estado": 1168.3333333333333,
+      "razao_vs_media_estado": 0.3808844507845935
+    },
+    {
+      "Estado": "RORAIMA",
+      "Mes": 10,
+      "n_total": 1474,
+      "n_focos": 958,
+      "media_focos_estado": 1168.3333333333333,
+      "razao_vs_media_estado": 0.8199714693295292
+    },
+    {
+      "Estado": "RORAIMA",
+      "Mes": 11,
+      "n_total": 1952,
+      "n_focos": 967,
+      "media_focos_estado": 1168.3333333333333,
+      "razao_vs_media_estado": 0.8276747503566334
+    },
+    {
+      "Estado": "RORAIMA",
+      "Mes": 12,
+      "n_total": 1989,
+      "n_focos": 744,
+      "media_focos_estado": 1168.3333333333333,
+      "razao_vs_media_estado": 0.6368045649072753
+    },
+    {
+      "Estado": "TOCANTINS",
+      "Mes": 1,
+      "n_total": 39,
+      "n_focos": 15,
+      "media_focos_estado": 174.16666666666666,
+      "razao_vs_media_estado": 0.0861244019138756
+    },
+    {
+      "Estado": "TOCANTINS",
+      "Mes": 2,
+      "n_total": 71,
+      "n_focos": 20,
+      "media_focos_estado": 174.16666666666666,
+      "razao_vs_media_estado": 0.11483253588516747
+    },
+    {
+      "Estado": "TOCANTINS",
+      "Mes": 3,
+      "n_total": 25,
+      "n_focos": 13,
+      "media_focos_estado": 174.16666666666666,
+      "razao_vs_media_estado": 0.07464114832535886
+    },
+    {
+      "Estado": "TOCANTINS",
+      "Mes": 4,
+      "n_total": 21,
+      "n_focos": 7,
+      "media_focos_estado": 174.16666666666666,
+      "razao_vs_media_estado": 0.04019138755980861
+    },
+    {
+      "Estado": "TOCANTINS",
+      "Mes": 5,
+      "n_total": 75,
+      "n_focos": 50,
+      "media_focos_estado": 174.16666666666666,
+      "razao_vs_media_estado": 0.28708133971291866
+    },
+    {
+      "Estado": "TOCANTINS",
+      "Mes": 6,
+      "n_total": 197,
+      "n_focos": 118,
+      "media_focos_estado": 174.16666666666666,
+      "razao_vs_media_estado": 0.6775119617224881
+    },
+    {
+      "Estado": "TOCANTINS",
+      "Mes": 7,
+      "n_total": 315,
+      "n_focos": 174,
+      "media_focos_estado": 174.16666666666666,
+      "razao_vs_media_estado": 0.999043062200957
+    },
+    {
+      "Estado": "TOCANTINS",
+      "Mes": 8,
+      "n_total": 631,
+      "n_focos": 301,
+      "media_focos_estado": 174.16666666666666,
+      "razao_vs_media_estado": 1.7282296650717703
+    },
+    {
+      "Estado": "TOCANTINS",
+      "Mes": 9,
+      "n_total": 1417,
+      "n_focos": 544,
+      "media_focos_estado": 174.16666666666666,
+      "razao_vs_media_estado": 3.1234449760765552
+    },
+    {
+      "Estado": "TOCANTINS",
+      "Mes": 10,
+      "n_total": 908,
+      "n_focos": 442,
+      "media_focos_estado": 174.16666666666666,
+      "razao_vs_media_estado": 2.537799043062201
+    },
+    {
+      "Estado": "TOCANTINS",
+      "Mes": 11,
+      "n_total": 534,
+      "n_focos": 262,
+      "media_focos_estado": 174.16666666666666,
+      "razao_vs_media_estado": 1.5043062200956938
+    },
+    {
+      "Estado": "TOCANTINS",
+      "Mes": 12,
+      "n_total": 222,
+      "n_focos": 144,
+      "media_focos_estado": 174.16666666666666,
+      "razao_vs_media_estado": 0.8267942583732057
+    }
+  ]
+}

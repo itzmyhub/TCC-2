@@ -1,0 +1,8 @@
+{
+  "timestamp": "2026-05-12T06:12:49.558344+00:00",
+  "random_state": 42,
+  "test_size": 0.2,
+  "stratify": true,
+  "train_test_split": "sklearn.model_selection.train_test_split",
+  "nota": "Mesmo random_state garante split reprodutível com mesma versão do sklearn e mesmas linhas do CSV."
+}

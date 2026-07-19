@@ -1,0 +1,30 @@
+[
+  {
+    "rotulo": "Stacking\n(pré-Tier 1)",
+    "sub": "04/2026",
+    "accuracy": 80.49,
+    "f1_macro": 74.92,
+    "f1_moderado": 54.98
+  },
+  {
+    "rotulo": "Stacking\nTier 1",
+    "sub": "10/05/2026",
+    "accuracy": 83.6,
+    "f1_macro": 78.92,
+    "f1_moderado": 61.68
+  },
+  {
+    "rotulo": "Stacking GBM\nTier 1 + Optuna",
+    "sub": "12/05/2026",
+    "accuracy": 84.61,
+    "f1_macro": 79.95,
+    "f1_moderado": 62.96
+  },
+  {
+    "rotulo": "Stacking GBM\n+ thresholds",
+    "sub": "12/05/2026",
+    "accuracy": 83.88,
+    "f1_macro": 79.81,
+    "f1_moderado": 63.75
+  }
+]

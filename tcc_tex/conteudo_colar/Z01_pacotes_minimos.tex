@@ -1,0 +1,37 @@
+% =============================================================================
+% PACOTES MÍNIMOS RECOMENDADOS (cole no preâmbulo APÓS \documentclass...{uftex})
+% =============================================================================
+% Ajuste conforme o seu template: muitos itens já vêm da classe uftex.
+%
+% NÃO carregue babel de novo no preâmbulo. A classe uftex já faz:
+%   \usepackage[english,brazil]{babel}
+% Se você acrescentar \usepackage[portuguese]{babel} ou \usepackage[brazil]{babel},
+% o pdfLaTeX para com "Option clash for package babel" (o erro pode aparecer na
+% linha seguinte, ex.: ao carregar quoting).
+%
+% NÃO é necessário mhchem para os fragmentos em conteudo_colar/: CO2 foi
+% escrito como CO$_{2}$.
+%
+% Capítulo 5 (Resultados): as tabelas usam booktabs (\toprule, \midrule) e
+% siunitx (\num, \SI). Se usar \input{07_estudo_caso_pium_to}, inclua o arquivo
+% .tex homônimo no projeto (Overleaf) ou cole o conteúdo no documento único.
+% Prefixos binários \mebi\byte/\gibi\byte exigem opção binary-units no siunitx;
+% no repositório preferimos \text{MiB}/\text{GiB} e \SI{}{\mega\watt} para FRP.
+% =============================================================================
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{quoting}
+\usepackage{setspace}
+\usepackage{url}
+\sisetup{
+  output-decimal-marker = {,},
+  group-separator       = {.},
+  group-minimum-digits  = 4
+}
+
+% hyperref por último é uma boa prática (se ainda não estiver no template):
+% \usepackage{hyperref}

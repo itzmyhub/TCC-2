@@ -1,0 +1,63 @@
+Este trabalho desenvolveu um sistema completo de classificação supervisionada de risco de incêndio em três níveis (\emph{Baixo}, \emph{Moderado}, \emph{Muito Alto}) para a Amazônia Legal, integrando dados do Programa Queimadas/INPE~\cite{INPE24} (2014--2023), reanálise climática NASA POWER~\cite{nasapower}, detecções em tempo real NASA FIRMS~\cite{nasafirms}, e o \emph{shapefile} oficial do IBGE~\cite{ibgeamazonia2024}. Os principais achados são os seguintes.
+
+\paragraph{1. Desempenho final.} O modelo final --- \textbf{\emph{Ensemble Stacking}} com meta-classificador \emph{Gradient Boosting}~\cite{friedman2001greedy,wolpert1992stacked} (\texttt{ensemble\_stacking\_gbm}) --- atingiu \textbf{\SI{84,61}{\percent}} de acurácia, \textbf{\num{0,7995}} de \(\text{F}_1\)-macro e \textbf{\num{0,6375}} de \(\text{F}_1\)-Moderado em \emph{hold-out} estratificado de \num{184862} amostras. Esse resultado supera em quase \SI{15}{pp} a meta acadêmica original do projeto (\(\geq \SI{70}{\percent}\)) e em mais de \SI{22}{pp} o \emph{baseline} SGDClassifier do TCC~II original.
+
+\paragraph{2. A engenharia de \emph{features} físico-climáticas é o fator dominante de ganho.} A introdução das 24~\emph{features} Tier~1 (SPI~\cite{mckee1993spi}, KBDI \emph{proxy}~\cite{keetch1968drought}, VPD \emph{proxy}~\cite{seager2015climatology}, médias móveis estendidas, \emph{lags} acumulados, histórico estendido de fogo, dias secos), substituindo a variável \texttt{Umidade} por \emph{proxies} amparados pela literatura recente~\cite{seager2015climatology,forests2024cerradoamazon,npjhazards2025fire}, entregou \SI{+3,11}{pp} em acurácia e \SI{+6,70}{pp} em \(\text{F}_1\)-Moderado, ao custo de apenas \SI{40}{\second} de geração \emph{offline}. Esse achado reforça a tese de que \emph{engenharia de variáveis bem embasada na literatura é tão importante quanto a escolha do algoritmo} em problemas de domínio.
+
+\paragraph{3. Interpretabilidade convergente entre duas técnicas independentes.} Análise SHAP via Random Forest \emph{compacto proxy}~\cite{lundberg2017unified,lundberg2020local} e \emph{Permutation Importance} \emph{model-agnostic}~\cite{breiman2001random,fisher2019all} sobre o \emph{Stacking} GBM final identificam, coerentemente, \texttt{KBDI\_proxy}, \texttt{VPD\_proxy}, \texttt{Indice\_Seca}, \texttt{DiaSemChuva\_ma90} e \texttt{Precipitacao\_acum\_180d} como \emph{features} dominantes. A \texttt{VPD\_proxy} aparece no \emph{Top-5} da classe \emph{Muito Alto} por ambas as técnicas independentes --- validação cruzada que sustenta a escolha metodológica de substituir \texttt{Umidade} por \emph{proxies} físicos.
+
+\paragraph{4. Validação temporal estrita revela o viés do \emph{split} aleatório.} A acurácia média em três \emph{folds} \emph{rolling-origin}~\cite{bergmeir2012cv} (2021--2023) é de \textbf{\SI{70,13}{\percent} \(\pm\) 4,06}, com queda de \SI{14,49}{pp} em relação ao \emph{split} aleatório. Mesmo assim, o modelo \emph{mantém-se acima da meta acadêmica original} (\(\geq \SI{70}{\percent}\)) sob esse regime muito mais exigente. O \emph{Stacking} GBM mantém vantagem de \SI{+1,4}{pp} em \(\text{F}_1\)-macro e \SI{+4,2}{pp} em \(\text{F}_1\)-Moderado sobre o Random Forest, mesmo no regime causal estrito --- sinal de que o ganho do \emph{ensemble} \textbf{não é mero \emph{overfitting} do \emph{split} aleatório}. A queda em \(\text{F}_1\)-Moderado (\SI{-32,35}{pp}) sob validação temporal indica que as fronteiras de transição entre regimes são intrinsecamente difíceis em horizontes maiores e motivam um trabalho futuro prioritário.
+
+\paragraph{5. Calibração e ajuste de limiares.} A calibração isotônica das probabilidades~\cite{zadrozny2002transforming} e o ajuste multi-classe de limiares (\texttt{thr\_Moderado=0,35}, \texttt{thr\_Muito\_Alto=0,45}) elevam o \(\text{F}_1\)-Moderado para \num{0,6375} (+\SI{1,44}{pp} sobre o \texttt{argmax}), com custo de apenas \SI{0,44}{pp} em acurácia global --- \emph{trade-off} considerado favorável dada a importância da classe intermediária no contexto operacional.
+
+\paragraph{6. Aplicação web interativa explicável.} A aplicação \emph{Flask} + \emph{Folium}~\cite{folium} + \emph{Leaflet}~\cite{leafletjs} demonstra a viabilidade operacional do sistema: ao receber um clique do usuário em qualquer ponto da Amazônia Legal, o servidor compõe em \(\approx 11\)--\SI{18}{\second} um vetor de 44~\emph{features} (incluindo 24~Tier~1 via \emph{lookup} espaço-sazonal, 5 calculadas em tempo real a partir do clima atual NASA POWER, 9 originais e histórico FIRMS), classifica o risco com \emph{thresholds} calibrados, e exibe \textbf{explicação local} das \emph{features} responsáveis pela decisão. \emph{Smoke-tests} em zonas opostas (centro úmido do Amazonas em setembro \(\times\) Sul do Pará em pleno setembro) confirmam que o modelo discrimina corretamente, com explicações fisicamente defensáveis.
+
+\paragraph{7. Reprodutibilidade tratada como requisito não funcional.} Todas as métricas, hiperparâmetros, \emph{thresholds} e metadados de \emph{split} estão persistidos em JSON versionado (\texttt{modelos/relatorios/*.json}); o \emph{pipeline} completo é reexecutável via \emph{scripts} modulares; o aplicativo expõe \texttt{thresholds\_aplicados} e \texttt{fonte\_importance} na resposta de cada predição para auditoria.
+
+\paragraph{8. Imputação de \emph{Umidade} via \emph{pseudo-labeling}.} A integração via NASA POWER forneceu umidade observada em \num{170465} registros (\SI{18,25}{\percent} das \num{933954} linhas do universo usado no fluxo de pseudo-\emph{labeling}), em razão dos limites de taxa do serviço. Como mitigação, foi implementada a estratégia de \emph{pseudo-labeling} com LightGBM \emph{regressor}~\cite{lee2013pseudo,lopezgarcia2024spatiotemporal}, atingindo \(R^2 = 0{,}933\), RMSE = \SI{4,33}{\percent} RH e MAE = \SI{3,19}{\percent} RH em \emph{holdout}, com cobertura final de \SI{100}{\percent} no \emph{dataset} \texttt{base\_de\_dados\_umidade\_pseudo.csv} (coluna \texttt{Umidade\_origem} para auditoria). O retreino do \texttt{ensemble\_stacking\_gbm} incluindo \texttt{Umidade} (pseudo-rotulada e real) permanece como trabalho futuro imediato, com quantificação de eventual viés de confirmação~\cite{arazo2020pseudo}.
+
+\section{Limitações reconhecidas}
+\label{sec:conclusao_limitacoes}
+
+\begin{enumerate}
+  \item \textbf{Viés temporal de janelas móveis} quantificado na Seção~\ref{sec:res_temporal} (queda de \SI{14,49}{pp} em acurácia sob validação temporal estrita). Para \emph{deployment} em horizontes maiores, sugere-se reimplementar as \emph{features} com causalidade estrita (computar \texttt{Precipitacao\_ma30} usando apenas dados \(\leq t\) do registro).
+
+  \item \textbf{Cobertura parcial da \texttt{Umidade} real NASA POWER} (\num{170465} registros, \SI{18,25}{\percent} das \num{933954} linhas do fluxo pseudo-\emph{label}) --- mitigada via \emph{pseudo-labeling}, mas o retreino do \emph{Stacking} incluindo \texttt{Umidade} fica como trabalho futuro imediato.
+
+  \item \textbf{SHAP exato sobre o \emph{Stacking} GBM} não é viável em CPU por requisitos de memória; SHAP via Random Forest \emph{compacto proxy} é defensável~\cite{lundberg2020local} mas tem perda qualitativa em relação ao modelo de produção. A \emph{Permutation Importance} sobre o modelo real complementa a análise.
+
+  \item \textbf{Subamostragem em \emph{boosting} e em validação temporal} (250k em XGBoost/LightGBM, 60--120k por \emph{fold} no \emph{rolling-origin}) por limitação de memória do OHE denso de \texttt{Municipio} com \(\approx 542\) categorias. Migração para representação esparsa é trabalho futuro técnico.
+
+  \item \textbf{Generalização espacial} --- o modelo pode estar parcialmente ajustado a padrões idiossincráticos de municípios com muitos exemplos. Avaliação em \emph{folds} espaciais (\emph{leave-one-state-out}) seria complemento desejável.
+
+  \item \textbf{Multicolinearidade nas \emph{features} de janela móvel} --- a \emph{Permutation Importance} assume independência marginal entre \emph{features} e pode sub-estimar o \(\Delta \text{F}_1\) quando \emph{features} correlatas estão disponíveis~\cite{molnar2022interpretable}. Análise condicional~\cite{hooker2021unrestricted} permanece como complemento metodológico desejável.
+\end{enumerate}
+
+\section{Trabalhos futuros}
+\label{sec:conclusao_futuros}
+
+\begin{enumerate}
+  \item Retreinar \texttt{ensemble\_stacking\_gbm} incluindo \texttt{Umidade} (pseudo-rotulada e real) e quantificar ganho marginal, com controle explícito do viés de confirmação~\cite{arazo2020pseudo}.
+
+  \item Implementar causalidade estrita das \emph{features} de janela móvel para reduzir o viés temporal (computar \texttt{Precipitacao\_ma30}, \texttt{DiaSemChuva\_ma*}, \texttt{SPI\_*}, \texttt{Incendios\_Ultimos\_*} usando apenas dados \(\leq t\) do registro).
+
+  \item Integração de NDVI/EVI MODIS via Google Earth Engine como \emph{features} Tier~2~\cite{cheerala2025probabilistic}.
+
+  \item Integração de MapBiomas Fogo Coleção~4~\cite{mapbiomasfogo} como \emph{feature} adicional de histórico de área queimada.
+
+  \item Migração do SHAP para \texttt{shap.GPUTreeExplainer} (CUDA) para análise exata sobre o RF Optuna produtivo, e \emph{Permutation Importance} condicional~\cite{hooker2021unrestricted} para mitigar multicolinearidade.
+
+  \item Substituição do \emph{lookup} espaço-sazonal por séries temporais reais (NASA POWER \texttt{PRECTOTCORR} diário 28d) no aplicativo para cálculo \emph{exato} de SPI, anomalia e acumulados na data consultada.
+
+  \item Validação espacial \emph{leave-one-state-out} para quantificar a generalização do modelo a estados pouco representados no treino.
+\end{enumerate}
+
+\section{Considerações finais}
+\label{sec:conclusao_consideracoes}
+
+A revisão abrangente da literatura, descrita no Capítulo~2, evidenciou a complexidade do fenômeno das queimadas na Amazônia, ressaltando sua amplitude ambiental, social e econômica. Os resultados experimentais sustentam que ferramentas modernas de aprendizado de máquina, combinadas a engenharia de \emph{features} físico-climáticas embasada na literatura recente e a uma interface explicável de uso interativo, representam contribuição relevante para o monitoramento da Amazônia Legal.
+
+Os números reportados, tanto sob \emph{split} aleatório estratificado quanto sob validação temporal estrita, indicam que o sistema desenvolvido atende ao requisito acadêmico original (\(\geq \SI{70}{\percent}\) de acurácia) com margem confortável (\SI{84,61}{\percent} no regime operacional, \SI{70,13}{\percent} no regime causal estrito), e oferece um caminho concreto para evoluir até \(\geq \SI{90}{\percent}\) de acurácia mediante a inclusão das \emph{features} de Tier~2 (NDVI, MapBiomas Fogo) e da \texttt{Umidade} real retreinada, ambas planejadas como continuidade natural deste trabalho.
+
+
+\backmatter

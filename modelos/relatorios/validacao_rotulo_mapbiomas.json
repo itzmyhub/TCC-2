@@ -1,0 +1,25 @@
+{
+  "fonte_independente": "MapBiomas Fogo Coleção 3 (área queimada, ha), estado×ano",
+  "rotulo": "focos INPE (define fogo=1 na célula-mês)",
+  "n_pontos": 90,
+  "pearson_log": {
+    "r": 0.17270245385416935,
+    "p": 0.10357725579717782
+  },
+  "spearman_global": {
+    "rho": 0.2753837922377248,
+    "p": 0.008614053632822393
+  },
+  "spearman_interanual_intra_estado_media": 0.814141414141414,
+  "por_estado": {
+    "ACRE": 0.8666666666666665,
+    "AMAPA": 0.9151515151515152,
+    "AMAZONAS": 0.6848484848484848,
+    "MARANHAO": 0.8787878787878788,
+    "MATO GROSSO": 0.7939393939393938,
+    "PARA": 0.7575757575757575,
+    "RONDONIA": 0.7939393939393938,
+    "RORAIMA": 0.9393939393939393,
+    "TOCANTINS": 0.6969696969696969
+  }
+}

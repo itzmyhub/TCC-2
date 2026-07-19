@@ -1,0 +1,115 @@
+% ============================================================================
+% 03_capitulo3_subsecoes_novas.tex
+% Novas subsecoes do Capitulo 3 -- FUNDAMENTACAO TEORICA.
+%
+% Como usar:
+%   (A) Inserir as subsecoes 3.8.1.4 a 3.8.1.7 logo APOS a atual
+%       Secao 3.8.1.3 (Support Vector Machine), substituindo o conteudo
+%       de SVM por uma observacao explicativa breve OU mantendo SVM
+%       como contexto historico.
+%   (B) Inserir as subsecoes 3.8.5, 3.8.6, 3.8.7 ao FIM da Secao 3.8
+%       (Inteligencia Artificial), antes da migracao para o Capitulo 4.
+%   (C) Inserir as Secoes 3.9, 3.10, 3.11 como NOVAS secoes principais
+%       depois da Secao 3.8.
+%
+%   Recomendacao de numeracao alternativa caso prefira preservar a
+%   numeracao original do TCC II: usar \section* / \subsection* (sem
+%   numeracao automatica) e ajustar a TOC manualmente.
+% ============================================================================
+
+% ============================================================================
+% BLOCO (A) -- Modelos modernos de boosting e ensembles
+% ============================================================================
+
+\subsubsection{XGBoost --- Gradient Boosting otimizado}
+\label{subsec:fund_xgboost}
+
+O \emph{XGBoost} (\emph{eXtreme Gradient Boosting})~\cite{chen2016xgboost} é uma implementação otimizada do \emph{Gradient Boosting Machine}~\cite{friedman2001greedy} que se popularizou em competições de aprendizado de máquina pela sua eficiência computacional, suporte nativo a regularização \(L_1\) e \(L_2\), \emph{early stopping} e paralelização. Em essência, o algoritmo treina iterativamente novas árvores de decisão para corrigir os erros residuais das árvores anteriores, com uma função objetivo que combina perda e regularização. Cada nova árvore é construída ponderando observações que o modelo atual erra mais --- processo conhecido como \emph{boosting}. Em datasets tabulares com forte sinal não-linear, o XGBoost tipicamente supera Random Forest puro em acurácia, conforme demonstrado por Quesada-Ruiz \emph{et al.}~\cite{npjhazards2025fire} em previsão sazonal de fogo no Brasil.
+
+\subsubsection{LightGBM --- \emph{boosting} baseado em histograma}
+\label{subsec:fund_lightgbm}
+
+O \emph{LightGBM}~\cite{ke2017lightgbm} implementa duas otimizações sobre o GBM tradicional: \emph{(i)} \emph{histogram-based learning}, em que valores contínuos são pré-discretizados em \emph{bins}, reduzindo significativamente o custo de busca por divisões (\emph{splits}) ótimas; \emph{(ii)} \emph{leaf-wise tree growth} (em oposição ao \emph{level-wise} tradicional), em que cada iteração expande o nó folha que mais reduz a perda, gerando árvores mais profundas e específicas. O resultado prático é treinamento entre cinco e dez vezes mais rápido que o XGBoost em \emph{datasets} grandes, com acurácia equivalente ou superior. A contrapartida é o maior risco de \emph{overfitting} em \emph{datasets} pequenos, mitigado pelo controle dos parâmetros \texttt{min\_child\_samples} e \texttt{num\_leaves}.
+
+\subsubsection{CatBoost --- \emph{boosting} nativo para \emph{features} categóricas}
+\label{subsec:fund_catboost}
+
+O \emph{CatBoost}~\cite{prokhorenkova2018catboost} endereça uma limitação dos GBMs anteriores: a necessidade de pré-codificação das \emph{features} categóricas via \emph{one-hot encoding} ou similar, que infla a dimensionalidade e gera viés de \emph{target leakage} quando o \emph{encoding} usa estatísticas do alvo. O CatBoost incorpora codificação categórica baseada em \emph{ordered target statistics}, que evita esse vazamento. Também oferece \texttt{auto\_class\_weights='Balanced'} de forma nativa para \emph{datasets} desbalanceados, o que o torna conveniente como \emph{base learner} em \emph{pipelines} de risco de fogo.
+
+\subsubsection{\emph{Ensembles} --- \emph{Voting} e \emph{Stacking}}
+\label{subsec:fund_ensembles}
+
+O conceito de combinar múltiplos modelos em um \emph{ensemble} foi formalizado por Wolpert~\cite{wolpert1992stacked} sob o nome \emph{Stacked Generalization}. A ideia central é que diferentes algoritmos exploram diferentes regiões do espaço de hipóteses; combinar suas saídas reduz a variância e o viés do classificador final. Duas estratégias são adotadas no presente trabalho:
+
+\begin{itemize}
+  \item \textbf{\emph{Voting Soft}}: cada modelo base produz probabilidades para cada classe; a predição final é a classe com a maior probabilidade média entre os modelos. Funciona melhor que \emph{hard voting} (média de classes preditas) porque preserva a incerteza dos modelos individuais.
+  \item \textbf{\emph{Stacking}}: as probabilidades dos modelos base servem como \emph{features} para um \emph{meta-classificador} que aprende a melhor combinação. Diferente do \emph{Voting}, o \emph{Stacking} pode aprender que certos modelos são mais confiáveis para certas classes. O meta-classificador costuma ser um modelo mais simples (Regressão Logística) para evitar \emph{overfitting}, mas modelos mais expressivos como \emph{Gradient Boosting}~\cite{friedman2001greedy} podem ser usados quando há volume suficiente de dados --- escolha adotada neste trabalho com ganho de 1\,pp em acurácia (Capítulo~5).
+\end{itemize}
+
+% ============================================================================
+% BLOCO (B) -- Otimizacao, interpretabilidade, desbalanceamento
+% ============================================================================
+
+\subsection{Otimização de hiperparâmetros com Optuna}
+\label{sec:fund_optuna}
+
+Modelos de aprendizado de máquina possuem hiperparâmetros --- escolhas estruturais que não são aprendidas dos dados (por exemplo \texttt{n\_estimators}, \texttt{max\_depth}, \texttt{learning\_rate}). A escolha manual desses valores (``ajuste por intuição'') é subótima; a \textbf{otimização bayesiana} explora o espaço de hiperparâmetros de forma sistemática.
+
+O \emph{Optuna}~\cite{akiba2019optuna} implementa \emph{TPE} (\emph{Tree-structured Parzen Estimator}), um algoritmo de otimização bayesiana que modela \(P(\text{hiperparâmetros} \mid \text{resultado bom})\) e \(P(\text{hiperparâmetros} \mid \text{resultado ruim})\) separadamente, sugerindo o próximo conjunto de hiperparâmetros que maximiza a razão entre essas duas distribuições. Neste trabalho, o Optuna foi aplicado em quatro modelos (RF, LR, XGBoost, LightGBM), cada um com 15 \emph{trials} e validação cruzada estratificada em três \emph{folds}, otimizando \(\text{F}_1\)-macro. Os ganhos foram substanciais: XGBoost \(+8,4\,\text{pp}\) em \(\text{F}_1\)-macro CV; LightGBM \(+5,5\,\text{pp}\); RF \(+4,5\,\text{pp}\).
+
+\subsection{Interpretabilidade de modelos}
+\label{sec:fund_interpretabilidade}
+
+Modelos de \emph{ensemble} e \emph{boosting} funcionam como \emph{black boxes}: alta acurácia, baixa transparência. Para uso em decisões de gestão ambiental --- objetivo deste TCC --- é fundamental que o sistema \textbf{explique por que} classificou um ponto como de risco ``Muito Alto''. Duas técnicas modernas são adotadas neste trabalho:
+
+\paragraph{SHAP (\emph{SHapley Additive exPlanations})~\cite{lundberg2017unified}.} Baseado em teoria dos jogos cooperativos (valores de Shapley), atribui a cada \emph{feature} uma contribuição numérica para a predição individual, de modo que a soma das contribuições reconstitui a probabilidade predita. Para modelos baseados em árvores, há uma implementação exata em tempo polinomial denominada \emph{TreeExplainer}~\cite{lundberg2020local}. O cálculo de SHAP por classe permite identificar quais \emph{features} dirigem cada uma das 3 classes de risco separadamente.
+
+\paragraph{\emph{Permutation Importance}~\cite{breiman2001random,fisher2019all}.} Formaliza a importância de uma \emph{feature} como a degradação esperada da métrica de avaliação (\(\text{F}_1\)-macro, \(\text{F}_1\) por classe) quando os valores da \emph{feature} são permutados aleatoriamente, mantendo a distribuição marginal. É \emph{model-agnostic} (funciona com qualquer modelo) e não enviesada para \emph{features} de alta cardinalidade~\cite{strobl2007bias} --- propriedade relevante quando há OHE de variáveis como \texttt{Municipio} (542 categorias) ou \texttt{Estado} (9 categorias). A análise complementar via importância \emph{condicional}~\cite{hooker2021unrestricted} é apontada como trabalho futuro no Capítulo~6, dada a multicolinearidade nas \emph{features} de janela móvel.
+
+Molnar~\cite{molnar2022interpretable} oferece tratamento aprofundado de ambas as técnicas, incluindo limitações práticas (e.g.\ \(\S 8.5\) sobre multicolinearidade na \emph{Permutation Importance}) que pautaram as decisões do Capítulo~5.
+
+\subsection{Tratamento de desbalanceamento de classes}
+\label{sec:fund_desbalanceamento}
+
+Em \emph{datasets} reais, classes raras são tipicamente minoritárias, e modelos treinados sem mitigação tendem a privilegiar as classes majoritárias~\cite{he2009learning}. Três estratégias foram avaliadas neste trabalho:
+
+\begin{enumerate}
+  \item \texttt{class\_weight='balanced'}: cada classe contribui para a função de perda com peso inversamente proporcional à sua frequência. Não cria amostras sintéticas; apenas re-pondera. É a estratégia adotada nos modelos finais \texttt{random\_forest\_balanced} e \texttt{logistic\_regression\_balanced}.
+
+  \item \textbf{SMOTE} (\emph{Synthetic Minority Over-sampling Technique})~\cite{chawla2002smote}: gera amostras sintéticas da classe minoritária interpolando vizinhos. Aumenta o suporte de classes raras, mas pode criar exemplos não-realistas em \emph{datasets} com forte estrutura espacial-temporal. Foi implementada com a biblioteca \emph{imbalanced-learn}~\cite{lemaitre2017imbalanced} na variante \texttt{random\_forest\_smote}.
+
+  \item \textbf{\emph{Threshold tuning} multi-classe}: em vez de aplicar \texttt{argmax} sobre as probabilidades calibradas, ajustam-se limiares \(\bigl(\text{thr}_{\text{Mod}}, \text{thr}_{\text{MuitoAlto}}\bigr)\) que privilegiam a revocação da classe minoritária, maximizando \(\text{F}_1\) na classe \emph{Moderado} sem custo de \(\text{F}_1\)-macro global.
+\end{enumerate}
+
+% ============================================================================
+% BLOCO (C) -- Calibracao, indices fisico-climaticos, validacao temporal
+% ============================================================================
+
+\section{Calibração de probabilidades}
+\label{sec:fund_calibracao}
+
+A predição padrão dos modelos retorna escores não-calibrados --- em particular, Random Forest e GBMs tendem a produzir probabilidades subestimadas próximas a 0 e superestimadas próximas a 1. Para que a saída do modelo seja interpretável como ``\(P(\text{classe} \mid \text{features}) = 0{,}73\)'', é necessário aplicar uma transformação de calibração após o treinamento.
+
+Duas técnicas clássicas existem: a calibração de Platt~\cite{platt1999probabilistic}, que ajusta uma sigmoide entre os escores brutos e a probabilidade empírica; e a calibração isotônica~\cite{zadrozny2002transforming}, que ajusta uma função monotônica não-paramétrica sem assumir forma sigmoidal. A última é a adotada neste trabalho via \texttt{CalibratedClassifierCV} do \emph{scikit-learn}~\cite{pedregosa2011scikit}, com validação cruzada em 3 \emph{folds} para evitar \emph{overfitting} da calibração.
+
+\section{Índices físico-climáticos de fogo}
+\label{sec:fund_indices_fogo}
+
+A literatura de risco de incêndio acumulou, desde os anos 1960, um conjunto de índices físicos para quantificar \textbf{déficit hídrico}, \textbf{estresse atmosférico} e \textbf{aridez}. Quatro deles são adotados neste trabalho como \emph{proxies} à variável \texttt{Umidade} (cuja integração via NASA POWER é cara em tempo):
+
+\begin{description}
+  \item[KBDI (\emph{Keetch-Byram Drought Index})~\cite{keetch1968drought}.] Integral acumulada de déficit de evapotranspiração; alta em períodos secos prolongados e baixa após chuvas. Identificado por Vasconcelos \emph{et al.}~\cite{forests2024cerradoamazon} como o melhor preditor de fogo em Canaã dos Carajás, no Pará, e portanto altamente relevante para o presente estudo.
+
+  \item[SPI (\emph{Standardized Precipitation Index})~\cite{mckee1993spi}.] Padroniza a precipitação acumulada em janelas (1, 3, 6, 12 meses) sobre a climatologia local. \(\text{SPI} < -1\) indica seca; \(\text{SPI} > +1\) indica regime chuvoso. Quesada-Ruiz \emph{et al.}~\cite{npjhazards2025fire} demonstraram que o SPI observado prevê anomalia de área queimada com até um mês de antecedência em \(\approx 68\%\) das áreas queimáveis brasileiras.
+
+  \item[VPD \emph{proxy} (\emph{Vapor Pressure Deficit})~\cite{seager2015climatology}.] Mede a capacidade absoluta da atmosfera de extrair água da superfície. Seager \emph{et al.} demonstram que o VPD é superior à umidade relativa isolada como métrica de risco de fogo.
+
+  \item[Aridez de De Martonne~\cite{demartonne1926aridity}.] Índice clássico \(P / (T + 10)\) baseado em precipitação anual e temperatura média; permite estratificação regional do risco em escala anual.
+\end{description}
+
+\section{Validação temporal de modelos}
+\label{sec:fund_validacao_temporal}
+
+Em \emph{datasets} com componente temporal, a divisão clássica \texttt{train\_test\_split(stratify=y)} mistura observações de todos os anos entre treino e teste. Quando o \emph{pipeline} computa \emph{features} de janela móvel (por exemplo \texttt{Precipitacao\_ma90}, \texttt{SPI\_3m}, \texttt{Incendios\_Ultimos\_180\_Dias}) sobre o \emph{conjunto inteiro antes do} \emph{split}, há risco de \textbf{vazamento temporal}: linhas de teste podem ter recebido contribuição estatística de linhas próximas no espaço-tempo que estão no treino. Esse efeito \textbf{superestima} a capacidade preditiva real do modelo em um cenário causal estrito~\cite{bergmeir2012cv}.
+
+A solução é o procedimento \emph{rolling-origin} por ano: para cada ano \(Y\) entre os três últimos com massa suficiente, treina-se em observações com \(\text{Ano} < Y\) e testa-se em observações com \(\text{Ano} = Y\). Simula o uso real: ``treine com tudo até hoje, prediga o ano seguinte''. Aplicada ao modelo final neste trabalho, revela uma queda de \SI{14,49}{pp} em acurácia e \SI{32,35}{pp} em \(\text{F}_1\)-Moderado (Capítulo~5) --- valores que são reportados explicitamente para balizar a interpretação das métricas do \emph{split} aleatório.

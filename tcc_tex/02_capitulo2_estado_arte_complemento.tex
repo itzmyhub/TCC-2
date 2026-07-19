@@ -1,0 +1,20 @@
+% ============================================================================
+% 02_capitulo2_estado_arte_complemento.tex
+% Complemento ao Capitulo 2 -- ESTADO DA ARTE.
+%
+% Como usar:
+%   Inserir o bloco a seguir como nova subsecao \subsection{Literatura
+%   recente (2024--2025)} no final da Secao 2.1 (Trabalhos Correlatos),
+%   ANTES do paragrafo final que comeca em "Em resumo, a bibliografia
+%   discutida destaca o amplo espectro de abordagens...".
+% ============================================================================
+
+\subsection{Literatura recente (2024--2025)}
+
+A última década consolidou o uso de \emph{ensembles} de árvores e métodos de interpretabilidade como prática essencial em estudos de suscetibilidade a incêndios florestais. Três tendências contemporâneas merecem destaque por nortearem as decisões metodológicas deste trabalho.
+
+\paragraph{Interpretabilidade via SHAP e \emph{Permutation Importance}.} Cheerala \emph{et al.}~\cite{cheerala2025probabilistic} aplicaram \emph{Random Forest} combinado com SHAP~\cite{lundberg2017unified} em regiões de \emph{grassland} e \emph{forest} da Califórnia, obtendo AUC de \num{0,996} e \num{0,997} respectivamente, com identificação clara das \emph{features} dominantes (NDVI, EVI, histórico de fogo, umidade do combustível). Vasconcelos \emph{et al.}~\cite{forests2024cerradoamazon} identificaram o índice KBDI (\emph{Keetch-Byram Drought Index})~\cite{keetch1968drought} como o melhor preditor de fogo em Canaã dos Carajás (Pará), na zona de transição Cerrado--Amazônia. Quesada-Ruiz \emph{et al.}~\cite{npjhazards2025fire}, em \emph{npj Natural Hazards}, propuseram um modelo híbrido (componente dinâmica do ECMWF + \emph{Random Forest}) que utiliza o SPI~\cite{mckee1993spi} observado para prever anomalia de área queimada com até um mês de antecedência em \(\approx 68\%\) das áreas queimáveis brasileiras. Esses trabalhos motivam, na presente pesquisa, a adoção combinada de KBDI \emph{proxy}, VPD \emph{proxy}~\cite{seager2015climatology} e SPI multi-escala como \emph{features} Tier~1 do \emph{pipeline} (Capítulo~4).
+
+\paragraph{Validação temporal e \emph{drift} climático.} Bergmeir \& Benítez~\cite{bergmeir2012cv} alertam que o uso de \emph{cross-validation} estratificada padrão em séries temporais introduz viés otimista, sendo necessário utilizar \emph{rolling-origin} ou \emph{TimeSeriesSplit}. Esta recomendação é tomada como princípio metodológico no Capítulo~5 deste trabalho. A relevância prática desse cuidado é amplificada por Silva-Junior \emph{et al.}~\cite{silvajunior2025amazon}, que documentam 2024 como o pior ano de degradação por fogo na Amazônia em mais de duas décadas (\SI{3,3}{\mega\hectare}), justificando o uso de janelas temporais recentes (2021--2023) como teste mais desafiador --- período em que os modelos devem provar robustez sob \emph{drift} climático real.
+
+\paragraph{Fusão estação--grade, \emph{fire weather} e ambiguidade operacional.} Revisões recentes enfatizam variáveis dinâmicas de combustível e meteorologia de superfície (precipitação local, déficit de umidade, temperatura máxima, vento) como condicionantes de propagabilidade, frequentemente sintetizadas em índices de \emph{fire weather}. Em paralelo, a literatura de observação da Terra discute quantificação de incerteza preditiva --- ainda raramente operacionalizada em painéis acadêmicos. Estas tendências motivam, no presente trabalho, extensões ao \emph{pipeline} de serviço descritas no estudo de caso (Seção~\ref{sec:res_estudo_caso_pium}, subsubseção~M4): busca hierárquica de estações INMET com rótulo de representatividade, vento WIS2 alinhado à precipitação da mesma estação, variáveis NASA POWER adicionais expostas na API, indicador escalar de \emph{fire weather} e métricas FNR/FPR na auditoria contra FIRMS --- implementadas de modo a não alterar o pré-processador de treino até um retreino controlado, evitando \emph{train/serve skew}.

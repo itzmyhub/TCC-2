@@ -1,0 +1,117 @@
+================================================================================
+CONTEÚDO LIMPO PARA COLAR NO SEU LaTeX (UFTeX / Overleaf)
+Pasta: tcc_tex/conteudo_colar/
+Gerado automaticamente a partir de tcc.tex + 07_estudo_caso_pium_to.tex
+================================================================================
+
+O QUE É ISTO
+-----------
+São trechos do seu texto ATUAL do repositório, já:
+  - sem \ce{...} (substituído por CO$_{2}$ para não depender do pacote mhchem);
+  - com o Capítulo 5 apontando o estudo de caso (Seção com label sec:res_estudo_caso_pium);
+  - com a equação do explainer usando \text{...} (sem acento dentro de \mathrm em modo matemático).
+
+Não inclui \documentclass, capa, folha de rosto nem \bibliography: isso continua
+no seu arquivo principal (uftex).
+
+ARQUIVOS
+--------
+Z01_pacotes_minimos.tex     -> sugestão mínima de \usepackage (revise duplicatas com uftex).
+Z00_resumo_abstract.tex     -> blocos \begin{abstract}...\end{foreignabstract} (ajuste indentação ao seu template).
+cap01_introducao.tex        -> Capítulo 1
+cap02_estado_da_arte.tex    -> Capítulo 2
+cap03_fundamentacao.tex     -> Capítulo 3
+cap04_metodologia.tex       -> Capítulo 4
+cap05_resultados.tex        -> Capítulo 5 (até validação operacional do app)
+cap05_estudo_caso_pium_to.tex -> Estudo de caso Pium + M1--M4 (antes da Conclusão)
+cap06_conclusao.tex         -> Capítulo 6 (Conclusão)
+
+FIGURAS OBRIGATÓRIAS (mesmos caminhos do texto)
+-------------------------------------------------
+No Overleaf, crie a pasta modelos/relatorios/ na RAIZ do projeto e envie:
+
+  modelos/relatorios/distribuicao_classes.png
+  modelos/relatorios/matriz_confusao_stacking_gbm.png
+  modelos/relatorios/threshold_precision_recall.png
+  modelos/relatorios/shap_per_classe_barras.png
+  modelos/relatorios/permutation_importance_por_classe.png
+  modelos/relatorios/validacao_temporal_comparativo.png
+  modelos/relatorios/evolucao_modelos.png
+
+Outras figuras (imagens/...) continuam referenciadas nos capítulos 2 e 3 como no original.
+
+BIBLIOGRAFIA
+------------
+Use o arquivo references.bib da pasta tcc_tex do repositório (com entrada Pereira corrigida).
+No final do documento: \bibliography{references}
+
+COMO COLAR NO SEU tcc.tex (EXEMPLO)
+----------------------------------
+1) No preâmbulo, acrescente o que faltar de Z01_pacotes_minimos.tex (sem repetir babel).
+
+2) No \mainmatter, substitua o corpo textual pelos \input:
+
+   \input{conteudo_colar/cap01_introducao}
+   \input{conteudo_colar/cap02_estado_da_arte}
+   \input{conteudo_colar/cap03_fundamentacao}
+   \input{conteudo_colar/cap04_metodologia}
+   \input{conteudo_colar/cap05_resultados}
+   \input{conteudo_colar/cap05_estudo_caso_pium_to}
+   \input{conteudo_colar/cap06_conclusao}
+
+   (Se colar os arquivos na raiz do projeto Overleaf, tire o prefixo conteudo_colar/.)
+
+3) Resumo / abstract: copie o interior de Z00_resumo_abstract.tex para dentro dos
+   ambientes do seu template (ou \input{Z00_resumo_abstract} se a estrutura permitir).
+
+ATUALIZAR DEPOIS DE EDITAR O tcc.tex
+------------------------------------
+No PC, na raiz do repositório:
+
+   python scripts/gerar_conteudo_colar_tex.py
+
+Isso regenera todos os arquivos desta pasta.
+
+SE O ITEM 4 (OBJETIVOS) “QUEBRAR” O PDF
+---------------------------------------
+O item 4 só acrescenta muitas citações de uma vez. Os erros costumam ser:
+
+1) Option clash for package babel — o uftex já carrega babel como
+   [english,brazil]. Apague do seu tcc-II.tex qualquer linha do tipo:
+   \usepackage[portuguese]{babel}  ou  \usepackage[brazil]{babel}
+   (o log pode mostrar o erro na linha seguinte, por exemplo ao \usepackage{quoting}).
+
+2) Missing \endcsname / Hy@setref / \r@tab:... — muitas vezes são auxiliares
+   corrompidos após um BibTeX quebrado. No Overleaf: Menu → Clear cached files;
+   ou apague .aux, .bbl, .blg, .out, .toc e compile de novo (pdflatex → bibtex
+   → pdflatex × 2).
+
+3) Misplaced alignment tab character & no .bbl — alguma entrada do .bib gerou
+   um & “solto” na bibliografia. No repositório, a entrada akiba2019optuna foi
+   ajustada (evitar & no título da conferência). Use o references.bib atualizado.
+
+4) Evite “decisão.;” no final do item (ponto e vírgula logo após o ponto).
+
+SE cap03_fundamentacao.tex não compilar (Overleaf / erro ao compilar só esse capítulo)
+----------------------------------------------------------------------------------------
+1) O capítulo 3 precisa de pacotes: graphicx, amsmath, siunitx (\SI, \num), quoting,
+   setspace (singlespace), url — veja Z01_pacotes_minimos.tex.
+
+2) Figuras obrigatórias na pasta imagens/ (na raiz do projeto Overleaf), com os
+   mesmos nomes do texto:
+     imagens/Programa Queimadas.png
+     imagens/tcc image-SR.png
+     imagens/Inteligência Artificial.jpg
+     imagens/TCC-MC.png
+   Se um arquivo faltar, o pdflatex costuma parar com “LaTeX Error: File ... not found”.
+   Os caminhos com espaço usam aspas: "imagens/Programa Queimadas.png".
+
+3) O arquivo cap03 inclui \chapter{Fundamentação Teórica} no início e termina com
+   \chapter{METODOLOGIA}; o cap04_metodologia.tex começa por \label{cap:metodologia}.
+   Inclua os dois em sequência, ou retire o \chapter{METODOLOGIA} final se o seu
+   template já abre o capítulo de metodologia sozinho.
+
+4) Referências cruzadas (\ref{cap:resultados}, \ref{cap:conclusao}) só existem se
+   você também incluir os capítulos correspondentes (ou comentar essas frases).
+
+================================================================================

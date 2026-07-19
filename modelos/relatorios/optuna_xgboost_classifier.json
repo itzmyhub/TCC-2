@@ -1,0 +1,19 @@
+{
+  "model_name": "xgboost_classifier",
+  "n_trials": 15,
+  "scoring": "f1_macro",
+  "best_value_f1_macro": 0.7005104116485078,
+  "best_params": {
+    "n_estimators": 455,
+    "max_depth": 8,
+    "learning_rate": 0.18965641873235228,
+    "subsample": 0.9614210448729252,
+    "colsample_bytree": 0.7037231845711419,
+    "min_child_weight": 10,
+    "reg_alpha": 0.289173140462925,
+    "reg_lambda": 0.06433007424652636
+  },
+  "cv_folds": 3,
+  "dataset_path": "base_de_dados_enriquecido.csv",
+  "subsample": 150000
+}

@@ -1,0 +1,4190 @@
+{
+  "modelo": "random_forest_leve_proxy",
+  "metodo": "shap.TreeExplainer (RF leve treinado como proxy interpretativo do Stacking GBM)",
+  "observacao_metodologica": "O modelo final Stacking GBM (84.6 % acc) não suporta TreeExplainer em CPU por requisitos de memória. Treinamos um RF compacto (n_estimators=100, max_depth=12) sobre o mesmo dataset Tier 1 usado pelo modelo final, atingindo acurácia próxima a 78–80 %, o que preserva o ranking qualitativo de features (Lundberg et al. 2020).",
+  "classes": [
+    "Baixo",
+    "Moderado",
+    "Muito Alto"
+  ],
+  "n_amostras_treinamento": 60000,
+  "n_amostras_explicacao": 500,
+  "rf_leve_params": {
+    "n_estimators": 100,
+    "max_depth": 12,
+    "min_samples_leaf": 10,
+    "class_weight": "balanced"
+  },
+  "rf_leve_acuracia_in_sample": 0.71745,
+  "random_state": 42,
+  "shap_per_class": {
+    "Baixo": [
+      {
+        "feature": "num__Ano",
+        "mean_abs_shap": 0.020486
+      },
+      {
+        "feature": "num__KBDI_proxy",
+        "mean_abs_shap": 0.019276
+      },
+      {
+        "feature": "num__VPD_proxy",
+        "mean_abs_shap": 0.018535
+      },
+      {
+        "feature": "num__Precipitacao_ma90",
+        "mean_abs_shap": 0.018386
+      },
+      {
+        "feature": "num__FRP",
+        "mean_abs_shap": 0.018299
+      },
+      {
+        "feature": "num__DiaSemChuva_ma7",
+        "mean_abs_shap": 0.017861
+      },
+      {
+        "feature": "num__Indice_Seca",
+        "mean_abs_shap": 0.017176
+      },
+      {
+        "feature": "num__Media_FRP_Celula_30d",
+        "mean_abs_shap": 0.01609
+      },
+      {
+        "feature": "num__DiaSemChuva_ma14",
+        "mean_abs_shap": 0.015778
+      },
+      {
+        "feature": "num__Dias_Desde_Ultimo_Incendio",
+        "mean_abs_shap": 0.014919
+      },
+      {
+        "feature": "num__DiaSemChuva",
+        "mean_abs_shap": 0.01311
+      },
+      {
+        "feature": "num__Precipitacao_ma14",
+        "mean_abs_shap": 0.012016
+      },
+      {
+        "feature": "num__Precipitacao_ma30",
+        "mean_abs_shap": 0.011059
+      },
+      {
+        "feature": "num__DiaSemChuva_ma30",
+        "mean_abs_shap": 0.011021
+      },
+      {
+        "feature": "num__DiaSemChuva_ma90",
+        "mean_abs_shap": 0.010904
+      },
+      {
+        "feature": "num__Precipitacao_ma7",
+        "mean_abs_shap": 0.010633
+      },
+      {
+        "feature": "num__Precipitacao",
+        "mean_abs_shap": 0.010236
+      },
+      {
+        "feature": "num__Precipitacao_acum_90d",
+        "mean_abs_shap": 0.009331
+      },
+      {
+        "feature": "num__Anomalia_Precipitacao",
+        "mean_abs_shap": 0.009227
+      },
+      {
+        "feature": "num__Precipitacao_acum_180d",
+        "mean_abs_shap": 0.008897
+      },
+      {
+        "feature": "num__Anomalia_Precipitacao_rel",
+        "mean_abs_shap": 0.00819
+      },
+      {
+        "feature": "cat__Estado_AMAZONAS",
+        "mean_abs_shap": 0.007717
+      },
+      {
+        "feature": "num__Longitude",
+        "mean_abs_shap": 0.006613
+      },
+      {
+        "feature": "num__Incendios_Ultimos_30_Dias",
+        "mean_abs_shap": 0.006561
+      },
+      {
+        "feature": "cat__Estacao_Seca_Alta",
+        "mean_abs_shap": 0.006163
+      },
+      {
+        "feature": "num__Periodo_Critico",
+        "mean_abs_shap": 0.005892
+      },
+      {
+        "feature": "num__Precipitacao_acum_30d",
+        "mean_abs_shap": 0.004512
+      },
+      {
+        "feature": "num__SPI_3m",
+        "mean_abs_shap": 0.003654
+      },
+      {
+        "feature": "num__Latitude",
+        "mean_abs_shap": 0.003367
+      },
+      {
+        "feature": "cat__Periodo_Dia_Tarde",
+        "mean_abs_shap": 0.003307
+      },
+      {
+        "feature": "num__SPI_1m",
+        "mean_abs_shap": 0.003235
+      },
+      {
+        "feature": "num__Mes_cos",
+        "mean_abs_shap": 0.003228
+      },
+      {
+        "feature": "num__Mes_sin",
+        "mean_abs_shap": 0.003161
+      },
+      {
+        "feature": "num__Temp_Climatologica",
+        "mean_abs_shap": 0.003075
+      },
+      {
+        "feature": "num__Mes",
+        "mean_abs_shap": 0.002963
+      },
+      {
+        "feature": "num__Max_FRP_Ultimos_7_Dias",
+        "mean_abs_shap": 0.002819
+      },
+      {
+        "feature": "num__Aridez_DeMartonne",
+        "mean_abs_shap": 0.0028
+      },
+      {
+        "feature": "cat__Estado_PARÁ",
+        "mean_abs_shap": 0.002781
+      },
+      {
+        "feature": "num__Precipitacao_acum_365d",
+        "mean_abs_shap": 0.002625
+      },
+      {
+        "feature": "cat__Estacao_Chuvosa",
+        "mean_abs_shap": 0.00231
+      },
+      {
+        "feature": "cat__Periodo_Dia_Noite",
+        "mean_abs_shap": 0.002079
+      },
+      {
+        "feature": "num__Incendios_Ultimos_90_Dias",
+        "mean_abs_shap": 0.002062
+      },
+      {
+        "feature": "num__Incendios_Ultimos_7_Dias",
+        "mean_abs_shap": 0.002057
+      },
+      {
+        "feature": "cat__Estado_ACRE",
+        "mean_abs_shap": 0.002014
+      },
+      {
+        "feature": "num__Dias_Secos_90d",
+        "mean_abs_shap": 0.00199
+      },
+      {
+        "feature": "num__Media_FRP_Ultimos_7_Dias",
+        "mean_abs_shap": 0.001882
+      },
+      {
+        "feature": "num__Hora",
+        "mean_abs_shap": 0.001818
+      },
+      {
+        "feature": "num__Incendios_Ultimos_365_Dias",
+        "mean_abs_shap": 0.00159
+      },
+      {
+        "feature": "num__Incendios_Ultimos_180_Dias",
+        "mean_abs_shap": 0.001065
+      },
+      {
+        "feature": "cat__Estado_MATO GROSSO",
+        "mean_abs_shap": 0.00093
+      },
+      {
+        "feature": "cat__Estado_MARANHÃO",
+        "mean_abs_shap": 0.000856
+      },
+      {
+        "feature": "num__SPI_6m",
+        "mean_abs_shap": 0.000774
+      },
+      {
+        "feature": "cat__Estacao_Transicao_Chuvosa",
+        "mean_abs_shap": 0.000753
+      },
+      {
+        "feature": "cat__Estacao_Seca_Transicao",
+        "mean_abs_shap": 0.000703
+      },
+      {
+        "feature": "num__Dia",
+        "mean_abs_shap": 0.000611
+      },
+      {
+        "feature": "cat__Municipio_SÃO FÉLIX DO XINGU",
+        "mean_abs_shap": 0.00033
+      },
+      {
+        "feature": "cat__Municipio_NOVO PROGRESSO",
+        "mean_abs_shap": 0.000324
+      },
+      {
+        "feature": "cat__Estado_RONDÔNIA",
+        "mean_abs_shap": 0.000312
+      },
+      {
+        "feature": "cat__Estado_AMAPÁ",
+        "mean_abs_shap": 0.000275
+      },
+      {
+        "feature": "cat__Estado_RORAIMA",
+        "mean_abs_shap": 0.000233
+      },
+      {
+        "feature": "cat__Municipio_TEFÉ",
+        "mean_abs_shap": 0.000193
+      },
+      {
+        "feature": "cat__Municipio_ALTAMIRA",
+        "mean_abs_shap": 0.000178
+      },
+      {
+        "feature": "cat__Municipio_ACARÁ",
+        "mean_abs_shap": 0.00012
+      },
+      {
+        "feature": "cat__Municipio_LÁBREA",
+        "mean_abs_shap": 0.000111
+      },
+      {
+        "feature": "cat__Municipio_BOCA DO ACRE",
+        "mean_abs_shap": 9.3e-05
+      },
+      {
+        "feature": "cat__Municipio_FEIJÓ",
+        "mean_abs_shap": 9.3e-05
+      },
+      {
+        "feature": "cat__Municipio_PACAJÁ",
+        "mean_abs_shap": 8.9e-05
+      },
+      {
+        "feature": "cat__Municipio_RURÓPOLIS",
+        "mean_abs_shap": 7.9e-05
+      },
+      {
+        "feature": "cat__Municipio_TARAUACÁ",
+        "mean_abs_shap": 7.8e-05
+      },
+      {
+        "feature": "cat__Municipio_PORTO VELHO",
+        "mean_abs_shap": 7.8e-05
+      },
+      {
+        "feature": "cat__Municipio_COARI",
+        "mean_abs_shap": 7.5e-05
+      },
+      {
+        "feature": "cat__Municipio_APUÍ",
+        "mean_abs_shap": 7.4e-05
+      },
+      {
+        "feature": "cat__Municipio_COLNIZA",
+        "mean_abs_shap": 5.8e-05
+      },
+      {
+        "feature": "cat__Municipio_MOJU",
+        "mean_abs_shap": 5.5e-05
+      },
+      {
+        "feature": "cat__Municipio_AVEIRO",
+        "mean_abs_shap": 5.1e-05
+      },
+      {
+        "feature": "cat__Municipio_MONTE ALEGRE",
+        "mean_abs_shap": 4.4e-05
+      },
+      {
+        "feature": "cat__Municipio_PORTEL",
+        "mean_abs_shap": 4e-05
+      },
+      {
+        "feature": "cat__Municipio_SENA MADUREIRA",
+        "mean_abs_shap": 3.8e-05
+      },
+      {
+        "feature": "cat__Municipio_NOVO REPARTIMENTO",
+        "mean_abs_shap": 3.7e-05
+      },
+      {
+        "feature": "cat__Municipio_RIO BRANCO",
+        "mean_abs_shap": 3.5e-05
+      },
+      {
+        "feature": "cat__Municipio_NORMANDIA",
+        "mean_abs_shap": 3.3e-05
+      },
+      {
+        "feature": "cat__Municipio_CANDEIAS DO JAMARI",
+        "mean_abs_shap": 3.2e-05
+      },
+      {
+        "feature": "cat__Municipio_CUMARU DO NORTE",
+        "mean_abs_shap": 3e-05
+      },
+      {
+        "feature": "cat__Municipio_NOVA BANDEIRANTES",
+        "mean_abs_shap": 3e-05
+      },
+      {
+        "feature": "cat__Municipio_GUAJARÁ",
+        "mean_abs_shap": 2.9e-05
+      },
+      {
+        "feature": "cat__Municipio_CARACARAÍ",
+        "mean_abs_shap": 2.8e-05
+      },
+      {
+        "feature": "cat__Municipio_NOVA MAMORÉ",
+        "mean_abs_shap": 2.7e-05
+      },
+      {
+        "feature": "cat__Municipio_SANTA MARIA DAS BARREIRAS",
+        "mean_abs_shap": 2.7e-05
+      },
+      {
+        "feature": "cat__Municipio_BORBA",
+        "mean_abs_shap": 2.7e-05
+      },
+      {
+        "feature": "cat__Municipio_ARIPUANÃ",
+        "mean_abs_shap": 2.6e-05
+      },
+      {
+        "feature": "cat__Municipio_PORTO DE MOZ",
+        "mean_abs_shap": 2.6e-05
+      },
+      {
+        "feature": "cat__Municipio_ALVARÃES",
+        "mean_abs_shap": 2.6e-05
+      },
+      {
+        "feature": "cat__Municipio_MAZAGÃO",
+        "mean_abs_shap": 2.6e-05
+      },
+      {
+        "feature": "cat__Municipio_GAÚCHA DO NORTE",
+        "mean_abs_shap": 2.4e-05
+      },
+      {
+        "feature": "cat__Municipio_MACHADINHO D'OESTE",
+        "mean_abs_shap": 2.2e-05
+      },
+      {
+        "feature": "cat__Municipio_ITAITUBA",
+        "mean_abs_shap": 2.1e-05
+      },
+      {
+        "feature": "cat__Municipio_PRAINHA",
+        "mean_abs_shap": 2.1e-05
+      },
+      {
+        "feature": "cat__Municipio_ASSIS BRASIL",
+        "mean_abs_shap": 1.8e-05
+      },
+      {
+        "feature": "cat__Municipio_UARINI",
+        "mean_abs_shap": 1.8e-05
+      },
+      {
+        "feature": "cat__Municipio_PORTO WALTER",
+        "mean_abs_shap": 1.8e-05
+      },
+      {
+        "feature": "cat__Municipio_SENADOR JOSÉ PORFÍRIO",
+        "mean_abs_shap": 1.8e-05
+      },
+      {
+        "feature": "cat__Municipio_MAUÉS",
+        "mean_abs_shap": 1.8e-05
+      },
+      {
+        "feature": "cat__Municipio_MEDICILÂNDIA",
+        "mean_abs_shap": 1.7e-05
+      },
+      {
+        "feature": "cat__Municipio_ANAPU",
+        "mean_abs_shap": 1.7e-05
+      },
+      {
+        "feature": "cat__Municipio_ITACOATIARA",
+        "mean_abs_shap": 1.6e-05
+      },
+      {
+        "feature": "cat__Municipio_MACAPÁ",
+        "mean_abs_shap": 1.6e-05
+      },
+      {
+        "feature": "cat__Municipio_MANOEL URBANO",
+        "mean_abs_shap": 1.6e-05
+      },
+      {
+        "feature": "cat__Municipio_BRASILÉIA",
+        "mean_abs_shap": 1.5e-05
+      },
+      {
+        "feature": "cat__Municipio_MANICORÉ",
+        "mean_abs_shap": 1.5e-05
+      },
+      {
+        "feature": "cat__Municipio_PARAGOMINAS",
+        "mean_abs_shap": 1.5e-05
+      },
+      {
+        "feature": "cat__Municipio_MÂNCIO LIMA",
+        "mean_abs_shap": 1.5e-05
+      },
+      {
+        "feature": "cat__Municipio_NOVO ARIPUANÃ",
+        "mean_abs_shap": 1.5e-05
+      },
+      {
+        "feature": "cat__Municipio_CRUZEIRO DO SUL",
+        "mean_abs_shap": 1.4e-05
+      },
+      {
+        "feature": "cat__Municipio_SANTARÉM",
+        "mean_abs_shap": 1.4e-05
+      },
+      {
+        "feature": "cat__Municipio_TRAIRÃO",
+        "mean_abs_shap": 1.4e-05
+      },
+      {
+        "feature": "cat__Municipio_UNIÃO DO SUL",
+        "mean_abs_shap": 1.4e-05
+      },
+      {
+        "feature": "cat__Municipio_SANTA LUZIA",
+        "mean_abs_shap": 1.3e-05
+      },
+      {
+        "feature": "cat__Municipio_ALMEIRIM",
+        "mean_abs_shap": 1.2e-05
+      },
+      {
+        "feature": "cat__Municipio_BURITIS",
+        "mean_abs_shap": 1.2e-05
+      },
+      {
+        "feature": "cat__Municipio_HUMAITÁ",
+        "mean_abs_shap": 1.2e-05
+      },
+      {
+        "feature": "cat__Municipio_BOM JARDIM",
+        "mean_abs_shap": 1.2e-05
+      },
+      {
+        "feature": "cat__Municipio_MANACAPURU",
+        "mean_abs_shap": 1.1e-05
+      },
+      {
+        "feature": "cat__Municipio_OURILÂNDIA DO NORTE",
+        "mean_abs_shap": 1.1e-05
+      },
+      {
+        "feature": "cat__Municipio_APIACÁS",
+        "mean_abs_shap": 1e-05
+      },
+      {
+        "feature": "cat__Municipio_CANUTAMA",
+        "mean_abs_shap": 1e-05
+      },
+      {
+        "feature": "cat__Municipio_FELIZ NATAL",
+        "mean_abs_shap": 1e-05
+      },
+      {
+        "feature": "cat__Municipio_JUARA",
+        "mean_abs_shap": 1e-05
+      },
+      {
+        "feature": "cat__Municipio_SÃO GABRIEL DA CACHOEIRA",
+        "mean_abs_shap": 1e-05
+      },
+      {
+        "feature": "cat__Municipio_MARCELÂNDIA",
+        "mean_abs_shap": 9e-06
+      },
+      {
+        "feature": "cat__Municipio_RONDOLÂNDIA",
+        "mean_abs_shap": 9e-06
+      },
+      {
+        "feature": "cat__Municipio_MARABÁ",
+        "mean_abs_shap": 9e-06
+      },
+      {
+        "feature": "cat__Municipio_IPIXUNA DO PARÁ",
+        "mean_abs_shap": 9e-06
+      },
+      {
+        "feature": "cat__Municipio_CONCEIÇÃO DO ARAGUAIA",
+        "mean_abs_shap": 8e-06
+      },
+      {
+        "feature": "cat__Municipio_MOJUÍ DOS CAMPOS",
+        "mean_abs_shap": 8e-06
+      },
+      {
+        "feature": "cat__Municipio_BARCELOS",
+        "mean_abs_shap": 8e-06
+      },
+      {
+        "feature": "cat__Municipio_JACAREACANGA",
+        "mean_abs_shap": 8e-06
+      },
+      {
+        "feature": "cat__Municipio_AMARANTE DO MARANHÃO",
+        "mean_abs_shap": 8e-06
+      },
+      {
+        "feature": "cat__Municipio_MIRINZAL",
+        "mean_abs_shap": 8e-06
+      },
+      {
+        "feature": "cat__Municipio_QUERÊNCIA",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_ORIXIMINÁ",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_COTRIGUAÇU",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_SANTANA DO ARAGUAIA",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_MUCAJAÍ",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_CHAVES",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_ITUPIRANGA",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_PACARAIMA",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_XAPURI",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_CUJUBIM",
+        "mean_abs_shap": 6e-06
+      },
+      {
+        "feature": "cat__Estado_TOCANTINS",
+        "mean_abs_shap": 6e-06
+      },
+      {
+        "feature": "cat__Municipio_ENVIRA",
+        "mean_abs_shap": 6e-06
+      },
+      {
+        "feature": "cat__Municipio_BREVES",
+        "mean_abs_shap": 6e-06
+      },
+      {
+        "feature": "cat__Municipio_PRESIDENTE FIGUEIREDO",
+        "mean_abs_shap": 6e-06
+      },
+      {
+        "feature": "cat__Municipio_PLACAS",
+        "mean_abs_shap": 6e-06
+      },
+      {
+        "feature": "cat__Municipio_CANTÁ",
+        "mean_abs_shap": 6e-06
+      },
+      {
+        "feature": "cat__Municipio_URUARÁ",
+        "mean_abs_shap": 6e-06
+      },
+      {
+        "feature": "cat__Municipio_ÓBIDOS",
+        "mean_abs_shap": 6e-06
+      },
+      {
+        "feature": "cat__Municipio_CALÇOENE",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_IRACEMA",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_AUTAZES",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_OIAPOQUE",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVA MARINGÁ",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_BONFIM",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_ALTO ALEGRE",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_TOMÉ-AÇU",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVA UBIRATÃ",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_RORAINÓPOLIS",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVA OLINDA DO NORTE",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_AURORA DO PARÁ",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_PIMENTEIRAS DO OESTE",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_BARREIRINHA",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_RONDON DO PARÁ",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_PEIXOTO DE AZEVEDO",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_CAMETÁ",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_TABAPORÃ",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_MARECHAL THAUMATURGO",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_UIRAMUTÃ",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_RODRIGUES ALVES",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_ALENQUER",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_SANTA CARMEM",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_ACRELÂNDIA",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_TURIAÇU",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_VILA BELA DA SANTÍSSIMA TRINDADE",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_BRASNORTE",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVO AIRÃO",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_PORTO ACRE",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_CACHOEIRA DO PIRIÁ",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_JURUTI",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_CAPITÃO POÇO",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_CURIONÓPOLIS",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_BUJARI",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_SOURE",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_BOA VISTA DO RAMOS",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_PARINTINS",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_BUJARU",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_CONFRESA",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_OEIRAS DO PARÁ",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_BANNACH",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_CASTANHEIRA",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_AMAJARI",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_TAILÂNDIA",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_PEDRA BRANCA DO AMAPARI",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVA ESPERANÇA DO PIRIÁ",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_ELDORADO DO CARAJÁS",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_ALTO PARAÍSO",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_AMAPÁ",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_SÃO FRANCISCO DO GUAPORÉ",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_ALTA FLORESTA D'OESTE",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_BAIÃO",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_MARAJÁ DO SENA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_PARANATINGA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_TAPAUÁ",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_BOM JESUS DAS SELVAS",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_VILA RICA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CANARANA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CAROEBE",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_EPITACIOLÂNDIA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_SANTA TEREZINHA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVA SANTA HELENA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CLÁUDIA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_BOA VISTA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_NHAMUNDÁ",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CURRALINHO",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_EIRUNEPÉ",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_ITAÚBA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_ABAETETUBA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_SÃO DOMINGOS DO CAPIM",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_BREJO DE AREIA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CURURUPU",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_GURUPÁ",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_COMODORO",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_PARANAÍTA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_PAUINI",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_IPIXUNA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CAREIRO",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_JORDÃO",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CAPIXABA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_ÁGUA AZUL DO NORTE",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_BURITICUPU",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_TUCURUÍ",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CANABRAVA DO NORTE",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_JUÍNA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CONCÓRDIA DO PARÁ",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_MOCAJUBA",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_CANAÃ DOS CARAJÁS",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_RIO MARIA",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_NOVA CANAÃ DO NORTE",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_SÃO FÉLIX DO ARAGUAIA",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_TARTARUGALZINHO",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_GUAJARÁ-MIRIM",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_RIBEIRÃO CASCALHEIRA",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_SANTA CRUZ DO XINGU",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_CÂNDIDO MENDES",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_MATUPÁ",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_SÃO JOSÉ DO XINGU",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_DOM ELISEU",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_VILHENA",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_ARAME",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_XINGUARA",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_NOVA MONTE VERDE",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_PONTES E LACERDA",
+        "mean_abs_shap": 0.0
+      }
+    ],
+    "Moderado": [
+      {
+        "feature": "num__KBDI_proxy",
+        "mean_abs_shap": 0.009462
+      },
+      {
+        "feature": "num__VPD_proxy",
+        "mean_abs_shap": 0.008724
+      },
+      {
+        "feature": "num__Indice_Seca",
+        "mean_abs_shap": 0.008123
+      },
+      {
+        "feature": "num__DiaSemChuva_ma7",
+        "mean_abs_shap": 0.007012
+      },
+      {
+        "feature": "num__DiaSemChuva_ma14",
+        "mean_abs_shap": 0.006941
+      },
+      {
+        "feature": "num__DiaSemChuva_ma90",
+        "mean_abs_shap": 0.006157
+      },
+      {
+        "feature": "num__Precipitacao_ma90",
+        "mean_abs_shap": 0.005865
+      },
+      {
+        "feature": "num__DiaSemChuva_ma30",
+        "mean_abs_shap": 0.005755
+      },
+      {
+        "feature": "num__Ano",
+        "mean_abs_shap": 0.005472
+      },
+      {
+        "feature": "num__FRP",
+        "mean_abs_shap": 0.005445
+      },
+      {
+        "feature": "num__DiaSemChuva",
+        "mean_abs_shap": 0.005428
+      },
+      {
+        "feature": "num__Media_FRP_Celula_30d",
+        "mean_abs_shap": 0.005031
+      },
+      {
+        "feature": "num__Dias_Desde_Ultimo_Incendio",
+        "mean_abs_shap": 0.004944
+      },
+      {
+        "feature": "num__Precipitacao_ma7",
+        "mean_abs_shap": 0.004797
+      },
+      {
+        "feature": "num__Precipitacao_ma14",
+        "mean_abs_shap": 0.004564
+      },
+      {
+        "feature": "num__Anomalia_Precipitacao",
+        "mean_abs_shap": 0.004436
+      },
+      {
+        "feature": "num__Precipitacao",
+        "mean_abs_shap": 0.004435
+      },
+      {
+        "feature": "num__Precipitacao_ma30",
+        "mean_abs_shap": 0.004136
+      },
+      {
+        "feature": "num__Latitude",
+        "mean_abs_shap": 0.003722
+      },
+      {
+        "feature": "num__Incendios_Ultimos_30_Dias",
+        "mean_abs_shap": 0.003488
+      },
+      {
+        "feature": "num__Precipitacao_acum_90d",
+        "mean_abs_shap": 0.003469
+      },
+      {
+        "feature": "num__Anomalia_Precipitacao_rel",
+        "mean_abs_shap": 0.003313
+      },
+      {
+        "feature": "num__Max_FRP_Ultimos_7_Dias",
+        "mean_abs_shap": 0.003186
+      },
+      {
+        "feature": "num__Incendios_Ultimos_7_Dias",
+        "mean_abs_shap": 0.002799
+      },
+      {
+        "feature": "num__Longitude",
+        "mean_abs_shap": 0.002709
+      },
+      {
+        "feature": "cat__Estado_AMAZONAS",
+        "mean_abs_shap": 0.002678
+      },
+      {
+        "feature": "num__Mes_sin",
+        "mean_abs_shap": 0.002605
+      },
+      {
+        "feature": "num__Precipitacao_acum_180d",
+        "mean_abs_shap": 0.002473
+      },
+      {
+        "feature": "num__Mes_cos",
+        "mean_abs_shap": 0.002424
+      },
+      {
+        "feature": "num__Media_FRP_Ultimos_7_Dias",
+        "mean_abs_shap": 0.002376
+      },
+      {
+        "feature": "num__Temp_Climatologica",
+        "mean_abs_shap": 0.002299
+      },
+      {
+        "feature": "num__Mes",
+        "mean_abs_shap": 0.002162
+      },
+      {
+        "feature": "num__SPI_3m",
+        "mean_abs_shap": 0.002122
+      },
+      {
+        "feature": "num__Aridez_DeMartonne",
+        "mean_abs_shap": 0.002121
+      },
+      {
+        "feature": "num__SPI_1m",
+        "mean_abs_shap": 0.00189
+      },
+      {
+        "feature": "cat__Estacao_Seca_Alta",
+        "mean_abs_shap": 0.001876
+      },
+      {
+        "feature": "num__Precipitacao_acum_365d",
+        "mean_abs_shap": 0.001832
+      },
+      {
+        "feature": "num__Precipitacao_acum_30d",
+        "mean_abs_shap": 0.00182
+      },
+      {
+        "feature": "cat__Estado_PARÁ",
+        "mean_abs_shap": 0.001781
+      },
+      {
+        "feature": "num__Periodo_Critico",
+        "mean_abs_shap": 0.00171
+      },
+      {
+        "feature": "num__Incendios_Ultimos_180_Dias",
+        "mean_abs_shap": 0.001706
+      },
+      {
+        "feature": "num__Incendios_Ultimos_365_Dias",
+        "mean_abs_shap": 0.001542
+      },
+      {
+        "feature": "cat__Estado_MATO GROSSO",
+        "mean_abs_shap": 0.001448
+      },
+      {
+        "feature": "num__Incendios_Ultimos_90_Dias",
+        "mean_abs_shap": 0.001447
+      },
+      {
+        "feature": "cat__Periodo_Dia_Tarde",
+        "mean_abs_shap": 0.00136
+      },
+      {
+        "feature": "num__Dias_Secos_90d",
+        "mean_abs_shap": 0.001189
+      },
+      {
+        "feature": "cat__Estacao_Chuvosa",
+        "mean_abs_shap": 0.00114
+      },
+      {
+        "feature": "cat__Periodo_Dia_Noite",
+        "mean_abs_shap": 0.000972
+      },
+      {
+        "feature": "cat__Estacao_Seca_Transicao",
+        "mean_abs_shap": 0.000959
+      },
+      {
+        "feature": "num__Dia",
+        "mean_abs_shap": 0.000938
+      },
+      {
+        "feature": "cat__Estado_ACRE",
+        "mean_abs_shap": 0.000884
+      },
+      {
+        "feature": "num__Hora",
+        "mean_abs_shap": 0.00087
+      },
+      {
+        "feature": "num__SPI_6m",
+        "mean_abs_shap": 0.000824
+      },
+      {
+        "feature": "cat__Estado_MARANHÃO",
+        "mean_abs_shap": 0.000473
+      },
+      {
+        "feature": "cat__Municipio_APUÍ",
+        "mean_abs_shap": 0.000391
+      },
+      {
+        "feature": "cat__Estado_RONDÔNIA",
+        "mean_abs_shap": 0.000382
+      },
+      {
+        "feature": "cat__Estacao_Transicao_Chuvosa",
+        "mean_abs_shap": 0.000322
+      },
+      {
+        "feature": "cat__Municipio_NOVO PROGRESSO",
+        "mean_abs_shap": 0.000308
+      },
+      {
+        "feature": "cat__Municipio_PACAJÁ",
+        "mean_abs_shap": 0.000201
+      },
+      {
+        "feature": "cat__Municipio_FEIJÓ",
+        "mean_abs_shap": 0.000171
+      },
+      {
+        "feature": "cat__Municipio_SÃO FÉLIX DO XINGU",
+        "mean_abs_shap": 0.000154
+      },
+      {
+        "feature": "cat__Municipio_LÁBREA",
+        "mean_abs_shap": 0.000143
+      },
+      {
+        "feature": "cat__Estado_RORAIMA",
+        "mean_abs_shap": 0.000134
+      },
+      {
+        "feature": "cat__Estado_AMAPÁ",
+        "mean_abs_shap": 0.000128
+      },
+      {
+        "feature": "cat__Municipio_PORTO VELHO",
+        "mean_abs_shap": 0.000118
+      },
+      {
+        "feature": "cat__Municipio_TARAUACÁ",
+        "mean_abs_shap": 0.000115
+      },
+      {
+        "feature": "cat__Municipio_TEFÉ",
+        "mean_abs_shap": 0.000105
+      },
+      {
+        "feature": "cat__Municipio_BOCA DO ACRE",
+        "mean_abs_shap": 0.0001
+      },
+      {
+        "feature": "cat__Municipio_ALTAMIRA",
+        "mean_abs_shap": 9.3e-05
+      },
+      {
+        "feature": "cat__Municipio_PORTEL",
+        "mean_abs_shap": 9.1e-05
+      },
+      {
+        "feature": "cat__Municipio_UNIÃO DO SUL",
+        "mean_abs_shap": 8.6e-05
+      },
+      {
+        "feature": "cat__Municipio_SANTA MARIA DAS BARREIRAS",
+        "mean_abs_shap": 7.5e-05
+      },
+      {
+        "feature": "cat__Municipio_MONTE ALEGRE",
+        "mean_abs_shap": 7.4e-05
+      },
+      {
+        "feature": "cat__Municipio_MOJU",
+        "mean_abs_shap": 6.6e-05
+      },
+      {
+        "feature": "cat__Municipio_HUMAITÁ",
+        "mean_abs_shap": 6e-05
+      },
+      {
+        "feature": "cat__Municipio_COLNIZA",
+        "mean_abs_shap": 5.9e-05
+      },
+      {
+        "feature": "cat__Municipio_NOVO ARIPUANÃ",
+        "mean_abs_shap": 5.6e-05
+      },
+      {
+        "feature": "cat__Municipio_GAÚCHA DO NORTE",
+        "mean_abs_shap": 5.1e-05
+      },
+      {
+        "feature": "cat__Municipio_TRAIRÃO",
+        "mean_abs_shap": 4.3e-05
+      },
+      {
+        "feature": "cat__Municipio_JACAREACANGA",
+        "mean_abs_shap": 4.2e-05
+      },
+      {
+        "feature": "cat__Municipio_NOVA BANDEIRANTES",
+        "mean_abs_shap": 4.2e-05
+      },
+      {
+        "feature": "cat__Municipio_FELIZ NATAL",
+        "mean_abs_shap": 4.2e-05
+      },
+      {
+        "feature": "cat__Municipio_ACARÁ",
+        "mean_abs_shap": 3.8e-05
+      },
+      {
+        "feature": "cat__Municipio_COARI",
+        "mean_abs_shap": 3.7e-05
+      },
+      {
+        "feature": "cat__Municipio_PRAINHA",
+        "mean_abs_shap": 3.5e-05
+      },
+      {
+        "feature": "cat__Municipio_CUMARU DO NORTE",
+        "mean_abs_shap": 3.1e-05
+      },
+      {
+        "feature": "cat__Municipio_RURÓPOLIS",
+        "mean_abs_shap": 3.1e-05
+      },
+      {
+        "feature": "cat__Municipio_MANOEL URBANO",
+        "mean_abs_shap": 3.1e-05
+      },
+      {
+        "feature": "cat__Municipio_SANTANA DO ARAGUAIA",
+        "mean_abs_shap": 2.9e-05
+      },
+      {
+        "feature": "cat__Municipio_MANICORÉ",
+        "mean_abs_shap": 2.7e-05
+      },
+      {
+        "feature": "cat__Municipio_ITAITUBA",
+        "mean_abs_shap": 2.7e-05
+      },
+      {
+        "feature": "cat__Municipio_SENADOR JOSÉ PORFÍRIO",
+        "mean_abs_shap": 2.6e-05
+      },
+      {
+        "feature": "cat__Municipio_NOVA MAMORÉ",
+        "mean_abs_shap": 2.6e-05
+      },
+      {
+        "feature": "cat__Municipio_SENA MADUREIRA",
+        "mean_abs_shap": 2.5e-05
+      },
+      {
+        "feature": "cat__Municipio_ARIPUANÃ",
+        "mean_abs_shap": 2.3e-05
+      },
+      {
+        "feature": "cat__Municipio_MAZAGÃO",
+        "mean_abs_shap": 2.3e-05
+      },
+      {
+        "feature": "cat__Municipio_MOJUÍ DOS CAMPOS",
+        "mean_abs_shap": 2.3e-05
+      },
+      {
+        "feature": "cat__Municipio_RIO BRANCO",
+        "mean_abs_shap": 2.2e-05
+      },
+      {
+        "feature": "cat__Municipio_PARAGOMINAS",
+        "mean_abs_shap": 2.1e-05
+      },
+      {
+        "feature": "cat__Municipio_NOVO REPARTIMENTO",
+        "mean_abs_shap": 2.1e-05
+      },
+      {
+        "feature": "cat__Municipio_CANDEIAS DO JAMARI",
+        "mean_abs_shap": 2.1e-05
+      },
+      {
+        "feature": "cat__Municipio_MACHADINHO D'OESTE",
+        "mean_abs_shap": 2.1e-05
+      },
+      {
+        "feature": "cat__Municipio_PORTO DE MOZ",
+        "mean_abs_shap": 2.1e-05
+      },
+      {
+        "feature": "cat__Municipio_ANAPU",
+        "mean_abs_shap": 2e-05
+      },
+      {
+        "feature": "cat__Municipio_NORMANDIA",
+        "mean_abs_shap": 2e-05
+      },
+      {
+        "feature": "cat__Municipio_PLACAS",
+        "mean_abs_shap": 2e-05
+      },
+      {
+        "feature": "cat__Estado_TOCANTINS",
+        "mean_abs_shap": 1.8e-05
+      },
+      {
+        "feature": "cat__Municipio_CANUTAMA",
+        "mean_abs_shap": 1.8e-05
+      },
+      {
+        "feature": "cat__Municipio_TAPAUÁ",
+        "mean_abs_shap": 1.7e-05
+      },
+      {
+        "feature": "cat__Municipio_MARABÁ",
+        "mean_abs_shap": 1.7e-05
+      },
+      {
+        "feature": "cat__Municipio_SANTA LUZIA",
+        "mean_abs_shap": 1.7e-05
+      },
+      {
+        "feature": "cat__Municipio_MEDICILÂNDIA",
+        "mean_abs_shap": 1.6e-05
+      },
+      {
+        "feature": "cat__Municipio_AVEIRO",
+        "mean_abs_shap": 1.6e-05
+      },
+      {
+        "feature": "cat__Municipio_CONCEIÇÃO DO ARAGUAIA",
+        "mean_abs_shap": 1.5e-05
+      },
+      {
+        "feature": "cat__Municipio_OURILÂNDIA DO NORTE",
+        "mean_abs_shap": 1.5e-05
+      },
+      {
+        "feature": "cat__Municipio_BOM JARDIM",
+        "mean_abs_shap": 1.5e-05
+      },
+      {
+        "feature": "cat__Municipio_JUARA",
+        "mean_abs_shap": 1.4e-05
+      },
+      {
+        "feature": "cat__Municipio_QUERÊNCIA",
+        "mean_abs_shap": 1.4e-05
+      },
+      {
+        "feature": "cat__Municipio_BRASILÉIA",
+        "mean_abs_shap": 1.3e-05
+      },
+      {
+        "feature": "cat__Municipio_IPIXUNA DO PARÁ",
+        "mean_abs_shap": 1.3e-05
+      },
+      {
+        "feature": "cat__Municipio_IRACEMA",
+        "mean_abs_shap": 1.3e-05
+      },
+      {
+        "feature": "cat__Municipio_ALVARÃES",
+        "mean_abs_shap": 1.3e-05
+      },
+      {
+        "feature": "cat__Municipio_ASSIS BRASIL",
+        "mean_abs_shap": 1.3e-05
+      },
+      {
+        "feature": "cat__Municipio_MAUÉS",
+        "mean_abs_shap": 1.3e-05
+      },
+      {
+        "feature": "cat__Municipio_BURITIS",
+        "mean_abs_shap": 1.3e-05
+      },
+      {
+        "feature": "cat__Municipio_BORBA",
+        "mean_abs_shap": 1.3e-05
+      },
+      {
+        "feature": "cat__Municipio_CRUZEIRO DO SUL",
+        "mean_abs_shap": 1.3e-05
+      },
+      {
+        "feature": "cat__Municipio_CARACARAÍ",
+        "mean_abs_shap": 1.2e-05
+      },
+      {
+        "feature": "cat__Municipio_TOMÉ-AÇU",
+        "mean_abs_shap": 1.2e-05
+      },
+      {
+        "feature": "cat__Municipio_GUAJARÁ",
+        "mean_abs_shap": 1.2e-05
+      },
+      {
+        "feature": "cat__Municipio_URUARÁ",
+        "mean_abs_shap": 1.1e-05
+      },
+      {
+        "feature": "cat__Municipio_PORTO WALTER",
+        "mean_abs_shap": 1.1e-05
+      },
+      {
+        "feature": "cat__Municipio_AMARANTE DO MARANHÃO",
+        "mean_abs_shap": 1e-05
+      },
+      {
+        "feature": "cat__Municipio_MARCELÂNDIA",
+        "mean_abs_shap": 1e-05
+      },
+      {
+        "feature": "cat__Municipio_UARINI",
+        "mean_abs_shap": 1e-05
+      },
+      {
+        "feature": "cat__Municipio_VILA BELA DA SANTÍSSIMA TRINDADE",
+        "mean_abs_shap": 1e-05
+      },
+      {
+        "feature": "cat__Municipio_APIACÁS",
+        "mean_abs_shap": 1e-05
+      },
+      {
+        "feature": "cat__Municipio_MACAPÁ",
+        "mean_abs_shap": 9e-06
+      },
+      {
+        "feature": "cat__Municipio_CAMETÁ",
+        "mean_abs_shap": 9e-06
+      },
+      {
+        "feature": "cat__Municipio_ÓBIDOS",
+        "mean_abs_shap": 8e-06
+      },
+      {
+        "feature": "cat__Municipio_MÂNCIO LIMA",
+        "mean_abs_shap": 8e-06
+      },
+      {
+        "feature": "cat__Municipio_AUTAZES",
+        "mean_abs_shap": 8e-06
+      },
+      {
+        "feature": "cat__Municipio_CUJUBIM",
+        "mean_abs_shap": 8e-06
+      },
+      {
+        "feature": "cat__Municipio_ORIXIMINÁ",
+        "mean_abs_shap": 8e-06
+      },
+      {
+        "feature": "cat__Municipio_XAPURI",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_TURIAÇU",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_ITACOATIARA",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_MUCAJAÍ",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_SANTARÉM",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_ITUPIRANGA",
+        "mean_abs_shap": 6e-06
+      },
+      {
+        "feature": "cat__Municipio_ALMEIRIM",
+        "mean_abs_shap": 6e-06
+      },
+      {
+        "feature": "cat__Municipio_SÃO GABRIEL DA CACHOEIRA",
+        "mean_abs_shap": 6e-06
+      },
+      {
+        "feature": "cat__Municipio_ELDORADO DO CARAJÁS",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_JURUTI",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_RONDOLÂNDIA",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_PEIXOTO DE AZEVEDO",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_BARCELOS",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_PARANAÍTA",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_PACARAIMA",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_BONFIM",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_MANACAPURU",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_CHAVES",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_BANNACH",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVA MARINGÁ",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_PARANATINGA",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_ALENQUER",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_SANTA TEREZINHA",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_CANTÁ",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_NHAMUNDÁ",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_CONCÓRDIA DO PARÁ",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_TABAPORÃ",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_COMODORO",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_COTRIGUAÇU",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_AURORA DO PARÁ",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_PIMENTEIRAS DO OESTE",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVA UBIRATÃ",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_AMAPÁ",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_PRESIDENTE FIGUEIREDO",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_RODRIGUES ALVES",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_BUJARI",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_RORAINÓPOLIS",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_CURIONÓPOLIS",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_RIBEIRÃO CASCALHEIRA",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_ENVIRA",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_SÃO FÉLIX DO ARAGUAIA",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_ALTO ALEGRE",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_BOM JESUS DAS SELVAS",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_BURITICUPU",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_CACHOEIRA DO PIRIÁ",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_CLÁUDIA",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_BRASNORTE",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_PAUINI",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_MARECHAL THAUMATURGO",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_CONFRESA",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_BREVES",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_BREJO DE AREIA",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_BOA VISTA",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_BARREIRINHA",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_VILA RICA",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_PEDRA BRANCA DO AMAPARI",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_OIAPOQUE",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_SOURE",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_TAILÂNDIA",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_ALTO PARAÍSO",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_RONDON DO PARÁ",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVA OLINDA DO NORTE",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_CAPITÃO POÇO",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_UIRAMUTÃ",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_SÃO DOMINGOS DO CAPIM",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CALÇOENE",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_AMAJARI",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CASTANHEIRA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVO AIRÃO",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_ALTA FLORESTA D'OESTE",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_GURUPÁ",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_RIO MARIA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CÂNDIDO MENDES",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_ÁGUA AZUL DO NORTE",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_MOCAJUBA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_BOA VISTA DO RAMOS",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_SANTA CARMEM",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CANARANA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_SÃO FRANCISCO DO GUAPORÉ",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_PARINTINS",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_ACRELÂNDIA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_BAIÃO",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CAPIXABA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_SÃO JOSÉ DO XINGU",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CAROEBE",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_SANTA CRUZ DO XINGU",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_EPITACIOLÂNDIA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVA CANAÃ DO NORTE",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVA SANTA HELENA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_GUAJARÁ-MIRIM",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CURURUPU",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_JUÍNA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CANAÃ DOS CARAJÁS",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_PORTO ACRE",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVA ESPERANÇA DO PIRIÁ",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_BUJARU",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVA MONTE VERDE",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_ITAÚBA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_DOM ELISEU",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_EIRUNEPÉ",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_MATUPÁ",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_MARAJÁ DO SENA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_ABAETETUBA",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_MIRINZAL",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_OEIRAS DO PARÁ",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_IPIXUNA",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_ARAME",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_VILHENA",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_JORDÃO",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_TARTARUGALZINHO",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_PONTES E LACERDA",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_CURRALINHO",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_TUCURUÍ",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_CAREIRO",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_CANABRAVA DO NORTE",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_XINGUARA",
+        "mean_abs_shap": 0.0
+      }
+    ],
+    "Muito Alto": [
+      {
+        "feature": "num__KBDI_proxy",
+        "mean_abs_shap": 0.023499
+      },
+      {
+        "feature": "num__Ano",
+        "mean_abs_shap": 0.021815
+      },
+      {
+        "feature": "num__FRP",
+        "mean_abs_shap": 0.020462
+      },
+      {
+        "feature": "num__DiaSemChuva_ma7",
+        "mean_abs_shap": 0.01839
+      },
+      {
+        "feature": "num__Media_FRP_Celula_30d",
+        "mean_abs_shap": 0.017772
+      },
+      {
+        "feature": "num__Indice_Seca",
+        "mean_abs_shap": 0.017586
+      },
+      {
+        "feature": "num__VPD_proxy",
+        "mean_abs_shap": 0.017358
+      },
+      {
+        "feature": "num__Precipitacao_ma90",
+        "mean_abs_shap": 0.017297
+      },
+      {
+        "feature": "num__DiaSemChuva_ma14",
+        "mean_abs_shap": 0.017085
+      },
+      {
+        "feature": "num__Dias_Desde_Ultimo_Incendio",
+        "mean_abs_shap": 0.01627
+      },
+      {
+        "feature": "num__DiaSemChuva_ma90",
+        "mean_abs_shap": 0.014724
+      },
+      {
+        "feature": "num__DiaSemChuva_ma30",
+        "mean_abs_shap": 0.012836
+      },
+      {
+        "feature": "num__DiaSemChuva",
+        "mean_abs_shap": 0.011946
+      },
+      {
+        "feature": "num__Precipitacao_acum_90d",
+        "mean_abs_shap": 0.011127
+      },
+      {
+        "feature": "num__Precipitacao_ma30",
+        "mean_abs_shap": 0.009646
+      },
+      {
+        "feature": "num__Incendios_Ultimos_30_Dias",
+        "mean_abs_shap": 0.009224
+      },
+      {
+        "feature": "num__Precipitacao_ma14",
+        "mean_abs_shap": 0.008947
+      },
+      {
+        "feature": "num__Precipitacao_acum_180d",
+        "mean_abs_shap": 0.008031
+      },
+      {
+        "feature": "cat__Estado_AMAZONAS",
+        "mean_abs_shap": 0.007953
+      },
+      {
+        "feature": "num__Longitude",
+        "mean_abs_shap": 0.007401
+      },
+      {
+        "feature": "num__Anomalia_Precipitacao",
+        "mean_abs_shap": 0.006986
+      },
+      {
+        "feature": "cat__Estacao_Seca_Alta",
+        "mean_abs_shap": 0.0069
+      },
+      {
+        "feature": "num__Anomalia_Precipitacao_rel",
+        "mean_abs_shap": 0.006779
+      },
+      {
+        "feature": "num__Precipitacao",
+        "mean_abs_shap": 0.006397
+      },
+      {
+        "feature": "num__Latitude",
+        "mean_abs_shap": 0.006381
+      },
+      {
+        "feature": "num__Precipitacao_ma7",
+        "mean_abs_shap": 0.006314
+      },
+      {
+        "feature": "num__Periodo_Critico",
+        "mean_abs_shap": 0.006078
+      },
+      {
+        "feature": "num__Precipitacao_acum_30d",
+        "mean_abs_shap": 0.005341
+      },
+      {
+        "feature": "num__Mes_sin",
+        "mean_abs_shap": 0.004471
+      },
+      {
+        "feature": "num__Aridez_DeMartonne",
+        "mean_abs_shap": 0.004209
+      },
+      {
+        "feature": "num__Mes_cos",
+        "mean_abs_shap": 0.004165
+      },
+      {
+        "feature": "cat__Periodo_Dia_Tarde",
+        "mean_abs_shap": 0.003853
+      },
+      {
+        "feature": "num__Max_FRP_Ultimos_7_Dias",
+        "mean_abs_shap": 0.003506
+      },
+      {
+        "feature": "num__Precipitacao_acum_365d",
+        "mean_abs_shap": 0.00342
+      },
+      {
+        "feature": "num__Mes",
+        "mean_abs_shap": 0.003316
+      },
+      {
+        "feature": "num__Temp_Climatologica",
+        "mean_abs_shap": 0.002997
+      },
+      {
+        "feature": "cat__Estado_ACRE",
+        "mean_abs_shap": 0.002778
+      },
+      {
+        "feature": "num__Incendios_Ultimos_90_Dias",
+        "mean_abs_shap": 0.002748
+      },
+      {
+        "feature": "num__Incendios_Ultimos_7_Dias",
+        "mean_abs_shap": 0.002589
+      },
+      {
+        "feature": "cat__Periodo_Dia_Noite",
+        "mean_abs_shap": 0.002559
+      },
+      {
+        "feature": "num__Media_FRP_Ultimos_7_Dias",
+        "mean_abs_shap": 0.002531
+      },
+      {
+        "feature": "num__Dias_Secos_90d",
+        "mean_abs_shap": 0.002402
+      },
+      {
+        "feature": "num__Incendios_Ultimos_180_Dias",
+        "mean_abs_shap": 0.002273
+      },
+      {
+        "feature": "num__Hora",
+        "mean_abs_shap": 0.002184
+      },
+      {
+        "feature": "num__SPI_3m",
+        "mean_abs_shap": 0.002125
+      },
+      {
+        "feature": "cat__Estado_MATO GROSSO",
+        "mean_abs_shap": 0.00201
+      },
+      {
+        "feature": "num__SPI_1m",
+        "mean_abs_shap": 0.001973
+      },
+      {
+        "feature": "cat__Estado_PARÁ",
+        "mean_abs_shap": 0.001798
+      },
+      {
+        "feature": "cat__Estacao_Chuvosa",
+        "mean_abs_shap": 0.001482
+      },
+      {
+        "feature": "cat__Estacao_Seca_Transicao",
+        "mean_abs_shap": 0.001437
+      },
+      {
+        "feature": "num__Incendios_Ultimos_365_Dias",
+        "mean_abs_shap": 0.001387
+      },
+      {
+        "feature": "cat__Estado_MARANHÃO",
+        "mean_abs_shap": 0.001285
+      },
+      {
+        "feature": "num__Dia",
+        "mean_abs_shap": 0.001022
+      },
+      {
+        "feature": "num__SPI_6m",
+        "mean_abs_shap": 0.000747
+      },
+      {
+        "feature": "cat__Municipio_NOVO PROGRESSO",
+        "mean_abs_shap": 0.00063
+      },
+      {
+        "feature": "cat__Estado_RONDÔNIA",
+        "mean_abs_shap": 0.000524
+      },
+      {
+        "feature": "cat__Municipio_SÃO FÉLIX DO XINGU",
+        "mean_abs_shap": 0.000445
+      },
+      {
+        "feature": "cat__Estacao_Transicao_Chuvosa",
+        "mean_abs_shap": 0.000438
+      },
+      {
+        "feature": "cat__Estado_AMAPÁ",
+        "mean_abs_shap": 0.000395
+      },
+      {
+        "feature": "cat__Estado_RORAIMA",
+        "mean_abs_shap": 0.000347
+      },
+      {
+        "feature": "cat__Municipio_APUÍ",
+        "mean_abs_shap": 0.000347
+      },
+      {
+        "feature": "cat__Municipio_FEIJÓ",
+        "mean_abs_shap": 0.000237
+      },
+      {
+        "feature": "cat__Municipio_TARAUACÁ",
+        "mean_abs_shap": 0.000168
+      },
+      {
+        "feature": "cat__Municipio_ALTAMIRA",
+        "mean_abs_shap": 0.000139
+      },
+      {
+        "feature": "cat__Municipio_PACAJÁ",
+        "mean_abs_shap": 0.000126
+      },
+      {
+        "feature": "cat__Municipio_MONTE ALEGRE",
+        "mean_abs_shap": 0.000118
+      },
+      {
+        "feature": "cat__Municipio_LÁBREA",
+        "mean_abs_shap": 0.000114
+      },
+      {
+        "feature": "cat__Municipio_MOJU",
+        "mean_abs_shap": 0.000114
+      },
+      {
+        "feature": "cat__Municipio_SANTA MARIA DAS BARREIRAS",
+        "mean_abs_shap": 0.000102
+      },
+      {
+        "feature": "cat__Municipio_PORTO VELHO",
+        "mean_abs_shap": 9.3e-05
+      },
+      {
+        "feature": "cat__Municipio_TEFÉ",
+        "mean_abs_shap": 8.8e-05
+      },
+      {
+        "feature": "cat__Municipio_ACARÁ",
+        "mean_abs_shap": 8.4e-05
+      },
+      {
+        "feature": "cat__Municipio_UNIÃO DO SUL",
+        "mean_abs_shap": 7.6e-05
+      },
+      {
+        "feature": "cat__Municipio_GAÚCHA DO NORTE",
+        "mean_abs_shap": 7.4e-05
+      },
+      {
+        "feature": "cat__Municipio_NOVA BANDEIRANTES",
+        "mean_abs_shap": 7.2e-05
+      },
+      {
+        "feature": "cat__Municipio_HUMAITÁ",
+        "mean_abs_shap": 6.9e-05
+      },
+      {
+        "feature": "cat__Municipio_CUMARU DO NORTE",
+        "mean_abs_shap": 6.1e-05
+      },
+      {
+        "feature": "cat__Municipio_PRAINHA",
+        "mean_abs_shap": 5.5e-05
+      },
+      {
+        "feature": "cat__Municipio_PORTEL",
+        "mean_abs_shap": 5.5e-05
+      },
+      {
+        "feature": "cat__Municipio_NORMANDIA",
+        "mean_abs_shap": 5.2e-05
+      },
+      {
+        "feature": "cat__Municipio_RURÓPOLIS",
+        "mean_abs_shap": 5.1e-05
+      },
+      {
+        "feature": "cat__Municipio_FELIZ NATAL",
+        "mean_abs_shap": 5.1e-05
+      },
+      {
+        "feature": "cat__Municipio_MAZAGÃO",
+        "mean_abs_shap": 4.8e-05
+      },
+      {
+        "feature": "cat__Municipio_NOVO ARIPUANÃ",
+        "mean_abs_shap": 4.7e-05
+      },
+      {
+        "feature": "cat__Municipio_PORTO DE MOZ",
+        "mean_abs_shap": 4.6e-05
+      },
+      {
+        "feature": "cat__Municipio_TRAIRÃO",
+        "mean_abs_shap": 4.5e-05
+      },
+      {
+        "feature": "cat__Municipio_AVEIRO",
+        "mean_abs_shap": 4.4e-05
+      },
+      {
+        "feature": "cat__Municipio_ITAITUBA",
+        "mean_abs_shap": 4e-05
+      },
+      {
+        "feature": "cat__Municipio_SENA MADUREIRA",
+        "mean_abs_shap": 3.9e-05
+      },
+      {
+        "feature": "cat__Municipio_ARIPUANÃ",
+        "mean_abs_shap": 3.8e-05
+      },
+      {
+        "feature": "cat__Municipio_COARI",
+        "mean_abs_shap": 3.8e-05
+      },
+      {
+        "feature": "cat__Municipio_PARAGOMINAS",
+        "mean_abs_shap": 3.6e-05
+      },
+      {
+        "feature": "cat__Municipio_COLNIZA",
+        "mean_abs_shap": 3.5e-05
+      },
+      {
+        "feature": "cat__Municipio_SANTANA DO ARAGUAIA",
+        "mean_abs_shap": 3.5e-05
+      },
+      {
+        "feature": "cat__Municipio_JACAREACANGA",
+        "mean_abs_shap": 3.5e-05
+      },
+      {
+        "feature": "cat__Municipio_RIO BRANCO",
+        "mean_abs_shap": 3.4e-05
+      },
+      {
+        "feature": "cat__Municipio_CARACARAÍ",
+        "mean_abs_shap": 3.4e-05
+      },
+      {
+        "feature": "cat__Municipio_MANICORÉ",
+        "mean_abs_shap": 3.1e-05
+      },
+      {
+        "feature": "cat__Municipio_MEDICILÂNDIA",
+        "mean_abs_shap": 3e-05
+      },
+      {
+        "feature": "cat__Municipio_BOCA DO ACRE",
+        "mean_abs_shap": 2.9e-05
+      },
+      {
+        "feature": "cat__Municipio_SANTA LUZIA",
+        "mean_abs_shap": 2.8e-05
+      },
+      {
+        "feature": "cat__Municipio_BOM JARDIM",
+        "mean_abs_shap": 2.7e-05
+      },
+      {
+        "feature": "cat__Municipio_MAUÉS",
+        "mean_abs_shap": 2.7e-05
+      },
+      {
+        "feature": "cat__Municipio_CANDEIAS DO JAMARI",
+        "mean_abs_shap": 2.6e-05
+      },
+      {
+        "feature": "cat__Municipio_OURILÂNDIA DO NORTE",
+        "mean_abs_shap": 2.6e-05
+      },
+      {
+        "feature": "cat__Municipio_MARABÁ",
+        "mean_abs_shap": 2.6e-05
+      },
+      {
+        "feature": "cat__Municipio_MACAPÁ",
+        "mean_abs_shap": 2.4e-05
+      },
+      {
+        "feature": "cat__Municipio_CONCEIÇÃO DO ARAGUAIA",
+        "mean_abs_shap": 2.4e-05
+      },
+      {
+        "feature": "cat__Municipio_BURITIS",
+        "mean_abs_shap": 2.3e-05
+      },
+      {
+        "feature": "cat__Municipio_MANOEL URBANO",
+        "mean_abs_shap": 2.1e-05
+      },
+      {
+        "feature": "cat__Municipio_PLACAS",
+        "mean_abs_shap": 2.1e-05
+      },
+      {
+        "feature": "cat__Municipio_CANUTAMA",
+        "mean_abs_shap": 2e-05
+      },
+      {
+        "feature": "cat__Estado_TOCANTINS",
+        "mean_abs_shap": 2e-05
+      },
+      {
+        "feature": "cat__Municipio_NOVA MAMORÉ",
+        "mean_abs_shap": 1.9e-05
+      },
+      {
+        "feature": "cat__Municipio_CRUZEIRO DO SUL",
+        "mean_abs_shap": 1.9e-05
+      },
+      {
+        "feature": "cat__Municipio_IRACEMA",
+        "mean_abs_shap": 1.8e-05
+      },
+      {
+        "feature": "cat__Municipio_GUAJARÁ",
+        "mean_abs_shap": 1.8e-05
+      },
+      {
+        "feature": "cat__Municipio_AMARANTE DO MARANHÃO",
+        "mean_abs_shap": 1.8e-05
+      },
+      {
+        "feature": "cat__Municipio_SANTARÉM",
+        "mean_abs_shap": 1.7e-05
+      },
+      {
+        "feature": "cat__Municipio_MOJUÍ DOS CAMPOS",
+        "mean_abs_shap": 1.7e-05
+      },
+      {
+        "feature": "cat__Municipio_NOVO REPARTIMENTO",
+        "mean_abs_shap": 1.7e-05
+      },
+      {
+        "feature": "cat__Municipio_TAPAUÁ",
+        "mean_abs_shap": 1.6e-05
+      },
+      {
+        "feature": "cat__Municipio_BORBA",
+        "mean_abs_shap": 1.4e-05
+      },
+      {
+        "feature": "cat__Municipio_MUCAJAÍ",
+        "mean_abs_shap": 1.3e-05
+      },
+      {
+        "feature": "cat__Municipio_VILA BELA DA SANTÍSSIMA TRINDADE",
+        "mean_abs_shap": 1.3e-05
+      },
+      {
+        "feature": "cat__Municipio_ALVARÃES",
+        "mean_abs_shap": 1.3e-05
+      },
+      {
+        "feature": "cat__Municipio_AUTAZES",
+        "mean_abs_shap": 1.2e-05
+      },
+      {
+        "feature": "cat__Municipio_TOMÉ-AÇU",
+        "mean_abs_shap": 1.2e-05
+      },
+      {
+        "feature": "cat__Municipio_BRASILÉIA",
+        "mean_abs_shap": 1.2e-05
+      },
+      {
+        "feature": "cat__Municipio_ALMEIRIM",
+        "mean_abs_shap": 1.1e-05
+      },
+      {
+        "feature": "cat__Municipio_CHAVES",
+        "mean_abs_shap": 1.1e-05
+      },
+      {
+        "feature": "cat__Municipio_PACARAIMA",
+        "mean_abs_shap": 1.1e-05
+      },
+      {
+        "feature": "cat__Municipio_APIACÁS",
+        "mean_abs_shap": 1e-05
+      },
+      {
+        "feature": "cat__Municipio_ITACOATIARA",
+        "mean_abs_shap": 1e-05
+      },
+      {
+        "feature": "cat__Municipio_COTRIGUAÇU",
+        "mean_abs_shap": 1e-05
+      },
+      {
+        "feature": "cat__Municipio_SENADOR JOSÉ PORFÍRIO",
+        "mean_abs_shap": 9e-06
+      },
+      {
+        "feature": "cat__Municipio_RONDOLÂNDIA",
+        "mean_abs_shap": 9e-06
+      },
+      {
+        "feature": "cat__Municipio_CAMETÁ",
+        "mean_abs_shap": 8e-06
+      },
+      {
+        "feature": "cat__Municipio_URUARÁ",
+        "mean_abs_shap": 8e-06
+      },
+      {
+        "feature": "cat__Municipio_UARINI",
+        "mean_abs_shap": 8e-06
+      },
+      {
+        "feature": "cat__Municipio_MIRINZAL",
+        "mean_abs_shap": 8e-06
+      },
+      {
+        "feature": "cat__Municipio_MANACAPURU",
+        "mean_abs_shap": 8e-06
+      },
+      {
+        "feature": "cat__Municipio_BONFIM",
+        "mean_abs_shap": 8e-06
+      },
+      {
+        "feature": "cat__Municipio_PEIXOTO DE AZEVEDO",
+        "mean_abs_shap": 8e-06
+      },
+      {
+        "feature": "cat__Municipio_ANAPU",
+        "mean_abs_shap": 8e-06
+      },
+      {
+        "feature": "cat__Municipio_QUERÊNCIA",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_MARCELÂNDIA",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_PORTO WALTER",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_MACHADINHO D'OESTE",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_MÂNCIO LIMA",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_ÓBIDOS",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_ELDORADO DO CARAJÁS",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_JUARA",
+        "mean_abs_shap": 7e-06
+      },
+      {
+        "feature": "cat__Municipio_BANNACH",
+        "mean_abs_shap": 6e-06
+      },
+      {
+        "feature": "cat__Municipio_CANTÁ",
+        "mean_abs_shap": 6e-06
+      },
+      {
+        "feature": "cat__Municipio_RORAINÓPOLIS",
+        "mean_abs_shap": 6e-06
+      },
+      {
+        "feature": "cat__Municipio_ASSIS BRASIL",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_CALÇOENE",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_ITUPIRANGA",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_ENVIRA",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_OIAPOQUE",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_CURIONÓPOLIS",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_CUJUBIM",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_IPIXUNA DO PARÁ",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_UIRAMUTÃ",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_AMAPÁ",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_TURIAÇU",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_PARANATINGA",
+        "mean_abs_shap": 5e-06
+      },
+      {
+        "feature": "cat__Municipio_SANTA TEREZINHA",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_BARCELOS",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVA MARINGÁ",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_CONFRESA",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_SÃO GABRIEL DA CACHOEIRA",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_SOURE",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_PARANAÍTA",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_BREVES",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_XAPURI",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_BOM JESUS DAS SELVAS",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVA UBIRATÃ",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_RONDON DO PARÁ",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_CONCÓRDIA DO PARÁ",
+        "mean_abs_shap": 4e-06
+      },
+      {
+        "feature": "cat__Municipio_CASTANHEIRA",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_JURUTI",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_ACRELÂNDIA",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_RIBEIRÃO CASCALHEIRA",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_COMODORO",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_VILA RICA",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_PAUINI",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_SÃO FÉLIX DO ARAGUAIA",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_CLÁUDIA",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_NHAMUNDÁ",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_PRESIDENTE FIGUEIREDO",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVA OLINDA DO NORTE",
+        "mean_abs_shap": 3e-06
+      },
+      {
+        "feature": "cat__Municipio_ALENQUER",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_PORTO ACRE",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_BARREIRINHA",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_BURITICUPU",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_BOA VISTA",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_ALTO ALEGRE",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_MARAJÁ DO SENA",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_ORIXIMINÁ",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_TAILÂNDIA",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_SANTA CARMEM",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVA SANTA HELENA",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_ÁGUA AZUL DO NORTE",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_MARECHAL THAUMATURGO",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_BUJARU",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_OEIRAS DO PARÁ",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_RIO MARIA",
+        "mean_abs_shap": 2e-06
+      },
+      {
+        "feature": "cat__Municipio_BREJO DE AREIA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CAROEBE",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVA CANAÃ DO NORTE",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_JUÍNA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_SANTA CRUZ DO XINGU",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVA ESPERANÇA DO PIRIÁ",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CANAÃ DOS CARAJÁS",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVO AIRÃO",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_SÃO JOSÉ DO XINGU",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CÂNDIDO MENDES",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_BOA VISTA DO RAMOS",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_PARINTINS",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CACHOEIRA DO PIRIÁ",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_ALTO PARAÍSO",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_TABAPORÃ",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_BUJARI",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_ABAETETUBA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CURRALINHO",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_MATUPÁ",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CAPITÃO POÇO",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_MOCAJUBA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_DOM ELISEU",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_PIMENTEIRAS DO OESTE",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_AURORA DO PARÁ",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CAREIRO",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_TUCURUÍ",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_GUAJARÁ-MIRIM",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_BRASNORTE",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CANABRAVA DO NORTE",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_TARTARUGALZINHO",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_AMAJARI",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_SÃO DOMINGOS DO CAPIM",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_CAPIXABA",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_NOVA MONTE VERDE",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_RODRIGUES ALVES",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_GURUPÁ",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_BAIÃO",
+        "mean_abs_shap": 1e-06
+      },
+      {
+        "feature": "cat__Municipio_EIRUNEPÉ",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_ARAME",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_SÃO FRANCISCO DO GUAPORÉ",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_JORDÃO",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_CANARANA",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_ALTA FLORESTA D'OESTE",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_VILHENA",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_PONTES E LACERDA",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_PEDRA BRANCA DO AMAPARI",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_CURURUPU",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_IPIXUNA",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_ITAÚBA",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_EPITACIOLÂNDIA",
+        "mean_abs_shap": 0.0
+      },
+      {
+        "feature": "cat__Municipio_XINGUARA",
+        "mean_abs_shap": 0.0
+      }
+    ]
+  },
+  "shap_global": [
+    {
+      "feature": "num__KBDI_proxy",
+      "mean_abs_shap": 0.017412
+    },
+    {
+      "feature": "num__Ano",
+      "mean_abs_shap": 0.015924
+    },
+    {
+      "feature": "num__VPD_proxy",
+      "mean_abs_shap": 0.014872
+    },
+    {
+      "feature": "num__FRP",
+      "mean_abs_shap": 0.014735
+    },
+    {
+      "feature": "num__DiaSemChuva_ma7",
+      "mean_abs_shap": 0.014421
+    },
+    {
+      "feature": "num__Indice_Seca",
+      "mean_abs_shap": 0.014295
+    },
+    {
+      "feature": "num__Precipitacao_ma90",
+      "mean_abs_shap": 0.013849
+    },
+    {
+      "feature": "num__DiaSemChuva_ma14",
+      "mean_abs_shap": 0.013268
+    },
+    {
+      "feature": "num__Media_FRP_Celula_30d",
+      "mean_abs_shap": 0.012964
+    },
+    {
+      "feature": "num__Dias_Desde_Ultimo_Incendio",
+      "mean_abs_shap": 0.012044
+    },
+    {
+      "feature": "num__DiaSemChuva_ma90",
+      "mean_abs_shap": 0.010595
+    },
+    {
+      "feature": "num__DiaSemChuva",
+      "mean_abs_shap": 0.010162
+    },
+    {
+      "feature": "num__DiaSemChuva_ma30",
+      "mean_abs_shap": 0.009871
+    },
+    {
+      "feature": "num__Precipitacao_ma14",
+      "mean_abs_shap": 0.008509
+    },
+    {
+      "feature": "num__Precipitacao_ma30",
+      "mean_abs_shap": 0.00828
+    },
+    {
+      "feature": "num__Precipitacao_acum_90d",
+      "mean_abs_shap": 0.007976
+    },
+    {
+      "feature": "num__Precipitacao_ma7",
+      "mean_abs_shap": 0.007248
+    },
+    {
+      "feature": "num__Precipitacao",
+      "mean_abs_shap": 0.007022
+    },
+    {
+      "feature": "num__Anomalia_Precipitacao",
+      "mean_abs_shap": 0.006883
+    },
+    {
+      "feature": "num__Precipitacao_acum_180d",
+      "mean_abs_shap": 0.006467
+    },
+    {
+      "feature": "num__Incendios_Ultimos_30_Dias",
+      "mean_abs_shap": 0.006424
+    },
+    {
+      "feature": "cat__Estado_AMAZONAS",
+      "mean_abs_shap": 0.006116
+    },
+    {
+      "feature": "num__Anomalia_Precipitacao_rel",
+      "mean_abs_shap": 0.006094
+    },
+    {
+      "feature": "num__Longitude",
+      "mean_abs_shap": 0.005575
+    },
+    {
+      "feature": "cat__Estacao_Seca_Alta",
+      "mean_abs_shap": 0.00498
+    },
+    {
+      "feature": "num__Periodo_Critico",
+      "mean_abs_shap": 0.00456
+    },
+    {
+      "feature": "num__Latitude",
+      "mean_abs_shap": 0.00449
+    },
+    {
+      "feature": "num__Precipitacao_acum_30d",
+      "mean_abs_shap": 0.003891
+    },
+    {
+      "feature": "num__Mes_sin",
+      "mean_abs_shap": 0.003412
+    },
+    {
+      "feature": "num__Mes_cos",
+      "mean_abs_shap": 0.003273
+    },
+    {
+      "feature": "num__Max_FRP_Ultimos_7_Dias",
+      "mean_abs_shap": 0.003171
+    },
+    {
+      "feature": "num__Aridez_DeMartonne",
+      "mean_abs_shap": 0.003043
+    },
+    {
+      "feature": "cat__Periodo_Dia_Tarde",
+      "mean_abs_shap": 0.00284
+    },
+    {
+      "feature": "num__Mes",
+      "mean_abs_shap": 0.002814
+    },
+    {
+      "feature": "num__Temp_Climatologica",
+      "mean_abs_shap": 0.00279
+    },
+    {
+      "feature": "num__SPI_3m",
+      "mean_abs_shap": 0.002634
+    },
+    {
+      "feature": "num__Precipitacao_acum_365d",
+      "mean_abs_shap": 0.002626
+    },
+    {
+      "feature": "num__Incendios_Ultimos_7_Dias",
+      "mean_abs_shap": 0.002482
+    },
+    {
+      "feature": "num__SPI_1m",
+      "mean_abs_shap": 0.002366
+    },
+    {
+      "feature": "num__Media_FRP_Ultimos_7_Dias",
+      "mean_abs_shap": 0.002263
+    },
+    {
+      "feature": "cat__Estado_PARÁ",
+      "mean_abs_shap": 0.00212
+    },
+    {
+      "feature": "num__Incendios_Ultimos_90_Dias",
+      "mean_abs_shap": 0.002086
+    },
+    {
+      "feature": "cat__Estado_ACRE",
+      "mean_abs_shap": 0.001892
+    },
+    {
+      "feature": "cat__Periodo_Dia_Noite",
+      "mean_abs_shap": 0.00187
+    },
+    {
+      "feature": "num__Dias_Secos_90d",
+      "mean_abs_shap": 0.00186
+    },
+    {
+      "feature": "num__Incendios_Ultimos_180_Dias",
+      "mean_abs_shap": 0.001681
+    },
+    {
+      "feature": "cat__Estacao_Chuvosa",
+      "mean_abs_shap": 0.001644
+    },
+    {
+      "feature": "num__Hora",
+      "mean_abs_shap": 0.001624
+    },
+    {
+      "feature": "num__Incendios_Ultimos_365_Dias",
+      "mean_abs_shap": 0.001506
+    },
+    {
+      "feature": "cat__Estado_MATO GROSSO",
+      "mean_abs_shap": 0.001463
+    },
+    {
+      "feature": "cat__Estacao_Seca_Transicao",
+      "mean_abs_shap": 0.001033
+    },
+    {
+      "feature": "cat__Estado_MARANHÃO",
+      "mean_abs_shap": 0.000871
+    },
+    {
+      "feature": "num__Dia",
+      "mean_abs_shap": 0.000857
+    },
+    {
+      "feature": "num__SPI_6m",
+      "mean_abs_shap": 0.000782
+    },
+    {
+      "feature": "cat__Estacao_Transicao_Chuvosa",
+      "mean_abs_shap": 0.000505
+    },
+    {
+      "feature": "cat__Municipio_NOVO PROGRESSO",
+      "mean_abs_shap": 0.000421
+    },
+    {
+      "feature": "cat__Estado_RONDÔNIA",
+      "mean_abs_shap": 0.000406
+    },
+    {
+      "feature": "cat__Municipio_SÃO FÉLIX DO XINGU",
+      "mean_abs_shap": 0.00031
+    },
+    {
+      "feature": "cat__Municipio_APUÍ",
+      "mean_abs_shap": 0.00027
+    },
+    {
+      "feature": "cat__Estado_AMAPÁ",
+      "mean_abs_shap": 0.000266
+    },
+    {
+      "feature": "cat__Estado_RORAIMA",
+      "mean_abs_shap": 0.000238
+    },
+    {
+      "feature": "cat__Municipio_FEIJÓ",
+      "mean_abs_shap": 0.000167
+    },
+    {
+      "feature": "cat__Municipio_PACAJÁ",
+      "mean_abs_shap": 0.000139
+    },
+    {
+      "feature": "cat__Municipio_ALTAMIRA",
+      "mean_abs_shap": 0.000137
+    },
+    {
+      "feature": "cat__Municipio_TEFÉ",
+      "mean_abs_shap": 0.000129
+    },
+    {
+      "feature": "cat__Municipio_LÁBREA",
+      "mean_abs_shap": 0.000122
+    },
+    {
+      "feature": "cat__Municipio_TARAUACÁ",
+      "mean_abs_shap": 0.00012
+    },
+    {
+      "feature": "cat__Municipio_PORTO VELHO",
+      "mean_abs_shap": 9.7e-05
+    },
+    {
+      "feature": "cat__Municipio_ACARÁ",
+      "mean_abs_shap": 8e-05
+    },
+    {
+      "feature": "cat__Municipio_MONTE ALEGRE",
+      "mean_abs_shap": 7.9e-05
+    },
+    {
+      "feature": "cat__Municipio_MOJU",
+      "mean_abs_shap": 7.8e-05
+    },
+    {
+      "feature": "cat__Municipio_BOCA DO ACRE",
+      "mean_abs_shap": 7.4e-05
+    },
+    {
+      "feature": "cat__Municipio_SANTA MARIA DAS BARREIRAS",
+      "mean_abs_shap": 6.8e-05
+    },
+    {
+      "feature": "cat__Municipio_PORTEL",
+      "mean_abs_shap": 6.2e-05
+    },
+    {
+      "feature": "cat__Municipio_UNIÃO DO SUL",
+      "mean_abs_shap": 5.9e-05
+    },
+    {
+      "feature": "cat__Municipio_RURÓPOLIS",
+      "mean_abs_shap": 5.4e-05
+    },
+    {
+      "feature": "cat__Municipio_COLNIZA",
+      "mean_abs_shap": 5.1e-05
+    },
+    {
+      "feature": "cat__Municipio_COARI",
+      "mean_abs_shap": 5e-05
+    },
+    {
+      "feature": "cat__Municipio_GAÚCHA DO NORTE",
+      "mean_abs_shap": 5e-05
+    },
+    {
+      "feature": "cat__Municipio_NOVA BANDEIRANTES",
+      "mean_abs_shap": 4.8e-05
+    },
+    {
+      "feature": "cat__Municipio_HUMAITÁ",
+      "mean_abs_shap": 4.7e-05
+    },
+    {
+      "feature": "cat__Municipio_CUMARU DO NORTE",
+      "mean_abs_shap": 4.1e-05
+    },
+    {
+      "feature": "cat__Municipio_NOVO ARIPUANÃ",
+      "mean_abs_shap": 3.9e-05
+    },
+    {
+      "feature": "cat__Municipio_PRAINHA",
+      "mean_abs_shap": 3.7e-05
+    },
+    {
+      "feature": "cat__Municipio_AVEIRO",
+      "mean_abs_shap": 3.7e-05
+    },
+    {
+      "feature": "cat__Municipio_NORMANDIA",
+      "mean_abs_shap": 3.5e-05
+    },
+    {
+      "feature": "cat__Municipio_FELIZ NATAL",
+      "mean_abs_shap": 3.4e-05
+    },
+    {
+      "feature": "cat__Municipio_TRAIRÃO",
+      "mean_abs_shap": 3.4e-05
+    },
+    {
+      "feature": "cat__Municipio_SENA MADUREIRA",
+      "mean_abs_shap": 3.4e-05
+    },
+    {
+      "feature": "cat__Municipio_MAZAGÃO",
+      "mean_abs_shap": 3.2e-05
+    },
+    {
+      "feature": "cat__Municipio_PORTO DE MOZ",
+      "mean_abs_shap": 3.1e-05
+    },
+    {
+      "feature": "cat__Municipio_RIO BRANCO",
+      "mean_abs_shap": 3e-05
+    },
+    {
+      "feature": "cat__Municipio_ITAITUBA",
+      "mean_abs_shap": 2.9e-05
+    },
+    {
+      "feature": "cat__Municipio_ARIPUANÃ",
+      "mean_abs_shap": 2.9e-05
+    },
+    {
+      "feature": "cat__Municipio_JACAREACANGA",
+      "mean_abs_shap": 2.9e-05
+    },
+    {
+      "feature": "cat__Municipio_CANDEIAS DO JAMARI",
+      "mean_abs_shap": 2.6e-05
+    },
+    {
+      "feature": "cat__Municipio_NOVO REPARTIMENTO",
+      "mean_abs_shap": 2.5e-05
+    },
+    {
+      "feature": "cat__Municipio_CARACARAÍ",
+      "mean_abs_shap": 2.5e-05
+    },
+    {
+      "feature": "cat__Municipio_MANICORÉ",
+      "mean_abs_shap": 2.4e-05
+    },
+    {
+      "feature": "cat__Municipio_PARAGOMINAS",
+      "mean_abs_shap": 2.4e-05
+    },
+    {
+      "feature": "cat__Municipio_NOVA MAMORÉ",
+      "mean_abs_shap": 2.4e-05
+    },
+    {
+      "feature": "cat__Municipio_SANTANA DO ARAGUAIA",
+      "mean_abs_shap": 2.4e-05
+    },
+    {
+      "feature": "cat__Municipio_MANOEL URBANO",
+      "mean_abs_shap": 2.3e-05
+    },
+    {
+      "feature": "cat__Municipio_MEDICILÂNDIA",
+      "mean_abs_shap": 2.1e-05
+    },
+    {
+      "feature": "cat__Municipio_GUAJARÁ",
+      "mean_abs_shap": 2e-05
+    },
+    {
+      "feature": "cat__Municipio_SANTA LUZIA",
+      "mean_abs_shap": 1.9e-05
+    },
+    {
+      "feature": "cat__Municipio_MAUÉS",
+      "mean_abs_shap": 1.9e-05
+    },
+    {
+      "feature": "cat__Municipio_BOM JARDIM",
+      "mean_abs_shap": 1.8e-05
+    },
+    {
+      "feature": "cat__Municipio_BORBA",
+      "mean_abs_shap": 1.8e-05
+    },
+    {
+      "feature": "cat__Municipio_SENADOR JOSÉ PORFÍRIO",
+      "mean_abs_shap": 1.8e-05
+    },
+    {
+      "feature": "cat__Municipio_OURILÂNDIA DO NORTE",
+      "mean_abs_shap": 1.7e-05
+    },
+    {
+      "feature": "cat__Municipio_ALVARÃES",
+      "mean_abs_shap": 1.7e-05
+    },
+    {
+      "feature": "cat__Municipio_MARABÁ",
+      "mean_abs_shap": 1.7e-05
+    },
+    {
+      "feature": "cat__Municipio_MACHADINHO D'OESTE",
+      "mean_abs_shap": 1.7e-05
+    },
+    {
+      "feature": "cat__Municipio_MACAPÁ",
+      "mean_abs_shap": 1.6e-05
+    },
+    {
+      "feature": "cat__Municipio_BURITIS",
+      "mean_abs_shap": 1.6e-05
+    },
+    {
+      "feature": "cat__Municipio_MOJUÍ DOS CAMPOS",
+      "mean_abs_shap": 1.6e-05
+    },
+    {
+      "feature": "cat__Municipio_CANUTAMA",
+      "mean_abs_shap": 1.6e-05
+    },
+    {
+      "feature": "cat__Municipio_CONCEIÇÃO DO ARAGUAIA",
+      "mean_abs_shap": 1.6e-05
+    },
+    {
+      "feature": "cat__Municipio_PLACAS",
+      "mean_abs_shap": 1.5e-05
+    },
+    {
+      "feature": "cat__Municipio_CRUZEIRO DO SUL",
+      "mean_abs_shap": 1.5e-05
+    },
+    {
+      "feature": "cat__Municipio_ANAPU",
+      "mean_abs_shap": 1.5e-05
+    },
+    {
+      "feature": "cat__Estado_TOCANTINS",
+      "mean_abs_shap": 1.5e-05
+    },
+    {
+      "feature": "cat__Municipio_BRASILÉIA",
+      "mean_abs_shap": 1.3e-05
+    },
+    {
+      "feature": "cat__Municipio_SANTARÉM",
+      "mean_abs_shap": 1.3e-05
+    },
+    {
+      "feature": "cat__Municipio_ASSIS BRASIL",
+      "mean_abs_shap": 1.2e-05
+    },
+    {
+      "feature": "cat__Municipio_IRACEMA",
+      "mean_abs_shap": 1.2e-05
+    },
+    {
+      "feature": "cat__Municipio_UARINI",
+      "mean_abs_shap": 1.2e-05
+    },
+    {
+      "feature": "cat__Municipio_PORTO WALTER",
+      "mean_abs_shap": 1.2e-05
+    },
+    {
+      "feature": "cat__Municipio_AMARANTE DO MARANHÃO",
+      "mean_abs_shap": 1.2e-05
+    },
+    {
+      "feature": "cat__Municipio_TAPAUÁ",
+      "mean_abs_shap": 1.2e-05
+    },
+    {
+      "feature": "cat__Municipio_ITACOATIARA",
+      "mean_abs_shap": 1.1e-05
+    },
+    {
+      "feature": "cat__Municipio_JUARA",
+      "mean_abs_shap": 1e-05
+    },
+    {
+      "feature": "cat__Municipio_MÂNCIO LIMA",
+      "mean_abs_shap": 1e-05
+    },
+    {
+      "feature": "cat__Municipio_APIACÁS",
+      "mean_abs_shap": 1e-05
+    },
+    {
+      "feature": "cat__Municipio_ALMEIRIM",
+      "mean_abs_shap": 1e-05
+    },
+    {
+      "feature": "cat__Municipio_QUERÊNCIA",
+      "mean_abs_shap": 9e-06
+    },
+    {
+      "feature": "cat__Municipio_TOMÉ-AÇU",
+      "mean_abs_shap": 9e-06
+    },
+    {
+      "feature": "cat__Municipio_MARCELÂNDIA",
+      "mean_abs_shap": 9e-06
+    },
+    {
+      "feature": "cat__Municipio_MUCAJAÍ",
+      "mean_abs_shap": 9e-06
+    },
+    {
+      "feature": "cat__Municipio_IPIXUNA DO PARÁ",
+      "mean_abs_shap": 9e-06
+    },
+    {
+      "feature": "cat__Municipio_VILA BELA DA SANTÍSSIMA TRINDADE",
+      "mean_abs_shap": 8e-06
+    },
+    {
+      "feature": "cat__Municipio_AUTAZES",
+      "mean_abs_shap": 8e-06
+    },
+    {
+      "feature": "cat__Municipio_URUARÁ",
+      "mean_abs_shap": 8e-06
+    },
+    {
+      "feature": "cat__Municipio_MANACAPURU",
+      "mean_abs_shap": 8e-06
+    },
+    {
+      "feature": "cat__Municipio_RONDOLÂNDIA",
+      "mean_abs_shap": 8e-06
+    },
+    {
+      "feature": "cat__Municipio_CHAVES",
+      "mean_abs_shap": 7e-06
+    },
+    {
+      "feature": "cat__Municipio_PACARAIMA",
+      "mean_abs_shap": 7e-06
+    },
+    {
+      "feature": "cat__Municipio_CAMETÁ",
+      "mean_abs_shap": 7e-06
+    },
+    {
+      "feature": "cat__Municipio_ÓBIDOS",
+      "mean_abs_shap": 7e-06
+    },
+    {
+      "feature": "cat__Municipio_COTRIGUAÇU",
+      "mean_abs_shap": 7e-06
+    },
+    {
+      "feature": "cat__Municipio_CUJUBIM",
+      "mean_abs_shap": 6e-06
+    },
+    {
+      "feature": "cat__Municipio_SÃO GABRIEL DA CACHOEIRA",
+      "mean_abs_shap": 6e-06
+    },
+    {
+      "feature": "cat__Municipio_ITUPIRANGA",
+      "mean_abs_shap": 6e-06
+    },
+    {
+      "feature": "cat__Municipio_XAPURI",
+      "mean_abs_shap": 6e-06
+    },
+    {
+      "feature": "cat__Municipio_BARCELOS",
+      "mean_abs_shap": 6e-06
+    },
+    {
+      "feature": "cat__Municipio_BONFIM",
+      "mean_abs_shap": 6e-06
+    },
+    {
+      "feature": "cat__Municipio_ORIXIMINÁ",
+      "mean_abs_shap": 6e-06
+    },
+    {
+      "feature": "cat__Municipio_PEIXOTO DE AZEVEDO",
+      "mean_abs_shap": 5e-06
+    },
+    {
+      "feature": "cat__Municipio_MIRINZAL",
+      "mean_abs_shap": 5e-06
+    },
+    {
+      "feature": "cat__Municipio_CANTÁ",
+      "mean_abs_shap": 5e-06
+    },
+    {
+      "feature": "cat__Municipio_TURIAÇU",
+      "mean_abs_shap": 5e-06
+    },
+    {
+      "feature": "cat__Municipio_ENVIRA",
+      "mean_abs_shap": 5e-06
+    },
+    {
+      "feature": "cat__Municipio_ELDORADO DO CARAJÁS",
+      "mean_abs_shap": 4e-06
+    },
+    {
+      "feature": "cat__Municipio_RORAINÓPOLIS",
+      "mean_abs_shap": 4e-06
+    },
+    {
+      "feature": "cat__Municipio_NOVA MARINGÁ",
+      "mean_abs_shap": 4e-06
+    },
+    {
+      "feature": "cat__Municipio_CALÇOENE",
+      "mean_abs_shap": 4e-06
+    },
+    {
+      "feature": "cat__Municipio_BANNACH",
+      "mean_abs_shap": 4e-06
+    },
+    {
+      "feature": "cat__Municipio_BREVES",
+      "mean_abs_shap": 4e-06
+    },
+    {
+      "feature": "cat__Municipio_OIAPOQUE",
+      "mean_abs_shap": 4e-06
+    },
+    {
+      "feature": "cat__Municipio_PRESIDENTE FIGUEIREDO",
+      "mean_abs_shap": 4e-06
+    },
+    {
+      "feature": "cat__Municipio_NOVA UBIRATÃ",
+      "mean_abs_shap": 4e-06
+    },
+    {
+      "feature": "cat__Municipio_JURUTI",
+      "mean_abs_shap": 3e-06
+    },
+    {
+      "feature": "cat__Municipio_CURIONÓPOLIS",
+      "mean_abs_shap": 3e-06
+    },
+    {
+      "feature": "cat__Municipio_UIRAMUTÃ",
+      "mean_abs_shap": 3e-06
+    },
+    {
+      "feature": "cat__Municipio_PARANATINGA",
+      "mean_abs_shap": 3e-06
+    },
+    {
+      "feature": "cat__Municipio_AMAPÁ",
+      "mean_abs_shap": 3e-06
+    },
+    {
+      "feature": "cat__Municipio_PARANAÍTA",
+      "mean_abs_shap": 3e-06
+    },
+    {
+      "feature": "cat__Municipio_RONDON DO PARÁ",
+      "mean_abs_shap": 3e-06
+    },
+    {
+      "feature": "cat__Municipio_SANTA TEREZINHA",
+      "mean_abs_shap": 3e-06
+    },
+    {
+      "feature": "cat__Municipio_ALENQUER",
+      "mean_abs_shap": 3e-06
+    },
+    {
+      "feature": "cat__Municipio_ALTO ALEGRE",
+      "mean_abs_shap": 3e-06
+    },
+    {
+      "feature": "cat__Municipio_CONFRESA",
+      "mean_abs_shap": 3e-06
+    },
+    {
+      "feature": "cat__Municipio_NOVA OLINDA DO NORTE",
+      "mean_abs_shap": 3e-06
+    },
+    {
+      "feature": "cat__Municipio_AURORA DO PARÁ",
+      "mean_abs_shap": 3e-06
+    },
+    {
+      "feature": "cat__Municipio_TABAPORÃ",
+      "mean_abs_shap": 3e-06
+    },
+    {
+      "feature": "cat__Municipio_PIMENTEIRAS DO OESTE",
+      "mean_abs_shap": 3e-06
+    },
+    {
+      "feature": "cat__Municipio_BARREIRINHA",
+      "mean_abs_shap": 3e-06
+    },
+    {
+      "feature": "cat__Municipio_SOURE",
+      "mean_abs_shap": 3e-06
+    },
+    {
+      "feature": "cat__Municipio_BOM JESUS DAS SELVAS",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_MARECHAL THAUMATURGO",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_CONCÓRDIA DO PARÁ",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_NHAMUNDÁ",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_COMODORO",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_ACRELÂNDIA",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_RODRIGUES ALVES",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_CASTANHEIRA",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_RIBEIRÃO CASCALHEIRA",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_BUJARI",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_VILA RICA",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_CLÁUDIA",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_SANTA CARMEM",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_PAUINI",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_SÃO FÉLIX DO ARAGUAIA",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_CACHOEIRA DO PIRIÁ",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_BRASNORTE",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_TAILÂNDIA",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_PORTO ACRE",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_BURITICUPU",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_NOVO AIRÃO",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_BOA VISTA",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_CAPITÃO POÇO",
+      "mean_abs_shap": 2e-06
+    },
+    {
+      "feature": "cat__Municipio_BUJARU",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_BOA VISTA DO RAMOS",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_PARINTINS",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_ALTO PARAÍSO",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_OEIRAS DO PARÁ",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_BREJO DE AREIA",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_AMAJARI",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_MARAJÁ DO SENA",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_PEDRA BRANCA DO AMAPARI",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_NOVA SANTA HELENA",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_NOVA ESPERANÇA DO PIRIÁ",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_ÁGUA AZUL DO NORTE",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_CAROEBE",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_ALTA FLORESTA D'OESTE",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_RIO MARIA",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_SÃO FRANCISCO DO GUAPORÉ",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_BAIÃO",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_SÃO DOMINGOS DO CAPIM",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_CANARANA",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_NOVA CANAÃ DO NORTE",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_CÂNDIDO MENDES",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_GURUPÁ",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_JUÍNA",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_SANTA CRUZ DO XINGU",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_MOCAJUBA",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_CANAÃ DOS CARAJÁS",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_EPITACIOLÂNDIA",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_SÃO JOSÉ DO XINGU",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_CAPIXABA",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_ABAETETUBA",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_EIRUNEPÉ",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_GUAJARÁ-MIRIM",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_CURURUPU",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_CURRALINHO",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_ITAÚBA",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_MATUPÁ",
+      "mean_abs_shap": 1e-06
+    },
+    {
+      "feature": "cat__Municipio_CAREIRO",
+      "mean_abs_shap": 0.0
+    },
+    {
+      "feature": "cat__Municipio_DOM ELISEU",
+      "mean_abs_shap": 0.0
+    },
+    {
+      "feature": "cat__Municipio_IPIXUNA",
+      "mean_abs_shap": 0.0
+    },
+    {
+      "feature": "cat__Municipio_TUCURUÍ",
+      "mean_abs_shap": 0.0
+    },
+    {
+      "feature": "cat__Municipio_JORDÃO",
+      "mean_abs_shap": 0.0
+    },
+    {
+      "feature": "cat__Municipio_CANABRAVA DO NORTE",
+      "mean_abs_shap": 0.0
+    },
+    {
+      "feature": "cat__Municipio_NOVA MONTE VERDE",
+      "mean_abs_shap": 0.0
+    },
+    {
+      "feature": "cat__Municipio_TARTARUGALZINHO",
+      "mean_abs_shap": 0.0
+    },
+    {
+      "feature": "cat__Municipio_ARAME",
+      "mean_abs_shap": 0.0
+    },
+    {
+      "feature": "cat__Municipio_VILHENA",
+      "mean_abs_shap": 0.0
+    },
+    {
+      "feature": "cat__Municipio_PONTES E LACERDA",
+      "mean_abs_shap": 0.0
+    },
+    {
+      "feature": "cat__Municipio_XINGUARA",
+      "mean_abs_shap": 0.0
+    }
+  ]
+}
