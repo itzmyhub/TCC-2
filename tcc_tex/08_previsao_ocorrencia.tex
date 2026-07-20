@@ -52,6 +52,18 @@ mês. O universo é o conjunto de \num{4168} células \emph{fire-prone} (com \(\
 inexistente) são os pares célula--mês sem foco. O conjunto final tem \num{450144}
 células--mês (2015--2023), com prevalência de \SI{24,7}{\percent}.
 
+\paragraph{Amostragem da classe negativa.} Construir a classe negativa a partir dos pares
+célula--mês sem foco é uma decisão de projeto, não uma escolha neutra: na modelagem de
+distribuição (\emph{species distribution models}), a definição e o volume das
+\emph{pseudo-ausências}/\emph{background} afetam o desempenho aparente e podem inflar métricas
+como a AUC quando o \emph{background} é ``fácil''~\cite{barbetmassin2012pseudo,phillips2009sample,lobo2008auc}.
+Aqui a prevalência é fixada pelo próprio domínio (\SI{24,7}{\percent} de positivos entre as
+células \emph{fire-prone}), evitando o desbalanceamento extremo em que a AUC se torna
+enganosa; para métodos baseados em árvores, poucos negativos com ponderação de classes bastam~\cite{barbetmassin2012pseudo},
+e adota-se \texttt{class\_weight=balanced}. Uma checagem com negativos restritos por
+similaridade geográfica (evitando pares triviais)~\cite{xu2023nonfire} fica registrada como
+refinamento --- direção que torna o problema mais realista, não mais fácil.
+
 \paragraph{Causalidade e validação.} Para eliminar o vazamento temporal documentado na
 Seção~\ref{sec:res_temporal}, todas as \emph{features} usam apenas informação \(\leq t\)
 (histórico de fogo defasado, somas móveis com deslocamento, sazonalidade, localização). A
@@ -83,6 +95,20 @@ Espacial (\emph{leave-region-out}) & \textbf{0,759} & 0,895 & --- & 0,17--0,34 \
 \bottomrule
 \end{tabular}
 \end{table}
+
+\paragraph{Escolha da métrica.} A PR-AUC é adotada como métrica principal por ser sensível à
+classe positiva rara: sob desbalanceamento, a ROC-AUC pode permanecer alta e mascarar a queda
+de precisão que a curva \emph{precision-recall} revela~\cite{saito2015precision,davis2006relationship}.
+Reportam-se também ROC-AUC e Brier. Registra-se, por completude, que a superioridade
+incondicional da PR-AUC foi formalmente questionada~\cite{mcdermott2024closer}: a escolha aqui
+segue o \emph{objetivo operacional} (priorizar a detecção do fogo, evento raro e de alto custo
+de omissão), não uma preferência a priori.
+
+\paragraph{Área de aplicabilidade.} A validação \emph{leave-region-out} mede a generalização a
+regiões não vistas, mas predições fora do envelope de \emph{features} do treino permanecem
+menos confiáveis. A delimitação formal da \textbf{área de aplicabilidade}~\cite{meyer2021aoa}
+--- restringindo o mapa às células suficientemente similares ao conjunto de treino --- é o
+complemento recomendado para o uso operacional do produto.
 
 \section{Robustez entre famílias de modelo}
 \label{sec:oco_familias}
@@ -155,6 +181,14 @@ estatística garantida}, via \emph{split-conformal} classe-condicional
 obteve-se cobertura empírica de \SI{88,8}{\percent}; \SI{82,9}{\percent} das predições são
 \emph{singletons} confiantes e \SI{17,1}{\percent} são sinalizadas como ambíguas. O erro de
 calibração esperado (ECE) foi de \num{0,099} e o \emph{Brier} de \num{0,123}.
+
+\paragraph{Pressuposto e ressalva.} A garantia de cobertura do \emph{split-conformal} assume
+\emph{permutabilidade} (\emph{exchangeability}) entre calibração e teste~\cite{angelopoulos2021gentle}.
+A grade espaço-temporal viola parcialmente esse pressuposto (autocorrelação entre células e
+meses vizinhos), o que é coerente com a leve subcobertura observada (\SI{88,8}{\percent} ante o
+alvo de \SI{90}{\percent}). Sob desvio de distribuição, a cobertura nominal pode ser restaurada
+por \emph{conformal} ponderado/adaptado~\cite{tibshirani2019conformal}; uma calibração com
+particionamento espacial é o encaminhamento indicado para o uso operacional.
 
 \section{Drivers antrópicos: o papel do desmatamento}
 \label{sec:oco_drivers}

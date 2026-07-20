@@ -100,7 +100,18 @@ def construir_grade(agg: pd.DataFrame) -> pd.DataFrame:
 
 def imputar_clima_climatologia(full: pd.DataFrame) -> pd.DataFrame:
     """Preenche clima dos cell-months de ausência com a climatologia da célula
-    por mês-calendário (média dos meses observados); fallback célula→global."""
+    por mês-calendário (média dos meses observados); fallback célula→global.
+
+    CAVEAT (vazamento temporal leve, DOCUMENTADO): a climatologia é calculada
+    com ``groupby().transform("mean")`` sobre o dataset COMPLETO (todos os anos),
+    antes do split temporal feito em ``treinar_validar.py``. Logo, a média
+    sazonal de cada célula usa também meses de anos futuros ao fold de teste.
+    Impacto prático NULO: experimentos controlados (P5) mostram que o clima é
+    redundante frente ao histórico de fogo (ganho +0,001 PR-AUC), e estas 3
+    colunas são justamente as de menor importância. A correção estrita
+    (climatologia estimada só no treino de cada fold) é encaminhamento futuro;
+    mantém-se aqui a versão simples por reprodutibilidade dos números do TCC.
+    """
     full["mes"] = full["ym"].dt.month
     for col in ["DiaSemChuva", "Precipitacao", "RiscoFogo_inpe"]:
         clim_cel_mes = full.groupby(["LatBin", "LonBin", "mes"])[col].transform("mean")
