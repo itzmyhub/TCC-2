@@ -327,6 +327,51 @@ mapa interativo, independente do aplicativo de \emph{nowcast}. Verificações de
 conferem com a fenologia do fogo (p.ex.\ Roraima com alto risco em dezembro; sul do Pará
 baixo em dezembro, cuja estação de fogo é julho--outubro).
 
+\section{Posicionamento frente à literatura}
+\label{sec:oco_posicionamento}
+
+A Tabela~\ref{tab:oco_posicionamento} situa o desempenho deste trabalho frente a estudos
+correlatos de aprendizado de máquina para fogo no Brasil e no exterior. A leitura exige
+\textbf{cautela}: os trabalhos diferem no \emph{alvo} (suscetibilidade estática \emph{vs.}\
+previsão temporal de ocorrência), na \emph{métrica} (ROC-AUC \emph{vs.}\ PR-AUC/AUPRC) e na
+\emph{unidade} espaço-temporal --- os valores \textbf{não são diretamente comparáveis}, e a
+tabela serve para posicionar ordens de grandeza, não para ranquear.
+
+\begin{table}[h]
+\centering
+\caption{Posicionamento frente à literatura correlata de ML para fogo. Métricas e alvos
+distintos --- comparação apenas indicativa.}
+\label{tab:oco_posicionamento}
+\small
+\begin{tabular}{p{4.2cm}p{2.6cm}p{3.1cm}cc}
+\toprule
+\textbf{Trabalho} & \textbf{Região / bioma} & \textbf{Alvo} & \textbf{Métrica} & \textbf{Valor} \\
+\midrule
+\textbf{Este trabalho} & Amazônia Legal & \textbf{ocorrência observada (\(t+1\))} & PR-AUC / ROC-AUC & \textbf{0,777 / 0,904} \\
+Fonseca \emph{et al.}~\cite{fonseca2016maxent} & Amazônia & prob.\ de fogo (MaxEnt) & ROC-AUC & 0,919 \\
+de Bem \emph{et al.}~\cite{debem2019vulnerability} & DF / Cerrado & suscetibilidade (ANN) & ROC-AUC & 0,77 \\
+Rubí \& Gondim~\cite{rubi2024performance} & DF / Cerrado & risco de ocorrência (RF) & ROC-AUC & 0,76 \\
+Rodrigues \& de la Riva~\cite{rodrigues2014insight} & Espanha & ocorrência antrópica (RF) & ROC-AUC & 0,746 \\
+FireCastNet~\cite{karasante2025firecastnet} & Global & área queimada sazonal & AUPRC & \(\approx\)0,63 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Três leituras se sustentam. Primeiro, o \textbf{ROC-AUC de \num{0,904}} deste trabalho situa-se
+\emph{acima} da faixa dos estudos de ocorrência (\numrange{0,74}{0,77}) e no patamar dos de
+suscetibilidade que reportam AUC (\numrange{0,86}{0,92}) --- apesar de resolver a tarefa mais
+exigente de \emph{previsão temporal} (fogo no mês seguinte), e não o mapeamento estático de uma
+superfície de propensão. Segundo, na família de métrica honesta para evento raro, o
+\textbf{PR-AUC de \num{0,777}} é da mesma ordem do AUPRC global do FireCastNet
+(\(\approx\)\num{0,63}), obtido em domínio e escala distintos. Terceiro, e mais importante, os
+dois \emph{diferenciais} deste trabalho não aparecem na maioria dos correlatos: a
+\textbf{validação espaço-temporal em bloco} (a maior parte valida por \emph{holdout}
+aleatório de uma superfície estática, o que superestima o desempenho, cf.\
+Seção~\ref{sec:oco_metodo}) e o \textbf{\emph{benchmark} contra o índice físico operacional}
+sobre fogo observado (Seção~\ref{sec:oco_benchmark}), que nenhum dos estudos brasileiros
+correlatos realiza. É desse par --- honestidade de validação e superação do índice --- que
+decorre a contribuição, mais do que do valor absoluto de qualquer métrica.
+
 \section{Síntese}
 \label{sec:oco_sintese}
 
