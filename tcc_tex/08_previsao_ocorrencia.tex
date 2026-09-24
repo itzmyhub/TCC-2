@@ -1,31 +1,21 @@
 % ============================================================================
 % 08_previsao_ocorrencia.tex
-% Capítulo: Reformulação do problema para PREVISÃO DE OCORRÊNCIA de fogo
-% observado. Inserir via \input{08_previsao_ocorrencia} no tcc.tex, APÓS o
-% Capítulo 5 (Resultados, que termina com \input{07_estudo_caso_pium_to}) e
-% ANTES do \chapter{Conclusão}. Torna-se o Capítulo 6; a Conclusão passa a 7.
+% Capítulo de RESULTADOS da previsão de ocorrência de fogo observado.
+% A metodologia correspondente está no Cap. 4 (tcc.tex).
 % Números conferem com modelos/relatorios/previsao_ocorrencia_*.json,
 % benchmark_p3_fwi.json, driver_*.json, comparacao_familias.json,
 % validacao_rotulo_mapbiomas.json.
 % ============================================================================
 
-\chapter{Previsão de ocorrência de fogo: reformulação do problema}
+\chapter{Resultados}
 \label{cap:ocorrencia}
 
-O Capítulo~\ref{cap:metodologia} e o Apêndice~\ref{cap:resultados} descrevem uma abordagem
-exploratória inicial: um classificador de \emph{nível de risco em tempo real}
-(\emph{nowcast}) cujo alvo é o índice Risco de Fogo do INPE discretizado em três faixas. Este capítulo reformula o problema para a
-\textbf{previsão de ocorrência de fogo observado}, com horizonte temporal explícito,
-classe negativa real e validação sem vazamento --- alinhando o trabalho ao estado da arte
-atual, que prevê o \emph{fenômeno observado} (focos ou área queimada), e não a saída de
-outro modelo~\cite{huot2022nextday,karasante2025firecastnet,deandrade2024lstmgru}. O
-\emph{pipeline} original é mantido como linha de base; o reformulado constitui a principal
-contribuição metodológica desta etapa.
+Este capítulo apresenta os resultados do sistema de previsão de ocorrência de fogo descrito no Capítulo~\ref{cap:metodologia}. A Seção~\ref{sec:oco_motivacao} retoma, com evidência empírica, por que o problema foi reformulado a partir da abordagem exploratória. As seções seguintes reportam o desempenho sob validação em bloco, a robustez entre famílias de modelo, o \emph{benchmark} contra os índices físicos, a quantificação de incerteza, o papel do desmatamento, a auditoria do rótulo, a avaliação operacional e a primeira previsão do sistema em operação.
 
 \section{Motivação: do índice ao fenômeno observado}
 \label{sec:oco_motivacao}
 
-A inspeção dos dados revelou três fragilidades de fundo na formulação original.
+A abordagem exploratória (Apêndice~\ref{cap:resultados}) atingiu \SI{84,61}{\percent} de acurácia em \emph{hold-out} aleatório, mas a inspeção dos dados revelou três fragilidades de fundo na sua formulação.
 Primeiro, o alvo (\texttt{RiscoFogo}) é a \textbf{saída de um índice operacional} do INPE,
 ele próprio derivado de dias sem chuva, precipitação e umidade --- variáveis que também
 figuram entre as \emph{features}, gerando circularidade. Segundo, a base é
@@ -39,38 +29,7 @@ Há evidência empírica direta nos próprios CSVs do INPE: em um único arquivo
 (\num{82678} focos), \num{8288} detecções (\(\approx\)\SI{10}{\percent}) ocorreram onde o
 índice marcava risco mínimo (\texttt{RiscoFogo}~\(\in\{0{,}0;\,0{,}1\}\)) --- fogo real em
 locais classificados como ``Baixo''. Um modelo que imita o índice herda esse ponto cego,
-exatamente o que o estudo de caso Pium--TO (Seção~\ref{sec:res_estudo_caso_pium}) demonstrou.
-
-\section{Reformulação metodológica}
-\label{sec:oco_metodo}
-
-\paragraph{Unidade e alvo.} Adota-se uma grade de células de \SI{0,25}{\degree}
-(\(\approx\)\SI{27}{km}, granularidade MERRA-2/SeasFire~\cite{karasante2025firecastnet}) por
-mês. O universo é o conjunto de \num{4168} células \emph{fire-prone} (com \(\geq 1\) foco em
-2014--2023). Para cada par (célula, mês~\(t\)), o alvo é binário: \emph{houve foco no mês
-\(t+1\)?} A presença vem dos focos observados; a \textbf{ausência} (classe negativa antes
-inexistente) são os pares célula--mês sem foco. O conjunto final tem \num{450144}
-células--mês (2015--2023), com prevalência de \SI{24,7}{\percent}.
-
-\paragraph{Amostragem da classe negativa.} Construir a classe negativa a partir dos pares
-célula--mês sem foco é uma decisão de projeto, não uma escolha neutra: na modelagem de
-distribuição (\emph{species distribution models}), a definição e o volume das
-\emph{pseudo-ausências}/\emph{background} afetam o desempenho aparente e podem inflar métricas
-como a AUC quando o \emph{background} é ``fácil''~\cite{barbetmassin2012pseudo,phillips2009sample,lobo2008auc}.
-Aqui a prevalência é fixada pelo próprio domínio (\SI{24,7}{\percent} de positivos entre as
-células \emph{fire-prone}), evitando o desbalanceamento extremo em que a AUC se torna
-enganosa; para métodos baseados em árvores, poucos negativos com ponderação de classes bastam~\cite{barbetmassin2012pseudo},
-e adota-se \texttt{class\_weight=balanced}. Uma checagem com negativos restritos por
-similaridade geográfica (evitando pares triviais)~\cite{xu2023nonfire} fica registrada como
-refinamento --- direção que torna o problema mais realista, não mais fácil.
-
-\paragraph{Causalidade e validação.} Para eliminar o vazamento temporal documentado na
-Seção~\ref{sec:res_temporal}, todas as \emph{features} usam apenas informação \(\leq t\)
-(histórico de fogo defasado, somas móveis com deslocamento, sazonalidade, localização). A
-validação é \textbf{espaço-temporal em bloco}~\cite{roberts2017cv}: \emph{rolling-origin} por
-ano (treino \(<Y\), teste \(=Y\), para \(Y\in\{2021,2022,2023\}\)) e \emph{leave-region-out}
-(5 blocos de longitude). A métrica principal é a \textbf{PR-AUC} (\emph{Average Precision}),
-robusta ao desbalanceamento.
+exatamente o que o estudo de caso Pium--TO (Seção~\ref{sec:res_estudo_caso_pium}) demonstrou: o índice indicava risco baixo num incêndio real confirmado pelo CENSIPAM. Somou-se a isso o vazamento temporal: sob validação \emph{rolling-origin}, a acurácia caiu de \SI{84,61}{\percent} para \SI{70,13}{\percent} (Seção~\ref{sec:res_temporal}). Essas constatações motivaram a formulação descrita no Capítulo~\ref{cap:metodologia}: prever o \emph{fenômeno observado}, e não a saída de outro modelo, como faz o estado da arte~\cite{huot2022nextday,karasante2025firecastnet,deandrade2024lstmgru}.
 
 \section{Desempenho preditivo e linhas de base}
 \label{sec:oco_desempenho}
@@ -95,14 +54,6 @@ Espacial (\emph{leave-region-out}) & \textbf{0,759} & 0,895 & --- & 0,17--0,34 \
 \bottomrule
 \end{tabular}
 \end{table}
-
-\paragraph{Escolha da métrica.} A PR-AUC é adotada como métrica principal por ser sensível à
-classe positiva rara: sob desbalanceamento, a ROC-AUC pode permanecer alta e mascarar a queda
-de precisão que a curva \emph{precision-recall} revela~\cite{saito2015precision,davis2006relationship}.
-Reportam-se também ROC-AUC e Brier. Registra-se, por completude, que a superioridade
-incondicional da PR-AUC foi formalmente questionada~\cite{mcdermott2024closer}: a escolha aqui
-segue o \emph{objetivo operacional} (priorizar a detecção do fogo, evento raro e de alto custo
-de omissão), não uma preferência a priori.
 
 \paragraph{Área de aplicabilidade.} A validação \emph{leave-region-out} mede a generalização a
 regiões não vistas, mas predições fora do envelope de \emph{features} do treino permanecem
@@ -141,16 +92,7 @@ Regressão Logística & 0,699 [0,690--0,707] & 0,873 & 0,143 & 0,117 [0,108--0,1
 \section{Benchmark contra índices físicos de perigo de fogo}
 \label{sec:oco_benchmark}
 
-A defensabilidade da tese exige que o modelo \emph{supere} o índice físico operacional na
-previsão de fogo observado. Implementou-se o \textbf{Fire Weather Index (FWI)} canadense
-completo~\cite{vanwagner1985fwi} --- base do sistema GEFF/EFFIS do
-Copernicus~\cite{digiuseppe2024geff} ---, validado contra os valores de referência publicados
-(FFMC~\num{87,69}; DMC~\num{8,55}; DC~\num{19,01}; ISI~\num{10,85}; BUI~\num{8,49};
-FWI~\num{10,10}). O FWI foi computado dia a dia a partir de clima diário (NASA POWER) para
-uma amostra de \num{100} células. A Tabela~\ref{tab:oco_benchmark} mostra o resultado:
-\textbf{o modelo de ML supera o FWI e o índice do INPE} na previsão de fogo observado. O FWI
-separa fisicamente bem (média \num{6,0} em meses com fogo vs.\ \num{1,5} sem), validando a
-implementação.
+A defensabilidade da tese exige que o modelo \emph{supere} os índices físicos operacionais na previsão de fogo observado (protocolo na Seção~\ref{sec:metod_benchmark}). A implementação do FWI reproduziu os valores de referência publicados (FFMC~\num{87,69}; DMC~\num{8,55}; DC~\num{19,01}; ISI~\num{10,85}; BUI~\num{8,49}; FWI~\num{10,10}) e separa fisicamente bem os meses com e sem fogo (média \num{6,0} contra \num{1,5}), o que valida a implementação. A Tabela~\ref{tab:oco_benchmark} mostra o resultado: \textbf{o modelo de ML supera o FWI e o índice do INPE} na previsão de fogo observado.
 
 \begin{table}[h]
 \centering
@@ -317,15 +259,39 @@ exigiriam outra formulação.
 \label{fig:oco_horizonte}
 \end{figure}
 
-\section{Integração ao produto}
+\section{Operação em tempo real}
 \label{sec:oco_produto}
 
-O modelo final (base + desmatamento) foi serializado, calibrado por \emph{conformal}
-(cobertura \num{0,900}) e exposto como produto: uma previsão por célula de \(P(\text{fogo no
-próximo mês})\) com rótulo conformal e \emph{drivers}, servida por aplicação \emph{Flask} com
-mapa interativo, independente do aplicativo de \emph{nowcast}. Verificações de sanidade
-conferem com a fenologia do fogo (p.ex.\ Roraima com alto risco em dezembro; sul do Pará
-baixo em dezembro, cuja estação de fogo é julho--outubro).
+O \emph{pipeline} operacional (Seção~\ref{sec:metod_produto}) foi executado com os dados abertos do INPE e do DETER disponíveis em 24 de setembro de 2026. Antes disso, verificou-se a reprodutibilidade: reconstruindo a base do período 2014--2023 diretamente do servidor de dados abertos, obtiveram-se \num{450684} células--mês (contra \num{450144} da base original; a diferença de \SI{0,1}{\percent} decorre de revisões dos focos pelo INPE) e PR-AUC de \num{0,779} na validação temporal e \num{0,757} na espacial --- equivalentes aos \num{0,777} e \num{0,759} da Tabela~\ref{tab:oco_validacao}.
+
+O modelo de produção foi então re-treinado com todo o histórico (focos até julho de 2026, \num{4312} células), com o conformal recalibrado em 2025, onde a cobertura atingiu exatamente o alvo (\num{0,900}). A partir das \emph{features} de agosto de 2026, o sistema previu a ocorrência de fogo em setembro de 2026 (Figura~\ref{fig:oco_forecast}). O padrão espacial é coerente com a fenologia do fogo: o arco do desmatamento (Pará, Rondônia, Acre e norte de Mato Grosso) concentra as maiores probabilidades no pico da estação seca, enquanto Roraima, cuja estação de fogo vai de janeiro a março, aparece com risco baixo.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\textwidth]{imagens/forecast_setembro_2026.png}
+\caption{Previsão operacional de \(P(\text{fogo})\) por célula para setembro de 2026, gerada com os dados disponíveis até agosto de 2026.}
+\label{fig:oco_forecast}
+\end{figure}
+
+Como setembro já estava em curso na data da execução, a previsão pôde ser confrontada com os focos efetivamente observados de 1º a 23 de setembro --- uma avaliação genuinamente fora da amostra, com dados que o modelo nunca viu. A PR-AUC foi de \num{0,729} e a ROC-AUC de \num{0,825}, com \SI{35,9}{\percent} das células já com fogo. Os rótulos conformais separaram bem os grupos (Tabela~\ref{tab:oco_forecast}): \SI{66}{\percent} das células rotuladas \emph{fogo} já haviam queimado, contra apenas \SI{4}{\percent} das rotuladas \emph{não-fogo}.
+
+\begin{table}[h]
+\centering
+\caption{Previsão para setembro de 2026 confrontada com os focos observados até 23/09/2026.}
+\label{tab:oco_forecast}
+\small
+\begin{tabular}{lcc}
+\toprule
+\textbf{Rótulo conformal} & \textbf{Células} & \textbf{Fração com fogo observado} \\
+\midrule
+\emph{fogo}     & \num{1580} & \num{0,66} \\
+\emph{incerto}  & \num{1824} & \num{0,25} \\
+\emph{não-fogo} & \num{908}  & \num{0,04} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Dois cuidados acompanham esse resultado. Primeiro, o mês ainda não estava completo, então a fração de células com fogo tende a subir. Segundo, a probabilidade média prevista (\num{0,62}) é superior à frequência observada: a ponderação \texttt{class\_weight='balanced'} desloca as probabilidades para cima. A \emph{ordenação} das células e os rótulos conformais, que dependem apenas dos limiares calibrados, não são afetados; uma calibração isotônica das probabilidades é o refinamento indicado.
 
 \section{Posicionamento frente à literatura}
 \label{sec:oco_posicionamento}
@@ -367,7 +333,7 @@ superfície de propensão. Segundo, na família de métrica honesta para evento 
 dois \emph{diferenciais} deste trabalho não aparecem na maioria dos correlatos: a
 \textbf{validação espaço-temporal em bloco} (a maior parte valida por \emph{holdout}
 aleatório de uma superfície estática, o que superestima o desempenho, cf.\
-Seção~\ref{sec:oco_metodo}) e o \textbf{\emph{benchmark} contra o índice físico operacional}
+Seção~\ref{sec:metod_validacao}) e o \textbf{\emph{benchmark} contra o índice físico operacional}
 sobre fogo observado (Seção~\ref{sec:oco_benchmark}), que nenhum dos estudos brasileiros
 correlatos realiza. É desse par --- honestidade de validação e superação do índice --- que
 decorre a contribuição, mais do que do valor absoluto de qualquer métrica.

@@ -121,8 +121,13 @@ def imputar_clima_climatologia(full: pd.DataFrame) -> pd.DataFrame:
     return full
 
 
-def adicionar_features_causais(full: pd.DataFrame, horizonte: int) -> pd.DataFrame:
-    """Features que usam SOMENTE dados ≤ t, e alvo = fogo em t+H."""
+def adicionar_features_causais(full: pd.DataFrame, horizonte: int) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Features que usam SOMENTE dados ≤ t, e alvo = fogo em t+H.
+
+    Retorna (linhas com alvo conhecido, linhas do último mês sem alvo). As
+    últimas são a entrada do forecast operacional: features de t, alvo em t+H
+    ainda não observado.
+    """
     full = full.sort_values(["LatBin", "LonBin", "ym"]).reset_index(drop=True)
     g = full.groupby(["LatBin", "LonBin"], sort=False)
 
@@ -158,12 +163,13 @@ def adicionar_features_causais(full: pd.DataFrame, horizonte: int) -> pd.DataFra
 
     # ALVO: houve foco no mês t+H?
     full["alvo"] = g["fogo"].shift(-horizonte)
-    full = full.dropna(subset=["alvo"]).copy()
-    full["alvo"] = full["alvo"].astype(int)
     # Descarta os 12 primeiros meses por célula (lags/rolls imaturos)
     full["ord"] = g.cumcount()
     full = full[full["ord"] >= 12].drop(columns="ord")
-    return full
+    ultimo = full[full["alvo"].isna() & (full["ym"] == full["ym"].max())].copy()
+    full = full.dropna(subset=["alvo"]).copy()
+    full["alvo"] = full["alvo"].astype(int)
+    return full, ultimo
 
 
 FEATURES = [
@@ -181,24 +187,34 @@ def main():
     ap = argparse.ArgumentParser(description="Constrói dataset de ocorrência de fogo (P1+P2).")
     ap.add_argument("--horizonte", type=int, default=1, help="Horizonte de previsão em meses (default 1).")
     ap.add_argument("--saida", type=str, default=str(ROOT / "dataset_ocorrencia_mensal.csv"))
+    ap.add_argument("--saida_ultimo", type=str, default=str(ROOT / "dataset_ocorrencia_ultimo_mes.csv"),
+                    help="Features do último mês (sem alvo) — entrada do forecast operacional.")
+    ap.add_argument("--ate_mes", type=str, default=None,
+                    help="Último mês incluído (AAAA-MM). Use o último mês COMPLETO no modo "
+                         "operacional; omitido = todos os focos disponíveis.")
     args = ap.parse_args()
 
     print("[1/5] Lendo focos do INPE...")
     focos = carregar_focos()
     print("[2/5] Agregando por (célula 0,25°, mês)...")
     agg = agregar_celula_mes(focos)
+    if args.ate_mes:
+        agg = agg[agg["ym"] <= pd.Period(args.ate_mes, freq="M")]
     print("[3/5] Expandindo grade e gerando classe negativa (ausências)...")
     full = construir_grade(agg)
     full = imputar_clima_climatologia(full)
     print(f"[4/5] Features causais + alvo (horizonte={args.horizonte} mês)...")
-    full = adicionar_features_causais(full, args.horizonte)
+    full, ultimo = adicionar_features_causais(full, args.horizonte)
 
-    full["ano"] = full["ym"].dt.year
     cols_out = ["LatBin", "LonBin", "ym", "ano", "mes", "n_focos", "fogo"] + \
                [c for c in FEATURES if c not in ("LatBin", "LonBin")] + ["alvo"]
+    for df_ in (full, ultimo):
+        df_["ano"] = df_["ym"].dt.year
+        df_["ym"] = df_["ym"].astype(str)
     out = full[cols_out].copy()
-    out["ym"] = out["ym"].astype(str)
     out.to_csv(args.saida, index=False)
+    ultimo[cols_out[:-1]].to_csv(args.saida_ultimo, index=False)
+    print(f"  último mês ({ultimo['ym'].max()}): {len(ultimo):,} células -> {args.saida_ultimo}")
 
     prev = out["alvo"].mean()
     print("[5/5] Concluído.")

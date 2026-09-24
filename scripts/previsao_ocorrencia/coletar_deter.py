@@ -73,6 +73,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--ano_ini", type=int, default=2016)
     ap.add_argument("--ano_fim", type=int, default=2023)
+    ap.add_argument("--saida", type=Path, default=SAIDA)
     args = ap.parse_args()
 
     linhas = []
@@ -89,8 +90,8 @@ def main():
               f"{sum(acc.values()):.0f} km² | {(time.time()-t0)/60:.1f} min", flush=True)
 
     df = pd.DataFrame(linhas)
-    df.to_csv(SAIDA, index=False)
-    print(f"\nConcluído: {len(df):,} registros (célula,mês) | salvo em {SAIDA}")
+    df.to_csv(args.saida, index=False)
+    print(f"\nConcluído: {len(df):,} registros (célula,mês) | salvo em {args.saida}")
     print(f"  desmatamento DETER total {args.ano_ini}-{args.ano_fim}: {df['deter_km'].sum():.0f} km²")
 
 

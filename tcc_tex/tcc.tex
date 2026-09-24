@@ -74,6 +74,14 @@
 % ----  Esse comandos são necessário no pré-ambulo para a impressão da lista de lista abreviatuas e de símbolos
 \makelosymbols
 \makeloabbreviations
+% ---- Sumário: a partir dos apêndices, capítulos aparecem como "APÊNDICE A -- TÍTULO"
+\makeatletter
+\newcommand{\apendicesnosumario}{%
+  \let\uftex@lchapter\l@chapter
+  \def\l@chapter##1##2{{%
+    \def\numberline####1{\MakeUppercase{\appendixname}~####1~--~}%
+    \uftex@lchapter{##1}{##2}}}}
+\makeatother
 % ---- Início do documento
 \begin{document}
   % ---- Descrição do título do trabalho
@@ -148,7 +156,7 @@ O crescimento da temperatura global é um fato alarmante. Segundo a \emph{World 
 
 Este trabalho desenvolve um sistema de \textbf{previsão da ocorrência de fogo observado} na Amazônia Legal. A partir de mais de \num{900000} focos ativos do Programa Queimadas/INPE (2014--2023), formula-se um problema de classificação bem-posto sobre uma grade regular de \SI{0,25}{\degree} $\times$ mês: para cada célula propensa a fogo, prevê-se se haverá foco no mês seguinte (\(t+1\)), com \textbf{classe negativa real} (células-mês sem foco) --- corrigindo a limitação de bases \emph{presence-only}, em que só existem registros de fogo. O conjunto final tem \num{450144} células-mês (prevalência do alvo de \SI{24,7}{\percent}). As \emph{features} são \textbf{estritamente causais} (apenas informação até \(t\): histórico de fogo defasado, sazonalidade, climatologia local e desmatamento recente PRODES/DETER), e a avaliação emprega \textbf{validação espaço-temporal em bloco}~\cite{roberts2017cv} --- \emph{rolling-origin} por ano e \emph{leave-region-out} ---, que evita o otimismo do \emph{split} aleatório em dados geográficos.
 
-O modelo (\emph{Histogram-based Gradient Boosting}~\cite{friedman2001greedy}) atinge \textbf{\num{0,777} de PR-AUC} na validação temporal e \num{0,759} na espacial, superando as linhas de base de \emph{persistência} (\num{0,449}) e \emph{climatologia} (\num{0,715}). No \emph{benchmark} contra índices físicos operacionais, avaliados sobre \emph{fogo observado} nas mesmas amostras, o modelo (\num{0,858}) \textbf{supera} tanto o \emph{Fire Weather Index} canadense (\num{0,608})~\cite{vanwagner1985fwi} quanto o índice Risco de Fogo do INPE (\num{0,398}) --- evidenciando o ganho do aprendizado de máquina sobre os índices meteorológicos que a literatura toma como referência operacional. A incerteza é quantificada por \emph{conformal prediction}~\cite{sadinle2019lac} (cobertura empírica de \SI{88,8}{\percent}), a robustez é confirmada por comparação entre famílias de modelo com intervalos de confiança, e experimentos controlados de covariáveis identificam o \textbf{desmatamento recente} (PRODES/DETER) como o principal sinal preditivo da \emph{nova ignição} --- coerente com a natureza majoritariamente antrópica do fogo amazônico~\cite{aragao2018amazon}. O sistema é exposto por uma aplicação web interativa (\emph{Flask} + \emph{Folium}~\cite{folium,leafletjs}) que mapeia a probabilidade de fogo por célula, com rótulo conformal e integração de clima (NASA POWER~\cite{nasapower}) e focos ativos (NASA FIRMS~\cite{nasafirms}) em tempo quase-real. Uma etapa exploratória inicial --- a classificação supervisionada do índice de risco do INPE em faixas de severidade, cuja circularidade metodológica (o alvo era a saída de outro modelo) motivou a reformulação aqui adotada --- é documentada como material complementar.
+O modelo (\emph{Histogram-based Gradient Boosting}~\cite{friedman2001greedy}) atinge \textbf{\num{0,777} de PR-AUC} na validação temporal e \num{0,759} na espacial, superando as linhas de base de \emph{persistência} (\num{0,449}) e \emph{climatologia} (\num{0,715}). No \emph{benchmark} contra índices físicos operacionais, avaliados sobre \emph{fogo observado} nas mesmas amostras, o modelo (\num{0,858}) \textbf{supera} tanto o \emph{Fire Weather Index} canadense (\num{0,608})~\cite{vanwagner1985fwi} quanto o índice Risco de Fogo do INPE (\num{0,398}) --- evidenciando o ganho do aprendizado de máquina sobre os índices meteorológicos que a literatura toma como referência operacional. A incerteza é quantificada por \emph{conformal prediction}~\cite{sadinle2019lac} (cobertura empírica de \SI{88,8}{\percent}), a robustez é confirmada por comparação entre famílias de modelo com intervalos de confiança, e experimentos controlados de covariáveis identificam o \textbf{desmatamento recente} (PRODES/DETER) como o principal sinal preditivo da \emph{nova ignição} --- coerente com a natureza majoritariamente antrópica do fogo amazônico~\cite{aragao2018amazon}. O sistema é exposto por uma aplicação web interativa (\emph{Flask} + \emph{Folium}~\cite{folium,leafletjs}) que mapeia a probabilidade de fogo por célula, com rótulo conformal, e é atualizado a partir dos dados abertos do INPE e dos alertas DETER; na primeira previsão operacional (setembro de 2026), confrontada com os focos efetivamente observados, atingiu PR-AUC de \num{0,729}. Uma etapa exploratória inicial --- a classificação supervisionada do índice de risco do INPE em faixas de severidade, cuja circularidade metodológica (o alvo era a saída de outro modelo) motivou a reformulação aqui adotada --- é documentada em apêndice.
   \end{abstract}
 
   \begin{foreignabstract}
@@ -156,7 +164,7 @@ The alarming rise in global temperatures is an undeniable reality. According to 
 
 This work develops a system for \textbf{predicting observed fire occurrence} in the Brazilian Legal Amazon. From over \num{900000} active-fire detections of the INPE Fire Programme (2014--2023), a well-posed classification problem is formulated on a regular \SI{0.25}{\degree} $\times$ month grid: for each fire-prone cell, the model predicts whether a fire detection will occur in the following month (\(t+1\)), with a \textbf{real negative class} (cell-months without fire) --- correcting the limitation of \emph{presence-only} datasets that contain fire records only. The final set has \num{450144} cell-months (target prevalence \SI{24.7}{\percent}). Features are \textbf{strictly causal} (only information up to \(t\): lagged fire history, seasonality, local climatology, and recent PRODES/DETER deforestation), and evaluation uses \textbf{blocked spatio-temporal validation}~\cite{roberts2017cv} --- yearly \emph{rolling-origin} and \emph{leave-region-out} ---, which avoids the optimism of random splits on geographic data.
 
-The model (\emph{Histogram-based Gradient Boosting}~\cite{friedman2001greedy}) reaches \textbf{\num{0.777} PR-AUC} in temporal validation and \num{0.759} in spatial validation, outperforming the \emph{persistence} (\num{0.449}) and \emph{climatology} (\num{0.715}) baselines. In a \emph{benchmark} against operational physical indices, evaluated on \emph{observed} fire over the same samples, the model (\num{0.858}) \textbf{outperforms} both the Canadian \emph{Fire Weather Index} (\num{0.608})~\cite{vanwagner1985fwi} and the INPE Fire Risk index (\num{0.398}) --- evidencing the added value of machine learning over the meteorological indices the literature adopts as an operational reference. Uncertainty is quantified via \emph{conformal prediction}~\cite{sadinle2019lac} (empirical coverage \SI{88.8}{\percent}), robustness is confirmed by a confidence-interval comparison across model families, and controlled covariate experiments identify \textbf{recent deforestation} (PRODES/DETER) as the main predictive signal for \emph{new ignitions} --- consistent with the predominantly anthropogenic nature of Amazon fire~\cite{aragao2018amazon}. The system is exposed through an interactive web application (\emph{Flask} + \emph{Folium}~\cite{folium,leafletjs}) that maps per-cell fire probability, with a conformal label and near-real-time climate (NASA POWER~\cite{nasapower}) and active-fire (NASA FIRMS~\cite{nasafirms}) integration. An initial exploratory stage --- the supervised classification of the INPE risk index into severity bands, whose methodological circularity (the target was another model's output) motivated the reformulation adopted here --- is documented as supplementary material.
+The model (\emph{Histogram-based Gradient Boosting}~\cite{friedman2001greedy}) reaches \textbf{\num{0.777} PR-AUC} in temporal validation and \num{0.759} in spatial validation, outperforming the \emph{persistence} (\num{0.449}) and \emph{climatology} (\num{0.715}) baselines. In a \emph{benchmark} against operational physical indices, evaluated on \emph{observed} fire over the same samples, the model (\num{0.858}) \textbf{outperforms} both the Canadian \emph{Fire Weather Index} (\num{0.608})~\cite{vanwagner1985fwi} and the INPE Fire Risk index (\num{0.398}) --- evidencing the added value of machine learning over the meteorological indices the literature adopts as an operational reference. Uncertainty is quantified via \emph{conformal prediction}~\cite{sadinle2019lac} (empirical coverage \SI{88.8}{\percent}), robustness is confirmed by a confidence-interval comparison across model families, and controlled covariate experiments identify \textbf{recent deforestation} (PRODES/DETER) as the main predictive signal for \emph{new ignitions} --- consistent with the predominantly anthropogenic nature of Amazon fire~\cite{aragao2018amazon}. The system is exposed through an interactive web application (\emph{Flask} + \emph{Folium}~\cite{folium,leafletjs}) that maps per-cell fire probability with a conformal label, and is updated from INPE open data and DETER deforestation alerts; its first operational forecast (September 2026), checked against the fires actually observed, reached a PR-AUC of \num{0.729}. An initial exploratory stage --- the supervised classification of the INPE risk index into severity bands, whose methodological circularity (the target was another model's output) motivated the reformulation adopted here --- is documented in an appendix.
   \end{foreignabstract}
   \printlosymbols
   \printloabbreviations
@@ -216,19 +224,19 @@ Desenvolver e validar um sistema de aprendizado de máquina para a \textbf{previ
 
 \section{Estrutura da Monografia}
 
-Este trabalho está organizado em sete capítulos que abordam diferentes etapas da pesquisa, proporcionando uma compreensão abrangente do desenvolvimento do sistema de previsão de queimadas na Amazônia.
+Este trabalho está organizado em seis capítulos e um apêndice.
 
-\textbf{2. Estado da Arte:} são explorados trabalhos correlatos e avanços significativos na área de previsão de queimadas, com foco em estudos que propõem o mapeamento de regiões suscetíveis a fogo. A revisão aborda a extensão do problema considerando seus impactos ambientais, sociais e econômicos. Adicionalmente, são examinadas abordagens tradicionais de aprendizado de máquina e o início dos sistemas de prevenção, complementadas por uma seção de \textbf{literatura recente 2024--2025} (\emph{ensembles} explicáveis, índice KBDI no Cerrado-Amazônia, validação temporal estrita).
+\textbf{2. Estado da Arte:} revisa trabalhos correlatos de previsão e mapeamento de fogo com aprendizado de máquina, com destaque para a literatura recente (2024--2025) sobre validação espaço-temporal, previsão de fogo observado e quantificação de incerteza.
 
-\textbf{3. Fundamentação Teórica:} estabelece as bases conceituais necessárias para a compreensão do problema das queimadas na Amazônia. Inicia-se com a contextualização do bioma amazônico e a problemática dos incêndios florestais, seguida pela discussão do sensoriamento remoto e das tecnologias espaciais. O capítulo prossegue com os fundamentos da inteligência artificial e do aprendizado de máquina, contemplando \textbf{modelos clássicos} (Regressão Logística, Random Forest), \textbf{modelos modernos de \emph{boosting}} (XGBoost, LightGBM, CatBoost), \textbf{\emph{ensembles}} (Voting e Stacking), \textbf{otimização de hiperparâmetros} (Optuna), \textbf{interpretabilidade} (SHAP e Permutation Importance), \textbf{tratamento de desbalanceamento}, \textbf{calibração de probabilidades}, \textbf{índices físico-climáticos de fogo} (KBDI, SPI, VPD, De Martonne) e \textbf{validação temporal} de modelos.
+\textbf{3. Fundamentação Teórica:} apresenta o bioma amazônico e a problemática dos incêndios, o Programa Queimadas e o sensoriamento remoto, os fundamentos de aprendizado de máquina (modelos clássicos, \emph{boosting} e \emph{ensembles}), interpretabilidade, desbalanceamento de classes, calibração de probabilidades, índices físico-climáticos de fogo e validação temporal.
 
-\textbf{4. Metodologia:} descreve detalhadamente os passos e procedimentos adotados para desenvolver o sistema de previsão. São delineados os métodos de coleta e enriquecimento dos dados (Programa Queimadas + NASA POWER + NASA FIRMS), o pré-processamento, a engenharia das 24~\emph{features} Tier~1, o protocolo de treinamento dos modelos, a avaliação (métricas, interpretabilidade, \emph{threshold tuning}, validação temporal), e o desenvolvimento da aplicação web interativa explicável.
+\textbf{4. Metodologia:} descreve a coleta de dados (Programa Queimadas, PRODES/DETER, NASA POWER e MapBiomas Fogo), a construção do conjunto de ocorrência sobre a grade de \SI{0,25}{\degree} $\times$ mês, as \emph{features} causais, o modelo, o protocolo de validação espaço-temporal em bloco, o \emph{benchmark} contra índices físicos, a quantificação de incerteza e o \emph{pipeline} operacional.
 
-\textbf{5. Estudo Exploratório (baseline):} apresenta uma primeira abordagem, na qual se classificou o índice de Risco de Fogo do INPE em faixas de severidade. Documenta o comparativo entre as oito abordagens treinadas, a interpretabilidade (SHAP e \emph{Permutation Importance}), a validação temporal estrita e o estudo de caso externo (Pium--TO / CENSIPAM). Este capítulo é apresentado como \textbf{baseline exploratório}: a constatação de que o alvo era a saída de outro modelo (circularidade metodológica) motivou a reformulação central do trabalho, no Capítulo~6.
+\textbf{5. Resultados:} reporta o desempenho frente às linhas de base, a robustez entre famílias de modelo, o \emph{benchmark} contra o FWI e o Risco de Fogo do INPE, a incerteza conformal, o papel do desmatamento na nova ignição, a auditoria do rótulo contra o MapBiomas Fogo, a avaliação operacional e a primeira previsão do sistema em operação.
 
-\textbf{6. Previsão de Ocorrência de Fogo (contribuição central):} constitui o núcleo do trabalho. Reformula o problema para a \textbf{previsão de fogo observado} (mês~\(t+1\)) com classe negativa real, \emph{features} causais e validação espaço-temporal em bloco. Apresenta o desempenho frente a linhas de base, a comparação entre famílias de modelo com intervalos de confiança, o \textbf{benchmark contra índices físicos} (FWI canadense e Risco de Fogo INPE), a quantificação de incerteza por \emph{conformal prediction}, os \textbf{drivers antrópicos de desmatamento} (PRODES/DETER) e a validação do rótulo contra a área queimada do MapBiomas Fogo.
+\textbf{6. Conclusão:} sintetiza os achados, registra as limitações e enumera os trabalhos futuros.
 
-\textbf{7. Conclusão:} sintetiza os principais achados, registra as limitações reconhecidas e enumera os trabalhos futuros prioritários para evoluir o sistema rumo à integração de novas fontes (NDVI/EVI MODIS, MapBiomas Fogo) e de causalidade estrita nas \emph{features} de janela móvel.
+\textbf{Apêndice A:} documenta a abordagem exploratória inicial --- a classificação do índice de Risco de Fogo do INPE em faixas de severidade ---, cujas fragilidades (alvo circular, base \emph{presence-only} e vazamento temporal) motivaram a formulação central, incluindo o estudo de caso Pium--TO.
 
 \chapter{Estado da Arte}
 
@@ -613,385 +621,135 @@ Um F1-score alto indica um equilíbrio entre precisão e recall, enquanto um F1-
 \chapter{METODOLOGIA}
 \label{cap:metodologia}
 
-\noindent\textbf{Nota de leitura.} Este capítulo documenta a metodologia da \textbf{abordagem exploratória inicial} do trabalho --- a classificação supervisionada do índice de Risco de Fogo do INPE em faixas de severidade ---, cujos resultados constam do Apêndice~\ref{cap:resultados}. As etapas de \emph{coleta e enriquecimento de dados} descritas a seguir constituem a \textbf{base comum a todo o trabalho}, inclusive à formulação central de \textbf{previsão de ocorrência de fogo observado}, cuja metodologia própria (grade regular de \SI{0,25}{\degree}~$\times$~mês, classe negativa real, \emph{features} estritamente causais, validação espaço-temporal em bloco e \emph{benchmark} contra os índices físicos) é apresentada no Capítulo~\ref{cap:ocorrencia}. Já as seções relativas à engenharia de \emph{features} Tier~1, ao treinamento comparativo de oito modelos, ao ajuste de limiares e à imputação de umidade referem-se especificamente ao \emph{baseline} exploratório.
+Este capítulo descreve os procedimentos adotados para construir, validar e operar o sistema de previsão de ocorrência de fogo. Trata-se de uma pesquisa de caráter experimental e quantitativo: a partir de registros históricos de focos de calor, formula-se um problema de classificação com horizonte temporal explícito, treinam-se modelos de aprendizado de máquina e avalia-se o seu desempenho sob protocolos que simulam o uso real --- prever o futuro a partir apenas do passado, e generalizar para regiões não vistas no treino.
 
-Este capítulo visa fornecer uma visão abrangente das etapas metodológicas empreendidas, desde a coleta de dados, passando pela implementação prática dos algoritmos utilizados e atigindo como objetivo o produto final do trabalho. A pesquisa foi elaborada para conduzir um breve estudo e avaliação sobre os modelos de aprendizado de máquina em evidência na literatura, objetivando ao fim desse processo, obter um mapeamento das regiões mais suscetíveis a incêndios florestais. Dessa forma, a proposta é utilizar alguns destes modelos e observar a efetividade de cada um deles na previsão das queimadas na Amazônia Legal, utilizando dados geoespaciais detalhados dos últimos dez anos (datado de 01/01/2014 à 01/01/2024), fornecidos pelo Programa Queimadas, do IBGE. O modelo que melhor se adaptar ao treinamento dos dados e assim apresentar os melhores resultados será utilizado para geração dos mapas preditores.
+Esta formulação não foi a primeira do trabalho. Uma abordagem exploratória inicial classificou o índice de Risco de Fogo do INPE em faixas de severidade; a constatação de que esse alvo era a saída de outro modelo, de que a base continha apenas registros de fogo (\emph{presence-only}) e de que a validação sofria vazamento temporal motivou a reformulação aqui descrita. A metodologia e os resultados dessa abordagem estão documentados no Apêndice~\ref{cap:resultados}, e as razões da mudança são detalhadas na Seção~\ref{sec:oco_motivacao}.
 
-Para atingir os objetivos da pesquisa, foi adotada uma abordagem quali-quantitativa, onde o componente quantitativo envolve a análise estatística dos dados históricos e a aplicação dos diferentes modelos de aprendizado de máquina para prever incêndios. Além disso, foram utilizadas algumas métricas de desempenho já consolidadas na literatura para a análise dos modelos utilizados, fornecendo segurança na etapa de validação e garantindo uma pesquisa robusta e precisa das tendências de queimadas. A pesquisa também investiga as razões pelas quais alguns modelos superam outros em termos de desempenho. Isso envolve a análise dos parâmetros e características dos modelos, a interpretação dos fatores que influenciam suas previsões e a avaliação das variáveis ambientais e climáticas que afetam a ocorrência de incêndios. Esta etapa metodológica introduz alguns valores detalhados da Amazônia Legal, permitindo uma exploração aprofundada das características regionais e das dinâmicas de seus incêndios florestais. Isso posto, temos um projeto de caráter experimental e teórico que deve extrair como produto final desse conjunto de métodos e processos, um mapeamento objetivo das áreas mais vulneráveis a queimadas e contribuir para a elaboração de mais trabalhos sobre o tema.
-
-O fluxo do desenvolvimento do trabalho está disposto em seguida. Apesar da disposição de um fluxograma nos remeter à ideia de um trabalho parcial e linear, o treinamento de uma máquina que seja capaz de aprender consiste em uma prática de bastante retrocesso, onde as etapas se complementam e podem sofrer alterações para atingir resultados melhores. Entendendo isso, na figura 5, segue o fluxograma adotado neste projeto para treinar nossos modelos e criar um algoritmo eficaz:
+A Figura~\ref{fig:metod_fluxograma} resume o fluxo metodológico em quatro fases: coleta de dados, construção do conjunto de ocorrência, modelagem e avaliação, e produto operacional. As seções seguintes descrevem cada fase.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[scale=0.5]{"imagens/fluxograma metodologia tcc.png"}
-    \caption{Fluxograma metodológico para a implementação do sistema de previsão de queimadas - Fonte: O Próprio Autor}
+    \includegraphics[width=\textwidth]{imagens/fluxograma_pipeline.pdf}
+    \caption{Fluxograma metodológico do sistema de previsão de ocorrência de fogo - Fonte: O Próprio Autor}
+    \label{fig:metod_fluxograma}
 \end{figure}
 
 \section{Coleta de Dados}
-Esta pesquisa contempla dados de boa parte do bioma amazônico, mais especificamente, a chamada Amazônia Legal. Esta parte do território brasileiro possui uma extensão de aproximadamente 5.015.146,008 km2, que representam cerca de 58,93\% do país e aproximadamente 60\% do território total do bioma Amazônia \cite{ibge04:mapabioma}. O foco principal da coleta de dados são os "Focos de Calor", característica atribuída à regiões potencialmente propícias ao início de incêndios. Inicialmente, foi realizada a busca por uma base de dados legítima advinda do programa, abrangendo os últimos dez anos de registros de queimadas no território do bioma Amazônia (2014-2024). A exportação dos dados foi feita de forma anual, em função das limitações da plataforma. Assim, o primeiro passo técnico consistiu em compilar todos esses dados em uma única tabela. Esse processo resultou em aproximadamente 1 milhão de focos de calor registrados, proporcionando uma base consistente para as análises futuras.
+\label{sec:metod_coleta}
 
-\subsection{Uso do Programa Queimadas}
+\subsection{Focos de calor do Programa Queimadas}
 
-A fonte de onde os dados foram retirados é o chamado ``Programa Queimadas'', um sistema que monitora e disponibiliza informações sobre focos de calor gratuitamente, com um repositório de dados relacionados à climatologia e geografia da região e que viabiliza, através de uma série de filtros e parâmetros, refinar a busca e extrair dados específicos conforme as necessidades de pesquisadores. Esta ferramenta foi fundamental para obter dados precisos e relevantes sobre os incêndios na Amazônia Legal. Ela faz parte de um projeto do Instituto Nacional de Pesquisas Espaciais (INPE). Além da sua extensa base de dados que cataloga informações desde o ano de 1998, é possível visualizar um mapa com os focos de calor observados diariamente e previsões de fogo para os próximos três dias.
+A fonte principal é o Programa Queimadas do Instituto Nacional de Pesquisas Espaciais (INPE)~\cite{INPE24}, que monitora e disponibiliza gratuitamente os focos de calor detectados por satélite no Brasil desde 1998, junto com atributos climáticos e geográficos de cada detecção. Utilizaram-se os focos do \textbf{satélite de referência} (AQUA, sensor MODIS, passagem da tarde --- identificado como \texttt{AQUA\_M-T}), cuja série homogênea permite comparar a atividade de fogo entre anos. A amostra cobre de 1º de janeiro de 2014 a 31 de dezembro de 2023 --- dez anos e \num{933954} focos --- restrita ao bioma Amazônia.
 
-Estas informações são atualizadas frequentemente a partir do monitoramento de diferentes modelos de satélites, que atuam para alimentar sua base de dados. Para este estudo, será utilizado o satélite de referência (Aquamarine) para obter as informações geoespaciais da região e popular a base de dados do projeto. Todas as características de um foco podem ser exportadas do sistema, no formato “comma-separated-values” (CSV), JavaScript Object Notation (Json), Keyhole Markup Language (KML) ou Shapefile. A amostragem coletada para o desenvolvimento deste modelo concebe dados de 01 de janeiro de 2014 até o dia 01 de janeiro de 2024, totalizando dez (10) anos de dados históricos e aproximadamente um milhão de linhas (mais precisamente novecentros e trinta e três mil, novecentros e cinquenta e quatro dados) com os focos de calor registrados pelo sistema, afim de obter um bom espectro de variações de clima, temperatura, entre outros atributos que foram mensurados ao longo desse período.
-
-\subsection{Filtros, Escopo e Características da Coleta}
-
-Como citado na seção anterior, o programa queimadas fornece filtros que facilitam a nossa abordagem. Disposto na Figura 6 e explicado nas próximas linhas do capítulo, para diminuir o escopo da coleta apenas às regiões que interessam ao projeto, foram utilizados os seguintes filtros:
-
-\textbf{Localização:} O projeto abordou especificamente a Amazônia Legal, uma região que compreende a porção da floresta amazônica localizada no Brasil. Utilizando os filtros do Programa Queimadas, foi possível restringir a coleta a focos de calor dentro desta área geográfica, assegurando também que os dados fossem pertinentes ao bioma alvo do estudo posteriormente.
-
-\textbf{Temporalidade:} Para garantir uma análise histórica e detectar padrões ao longo do tempo, foram coletados dados dos últimos dez anos. Esse período foi escolhido para proporcionar uma visão abrangente das variações e tendências na frequência e intensidade dos incêndios ao longo do tempo e também possibilitar ao modelo a compreensão de fatores de longo prazo, como as mudanças climáticas. Dada uma limitação na exportação do sistema, os dados foram coletados anualmente.
-
-\textbf{Bioma:} O foco foi restrito ao bioma amazônico, o que exclui outros biomas brasileiros que poderiam diluir a análise e introduzir variáveis que não são relevantes para a previsão de incêndios na Amazônia Legal.
-
-Utilizando essa base de exportação de dados para todos os anos (Figura 6), foram obtidos arquivos que compreendem os últimos dez anos de focos de calor da Amazônia. Cada um destes focos possui uma série de características, que variam de acordo com a época e a região identificada. A exportação dos dados fornece os seguintes atributos, que são úteis para análise e treinamento do nosso modelo:
-
-Latitude e Longitude: Coordenadas geográficas que permitem a localização precisa dos focos, importantes para o mapeamento das incidências;
-Data e Hora: Marcação temporal dos eventos, essencial para análise de tendências e padrões sazonais;
-Satélite: Informação sobre o satélite que detectou o foco de calor, fornecendo detalhes sobre a tecnologia de monitoramento utilizada;
-Município, Estado e País: Dados geográficos que permitem uma análise mais granular e contextualizada;
-Número de Dias Sem Chuva e Precipitação: Variáveis meteorológicas que são relevantes para entender as condições que podem favorecer a ocorrência de incêndios;
-Risco de Fogo: Avaliação do risco de fogo associada a cada foco, crucial para entender a gravidade e potencial dos eventos;
-Bioma e FRP (Fire Radiative Power): Dados sobre o bioma específico e a intensidade de radiação emitida por fogo na região, fornecendo uma visão detalhada sobre a severidade dos incêndios. Um detalhe importante é que os dados de FRP só passaram a ser coletados a partir de 2018, portanto este atributo não consta nos focos de calor anteriores, dos anos de 2014 a 2017;
-Abaixo, na figura 6, está disposta a interface de exportação de dados do Programa Queimadas:
+Cada foco traz os seguintes atributos: coordenadas geográficas (latitude e longitude); data e hora da detecção; satélite; município, estado, país e bioma; número de dias sem chuva e precipitação; o índice de Risco de Fogo calculado pelo INPE para o local; e a potência radiativa do fogo (FRP, \emph{Fire Radiative Power}). A exportação foi feita pela interface do Programa Queimadas (Figura~\ref{fig:metod_bdqueimadas}), ano a ano, por limitação da plataforma, e os arquivos anuais foram compilados em uma única base.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[scale=0.4]{imagens/Programa Queimadas-2.png}
-    \caption{Interface de exportação de dados do Programa Queimadas - Fonte: IBGE}
+    \caption{Interface de exportação de dados do Programa Queimadas - Fonte: INPE}
+    \label{fig:metod_bdqueimadas}
 \end{figure}
 
-Com a base de dados obtida, o próximo passo realizado é o tratamento e normalização desses dados, para prepará-los para modelagem e análise preditiva.
+Os mesmos dados estão publicados no servidor de dados abertos do INPE, em arquivos anuais consolidados e mensais atualizados diariamente. Para garantir a reprodutibilidade e viabilizar a operação contínua do sistema, o \emph{script} \texttt{coletar\_focos\_inpe.py} reconstrói a base diretamente desse servidor, aplicando o mesmo recorte (satélite de referência e bioma Amazônia). A reconstrução reproduz a base original com diferença inferior a \SI{0,1}{\percent} no número de focos, atribuível a revisões posteriores do próprio INPE.
 
-\subsection{Enriquecimento via APIs externas (NASA POWER e NASA FIRMS)}
-\label{subsec:metod_apis_externas}
+\subsection{Fontes complementares}
 
-Além do Programa Queimadas, duas APIs externas são consultadas para enriquecer o conjunto de dados:
+Três fontes adicionais foram integradas, cada uma com um papel específico:
 
-\paragraph{NASA POWER (\emph{Prediction of Worldwide Energy Resources})~\cite{nasapower}.} Serve reanálise climática global em resolução de \(0{,}5^\circ \times 0{,}625^\circ\) com latência diária. Foi utilizada para extrair a variável RH2M (umidade relativa a 2~m), reconhecida na literatura como preditor relevante de fogo. A integração foi feita via \texttt{scripts/enriquecer\_dados\_umidade.py}, com \emph{cache} em disco, retomada após interrupção e respeito ao limite de taxa (\(\approx 32\)~requisições/min com duas chaves de API). Pela alta latência de enriquecimento total (\(\approx 16\)~dias para \num{755711} requisições únicas), o projeto adotou estratégia complementar: \num{170465} registros foram efetivamente enriquecidos (\(\approx \SI{18,3}{\percent}\) da base) e os \num{763489} restantes foram imputados via \emph{pseudo-labeling} com LightGBM \emph{regressor} (\(R^2 = 0{,}933\) em \emph{holdout} --- Seção~\ref{sec:metodologia_pseudo_label}).
-
-\paragraph{NASA FIRMS (\emph{Fire Information for Resource Management System})~\cite{nasafirms}.} Serve detecções ativas de fogo em quase-tempo-real, com FRP (\emph{Fire Radiative Power}) por píxel para os sensores VIIRS e MODIS. É consultada em \textbf{tempo de inferência} pelo aplicativo web (Seção~\ref{sec:metod_app_web}) para incrementar a \emph{feature} \texttt{FRP} com observações dos últimos 7~dias na vizinhança do ponto consultado.
+\begin{itemize}
+  \item \textbf{Desmatamento (PRODES e DETER)}, do portal TerraBrasilis do INPE~\cite{terrabrasilisprodes}. O PRODES fornece o desmatamento anual consolidado e o DETER, os alertas de desmatamento com data de detecção, o que permite construir variáveis com resolução mensal. Os polígonos foram agregados por célula e mês; a classe \emph{cicatriz de queimada} do DETER foi \textbf{excluída}, pois usá-la seria empregar o próprio alvo (fogo) como preditor.
+  \item \textbf{Clima diário (NASA POWER)}~\cite{nasapower}, reanálise meteorológica global usada para calcular o \emph{Fire Weather Index} canadense no \emph{benchmark} contra índices físicos (Seção~\ref{sec:metod_benchmark}) e para testar se o clima real agrega informação preditiva (Seção~\ref{sec:metod_covariaveis}).
+  \item \textbf{Área queimada (MapBiomas Fogo)}~\cite{mapbiomasfogo}, produto independente derivado de imagens Landsat, usado exclusivamente para auditar o rótulo --- verificar se os focos de calor representam fielmente a ocorrência de fogo.
+\end{itemize}
 
 \section{Tecnologias, Bibliotecas e Ferramentas}
+\label{sec:metod_tecnologias}
 
-Este projeto foi desenvolvido utilizando a linguagem de programação \textbf{Python 3.12}, amplamente reconhecida por sua sintaxe concisa e rica biblioteca de pacotes, particularmente úteis para \textbf{ciência de dados} e \textbf{aprendizado de máquina}. As bibliotecas e ferramentas abaixo descritas foram essenciais para o \textbf{pré-processamento dos dados}, \textbf{análise preditiva} e \textbf{treinamento dos modelos}:
-
-\begin{itemize}
-    \item \textbf{Pandas}~\cite{mckinney2010data}: Utilizada para manipulação e análise de dados. A biblioteca fornece estruturas de dados eficientes, como os \textbf{DataFrames}, que facilitaram a importação, limpeza, transformação e exploração dos conjuntos de dados. Foi essencial para a organização e filtragem das informações, além de possibilitar a aplicação de operações vetorizadas nas variáveis numéricas e categóricas.
-
-    \item \textbf{NumPy}~\cite{harris2020numpy}: Empregada para operações numéricas e manipulação de arrays. Como base para operações matemáticas e estatísticas em Python, a biblioteca \textbf{NumPy} proporcionou funções de alto desempenho para manipulação de dados, especialmente nas transformações numéricas aplicadas aos dados do projeto.
-
-    \item \textbf{Scikit-Learn}~\cite{pedregosa2011scikit}: Esta biblioteca é a espinha dorsal do aprendizado de máquina em Python. Ela oferece uma ampla gama de ferramentas para pré-processamento de dados, seleção de modelos, avaliação de desempenho e implementação de algoritmos de aprendizado supervisionado e não supervisionado. No contexto deste projeto, as seguintes funcionalidades se destacaram:
-    \begin{itemize}
-        \item \textbf{Pipeline}: Utilizada para criar um fluxo de trabalho eficiente, encadeando as etapas de pré-processamento e modelagem em uma única estrutura. Essa abordagem facilitou o treinamento e a avaliação dos modelos de forma modular e repetível.
-
-        \item \textbf{SimpleImputer}: Responsável pela imputação de valores ausentes. Essa ferramenta foi fundamental para preencher lacunas nos dados, utilizando estratégias como a mediana ou a moda, dependendo da natureza da variável.
-
-        \item \textbf{StandardScaler}: Aplicada para a padronização das variáveis numéricas. Essa técnica garantiu que os dados estivessem na mesma escala, o que é crucial para melhorar a performance de muitos algoritmos de aprendizado de máquina, especialmente os baseados em distâncias e gradientes.
-
-        \item \textbf{OneHotEncoder}: Utilizada para a codificação de variáveis categóricas, permitindo a conversão de dados categóricos em um formato binário adequado para a alimentação de modelos de aprendizado de máquina.
-
-        \item \textbf{ColumnTransformer}: Facilitou a aplicação simultânea de diferentes transformações para diferentes grupos de atributos, permitindo a separação clara entre as variáveis numéricas e categóricas, o que otimizou o pré-processamento dos dados.
-    \end{itemize}
-
-    \item \textbf{Matplotlib} e \textbf{Seaborn}: Ferramentas poderosas para visualização de dados. Ambas as bibliotecas foram utilizadas para criar gráficos informativos e intuitivos, ajudando a identificar padrões, tendências e relações entre variáveis. O uso de gráficos de dispersão, histogramas e heatmaps foi fundamental para a análise exploratória dos dados e para a avaliação das previsões dos modelos de aprendizado de máquina.
-\end{itemize}
-
-Além dessas ferramentas, o projeto também utilizou outras bibliotecas complementares, como \textbf{Joblib}, para a serialização e armazenamento dos modelos treinados, e \textbf{Geopy}, para geocodificação de municípios, permitindo a criação de um mapa de risco de incêndios florestais na região da Amazônia.
-
-\medskip
-\noindent
-Em complemento, o \emph{pipeline} atual incorpora também:
+O sistema foi desenvolvido em \textbf{Python 3.12}. As principais bibliotecas utilizadas são:
 
 \begin{itemize}
-  \item \textbf{XGBoost} (\texttt{xgboost})~\cite{chen2016xgboost}, \textbf{LightGBM} (\texttt{lightgbm})~\cite{ke2017lightgbm} e \textbf{CatBoost} (\texttt{catboost==1.2.10})~\cite{prokhorenkova2018catboost} --- modelos de \emph{gradient boosting} usados como classificadores autônomos e como \emph{base learners} dos \emph{ensembles}.
-  \item \textbf{Imbalanced-learn} (\texttt{imblearn})~\cite{lemaitre2017imbalanced} --- implementação do SMOTE para a variante \texttt{random\_forest\_smote}.
-  \item \textbf{Optuna} (\texttt{optuna})~\cite{akiba2019optuna} --- otimização bayesiana de hiperparâmetros via TPE.
-  \item \textbf{SHAP} (\texttt{shap}) --- interpretabilidade local e global via \texttt{TreeExplainer}~\cite{lundberg2017unified,lundberg2020local}.
-  \item \textbf{Flask} (\texttt{flask}) --- servidor web para a aplicação interativa.
-  \item \textbf{Folium} (\texttt{folium})~\cite{folium} --- visualização cartográfica baseada em \emph{Leaflet}~\cite{leafletjs} integrada à renderização do Flask.
-  \item \textbf{Geopandas} (\texttt{geopandas})~\cite{geopandas} e \textbf{Shapely} (\texttt{shapely}) --- manipulação de geometrias e do \emph{shapefile} da Amazônia Legal~\cite{ibgeamazonia2024}.
-  \item \textbf{Requests} (\texttt{requests}) --- chamadas HTTP às APIs NASA POWER e NASA FIRMS.
+  \item \textbf{Pandas}~\cite{mckinney2010data} e \textbf{NumPy}~\cite{harris2020numpy} --- manipulação dos dados tabulares, agregação por célula e mês e cálculo das variáveis defasadas.
+  \item \textbf{Scikit-Learn}~\cite{pedregosa2011scikit} --- implementação dos modelos (\texttt{HistGradientBoostingClassifier}, \emph{Random Forest}, \emph{Extra Trees} e Regressão Logística) e das métricas de avaliação.
+  \item \textbf{Requests} e \textbf{Shapely} --- consumo dos serviços de dados abertos do INPE (focos e WFS do TerraBrasilis) e da API NASA POWER, e cálculo dos centroides dos polígonos de desmatamento.
+  \item \textbf{Joblib} --- serialização do modelo treinado.
+  \item \textbf{Flask} e \textbf{Folium}~\cite{folium} (sobre \emph{Leaflet}~\cite{leafletjs}) --- servidor da aplicação web e mapa interativo.
+  \item \textbf{Matplotlib} --- figuras de avaliação.
 \end{itemize}
 
-\section{Pré-processamento dos dados}
-\label{sec:metodologia_pre_processamento}
+\section{Construção do conjunto de ocorrência}
+\label{sec:metod_conjunto}
+\label{sec:oco_metodo}
 
-A primeira etapa técnica e prática do projeto foi o pré-tratamento dos dados. De maneira geral, as informações extraídas do Programa Queimadas mostraram-se bastante consistentes. No entanto, para assegurar a qualidade e a relevância dos dados em sua totalidade, essa fase é essencial para qualquer análise preditiva. O processo de pré-tratamento envolveu a aplicação de diversas técnicas descritas na fundamentação teórica, visando garantir que os dados estivessem prontos para as análises subsequentes.
+\paragraph{Unidade e alvo.} Adota-se uma grade regular de células de \SI{0,25}{\degree} (\(\approx\)\SI{27}{km}, a granularidade do MERRA-2 e do SeasFire~\cite{karasante2025firecastnet}) por mês. Cada foco é atribuído à célula que contém suas coordenadas, e contam-se os focos de cada par (célula, mês). O universo é o conjunto de \num{4168} células \emph{fire-prone} --- com pelo menos um foco em 2014--2023. Para cada par (célula, mês~\(t\)), o alvo é binário: \emph{houve foco no mês \(t+1\)?} A presença vem dos focos observados; a \textbf{ausência} são os pares célula--mês sem foco --- a classe negativa que a base original, composta apenas por focos, não possuía. O conjunto final tem \num{450144} células--mês (2015--2023), com prevalência de \SI{24,7}{\percent}.
 
-\subsection{Carregamento dos Dados}
+\paragraph{Amostragem da classe negativa.} Construir a classe negativa a partir dos pares célula--mês sem foco é uma decisão de projeto, não uma escolha neutra: na modelagem de distribuição (\emph{species distribution models}), a definição e o volume das \emph{pseudo-ausências}/\emph{background} afetam o desempenho aparente e podem inflar métricas como a AUC quando o \emph{background} é ``fácil''~\cite{barbetmassin2012pseudo,phillips2009sample,lobo2008auc}. Aqui a prevalência é fixada pelo próprio domínio (\SI{24,7}{\percent} de positivos entre as células \emph{fire-prone}), o que evita o desbalanceamento extremo em que a AUC se torna enganosa. Restringir o universo às células propensas a fogo também evita o problema trivial de prever ausência de fogo no interior de floresta densa que nunca queima.
 
-A função \texttt{carregar\_csv()} foi responsável por carregar o conjunto de dados a partir de um arquivo CSV. Caso o arquivo não seja encontrado no caminho especificado, a função gera um erro indicando a ausência do arquivo. Uma vez carregado, o arquivo é lido como um \texttt{DataFrame} utilizando a biblioteca \texttt{pandas}. O caminho para o arquivo CSV foi especificado como sendo relativo ao diretório do projeto.
-
-\subsection{Limpeza dos Dados}
-
-Após o carregamento dos dados, a função \texttt{limpar\_dados()} realiza o processo de limpeza e tratamento dos dados. Entre as principais etapas dessa função, destacam-se:
-
-\begin{itemize}
-    \item \textbf{Remoção de Colunas Irrelevantes:} As colunas \texttt{Satelite}, \texttt{Pais} e \texttt{Bioma} são removidas, uma vez que não são relevantes para a análise do risco de queimadas.
-    \item \textbf{Substituição de Valores Inválidos:} Valores de \texttt{-999} são substituídos por \texttt{NaN}, indicando dados ausentes ou corrompidos.
-    \item \textbf{Filtragem de Linhas com Dados Inválidos:} Linhas com valores inválidos ou nulos na coluna \texttt{RiscoFogo} são removidas, garantindo que os dados utilizados na análise contenham apenas informações válidas.
-\end{itemize}
-
-Durante a execução desta função, a quantidade de registros que atendem a essa condição de validade (\texttt{RiscoFogo}) é reportada, proporcionando uma visão sobre a quantidade de dados descartados nesse processo.
-
-\subsection{Classificação do Risco de Queimadas}
-
-Após a limpeza dos dados, a função \texttt{classificar\_risco()} é responsável por categorizar o risco de queimadas com base nos valores da coluna \texttt{RiscoFogo}. A classificação é realizada utilizando os quantis da distribuição dessa variável, dividindo os dados em três categorias:
-
-\begin{itemize}
-    \item \textbf{Muito Alto:} Valores de \texttt{RiscoFogo} acima do quantil superior (66\%).
-    \item \textbf{Moderado:} Valores de \texttt{RiscoFogo} entre os quantis inferior (33\%) e superior (66\%).
-    \item \textbf{Baixo:} Valores de \texttt{RiscoFogo} abaixo do quantil inferior (33\%).
-\end{itemize}
-
-Essas categorias são atribuídas a uma nova coluna chamada \texttt{RiscoClassificado}, que é utilizada como variável alvo (\texttt{y}) para o treinamento dos modelos de aprendizado de máquina.
-
-\subsection{Definição das Características e Variáveis}
-
-A função \texttt{carregar\_dados()} organiza os dados em variáveis preditoras (\texttt{X}) e variável alvo (\texttt{y}):
-
-\begin{itemize}
-    \item \textbf{Variáveis Preditivas (\texttt{X}):} Incluem as colunas numéricas (\texttt{DiaSemChuva}, \texttt{Precipitacao}, \texttt{Latitude}, \texttt{Longitude}, \texttt{FRP}, \texttt{Ano}, \texttt{Mes}, \texttt{Dia}, \texttt{Hora}) e as variáveis categóricas (\texttt{Estado}, \texttt{Municipio}).
-    \item \textbf{Variável Alvo (\texttt{y}):} A coluna \texttt{RiscoClassificado}, que representa a classificação do risco de queimadas.
-\end{itemize}
-
-\subsection{Pré-processamento dos Dados}
-
-O pré-processamento dos dados foi realizado através da classe \texttt{PreProcessor}, que aplica transformações adequadas tanto para variáveis numéricas quanto para variáveis categóricas. O pré-processamento foi dividido nas seguintes etapas:
-
-\begin{itemize}
-    \item \textbf{Transformação de Variáveis Numéricas:} As variáveis numéricas (\texttt{DiaSemChuva}, \texttt{Precipitacao}, \texttt{Latitude}, \texttt{Longitude}, \texttt{FRP}, \texttt{Ano}, \texttt{Mes}, \texttt{Dia}, \texttt{Hora}) passaram por duas operações: imputação de valores ausentes utilizando a mediana e normalização utilizando o \texttt{StandardScaler}.
-    \item \textbf{Transformação de Variáveis Categóricas:} As variáveis categóricas (\texttt{Estado}, \texttt{Municipio}) foram tratadas com imputação de valores ausentes pela moda (valor mais frequente) e transformação em variáveis numéricas através de \texttt{OneHotEncoder}, que cria variáveis binárias para cada categoria.
-\end{itemize}
-
-A transformação dos dados foi realizada utilizando um \texttt{ColumnTransformer}, que aplica as transformações apropriadas para cada tipo de variável, permitindo que o modelo trabalhe com dados prontos para a análise.
-
-A classe \texttt{PreProcessor} também oferece métodos para \texttt{fit} e \texttt{transform} dos dados, além de retornar um \texttt{DataFrame} com as variáveis transformadas. Essa etapa é crucial para garantir que os dados estejam em um formato adequado para o treinamento dos modelos.
-
-\subsection{Fluxo Completo de Carregamento e Pré-processamento}
-
-O fluxo de carregamento e pré-processamento dos dados é executado como segue:
-
-\begin{enumerate}
-    \item Carregamento dos dados do arquivo CSV.
-    \item Limpeza dos dados, removendo colunas irrelevantes e tratando valores ausentes ou inválidos.
-    \item Classificação do risco de queimadas com base na variável \texttt{RiscoFogo}.
-    \item Definição das variáveis preditoras (\texttt{X}) e alvo (\texttt{y}).
-    \item Aplicação do pré-processamento, incluindo imputação e normalização das variáveis.
-\end{enumerate}
-
-Esse processo assegura que os dados utilizados para o treinamento dos modelos estejam limpos, estruturados e prontos para análise preditiva.
-
-\subsection{Engenharia de \emph{features} físico-climáticas (Tier 1)}
-\label{subsec:metod_features_tier1}
-
-Em complemento às nove \emph{features} originais do Programa Queimadas, foram derivadas \textbf{24~\emph{features} físico-climáticas avançadas} (Tier~1), agrupadas em sete camadas (implementação em \texttt{scripts/features\_avancadas.py}). A Tabela~\ref{tab:metod_tier1} resume as camadas com a justificativa bibliográfica de cada uma.
+\paragraph{\emph{Features} causais.} Todas as variáveis usam apenas informação disponível até o fim do mês~\(t\), eliminando o vazamento temporal que comprometia a abordagem exploratória. A Tabela~\ref{tab:metod_features} lista os 26 atributos. As somas móveis são deslocadas de um mês, de modo que nunca incluem o próprio mês de referência. Como os dados climáticos do INPE só existem nos meses com foco, os meses sem foco recebem a climatologia da célula para aquele mês do ano (média dos meses observados); os experimentos da Seção~\ref{sec:oco_drivers} mostram que essas variáveis são redundantes frente ao histórico de fogo.
 
 \begin{table}[h]
 \centering
-\caption{Camadas Tier~1 de \emph{features} físico-climáticas adicionadas ao \emph{dataset}.}
-\label{tab:metod_tier1}
+\caption{\emph{Features} do modelo de ocorrência (todas com informação \(\leq t\)).}
+\label{tab:metod_features}
 \small
-\begin{tabular}{clp{6cm}l}
+\begin{tabular}{lp{9.5cm}}
 \toprule
-\textbf{\#} & \textbf{Camada} & \textbf{\emph{Features}} & \textbf{Justificativa} \\
+\textbf{Grupo} & \textbf{\emph{Features}} \\
 \midrule
-1 & Médias móveis estendidas & \texttt{Precipitacao\_ma14/30/90}, \texttt{DiaSemChuva\_ma14/30/90} & \emph{Fuel moisture lag}~\cite{seager2015climatology} \\
-2 & Precipitação acumulada & \texttt{Precipitacao\_acum\_30/90/180/365d} & \cite{seager2015climatology} \\
-3 & SPI & \texttt{SPI\_1m}, \texttt{SPI\_3m}, \texttt{SPI\_6m} & \cite{mckee1993spi,npjhazards2025fire} \\
-4 & Anomalia de precipitação & \texttt{Anomalia\_Precipitacao}, \texttt{Anomalia\_Precipitacao\_rel} & \cite{forests2024cerradoamazon} \\
-5 & KBDI, VPD, De Martonne & \texttt{Temp\_Climatologica}, \texttt{KBDI\_proxy}, \texttt{VPD\_proxy}, \texttt{Aridez\_DeMartonne} & \cite{keetch1968drought,seager2015climatology,demartonne1926aridity,forests2024cerradoamazon} \\
-6 & Histórico estendido de incêndios & \texttt{Incendios\_Ultimos\_90/180/365\_Dias}, \texttt{Media\_FRP\_Celula\_30d} & \cite{cheerala2025probabilistic} \\
-7 & Estação seca acumulada & \texttt{Dias\_Secos\_90d} & \emph{Canadian Drought Code} (FWI) \\
+Localização & \texttt{LatBin}, \texttt{LonBin} (centro da célula) \\
+Sazonalidade & \texttt{mes\_sin}, \texttt{mes\_cos} (mês codificado de forma cíclica), \texttt{estacao\_seca} (julho a outubro) \\
+Clima e índice INPE & \texttt{DiaSemChuva}, \texttt{Precipitacao}, \texttt{RiscoFogo\_inpe} (média do mês; climatologia nos meses sem foco) \\
+Histórico de fogo & \texttt{focos\_lag1..3} e \texttt{fogo\_lag1..3} (contagem e presença nos 3 meses anteriores); \texttt{focos\_roll3/6/12} e \texttt{fogo\_roll3/6/12} (somas móveis); \texttt{FRP\_lag1}; \texttt{meses\_desde\_fogo} \\
+Desmatamento (DETER) & \texttt{deter\_m0}, \texttt{deter\_m1} (área desmatada no mês e no anterior, em km²); \texttt{deter\_roll3}, \texttt{deter\_roll6} (somas de 3 e 6 meses) \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-A granularidade espacial das camadas 1, 2, 6, 7 e do SPI usa \textbf{células de \(0{,}25^\circ\)} (\(\approx \SI{27}{\km}\)), o que evita colapso das janelas temporais que ocorreria com agrupamento por coordenadas literais (cada foco é um ponto único). A \emph{climatologia} de temperatura provém de uma tabela estática de médias mensais por estado, aproximada a partir das Normais Climatológicas do INMET 1981--2010~\cite{inmetnormais}. O CSV final \texttt{base\_de\_dados\_enriquecido.csv} contém \num{924306} linhas e 46~colunas, com tempo total de geração de \(\approx \SI{40}{\second}\) sobre os \num{933954} registros brutos.
+Os 12 primeiros meses de cada célula são descartados, pois as variáveis defasadas ainda não estão completas. A construção é feita pelo \emph{script} \texttt{construir\_ocorrencia.py}.
 
-\subsection{Calibração de probabilidades}
-\label{subsec:metod_calibracao}
+\section{Modelo e treinamento}
+\label{sec:metod_modelo}
 
-A predição padrão dos modelos retorna escores não-calibrados. Para que a saída do modelo seja interpretável como ``\(P(\text{classe} \mid \text{features}) = 0{,}73\)'', aplicou-se \texttt{CalibratedClassifierCV(method='isotonic', cv=3)} aos modelos do \emph{ensemble} final. A calibração isotônica~\cite{zadrozny2002transforming} ajusta uma função monotônica não-paramétrica entre escores brutos e probabilidades empíricas, sem assumir forma sigmoide --- escolha defensável dada a natureza não linear dos GBMs envolvidos.
+O modelo principal é o \emph{Histogram-based Gradient Boosting} (\texttt{HistGradientBoostingClassifier})~\cite{friedman2001greedy,ke2017lightgbm}, que discretiza as variáveis em histogramas e é eficiente para centenas de milhares de linhas. Os hiperparâmetros são: 300 iterações, taxa de aprendizado de \num{0,08}, profundidade máxima 8, até 63 folhas por árvore e regularização L2 de \num{1,0}. O desbalanceamento (\SI{24,7}{\percent} de positivos) é tratado com \texttt{class\_weight='balanced'}, que pondera os exemplos de forma inversamente proporcional à frequência da classe~\cite{he2009learning}.
 
-\section{Treinamento dos Modelos de Previsão}
-\label{sec:metod_treinamento}
+Para verificar que os achados não dependem do algoritmo, três famílias alternativas foram treinadas com as mesmas \emph{features}: \emph{Random Forest}~\cite{breiman2001random}, \emph{Extra Trees} e Regressão Logística. As diferenças foram avaliadas com intervalos de confiança de \SI{95}{\percent} obtidos por \emph{cluster bootstrap} por célula, que reamostra células inteiras e assim respeita a autocorrelação espacial.
 
-Neste ponto, todos os algoritmos utilizaram a mesma \emph{pipeline}, garantindo que os dados fossem preparados de maneira consistente para os processos de treinamento e teste. O objetivo foi comparar os resultados gerados por cada modelo em um cenário base comum, assegurando que não houvesse qualquer tipo de viés, exceto aqueles originados exclusivamente pelo desempenho de cada algoritmo. A partir de um conjunto de dados previamente processados, foram aplicados algoritmos de classificação para identificar as áreas mais suscetíveis a queimadas com base em atributos climáticos, topográficos e históricos.
+\section{Protocolo de validação}
+\label{sec:metod_validacao}
 
-O treinamento dos modelos foi realizado utilizando a biblioteca \texttt{scikit-learn}~\cite{pedregosa2011scikit}, complementada por \texttt{xgboost}~\cite{chen2016xgboost}, \texttt{lightgbm}~\cite{ke2017lightgbm}, \texttt{catboost}~\cite{prokhorenkova2018catboost}, \texttt{optuna}~\cite{akiba2019optuna} e \texttt{imbalanced-learn}~\cite{lemaitre2017imbalanced}.
-
-\subsection{Divisão dos dados e construção do \emph{pipeline}}
-
-O conjunto de dados foi dividido em treino (\SI{80}{\percent}) e teste (\SI{20}{\percent}) utilizando \texttt{train\_test\_split(stratify=y, random\_state=42)}, preservando a distribuição das três classes em ambos os subconjuntos. Os metadados do \emph{split} (\texttt{random\_state}, \texttt{test\_size}, estratificação) ficam persistidos em \texttt{modelos/split\_metadata.json} para garantir reprodutibilidade. O conjunto de teste contém \num{184862} observações.
-
-O \emph{pipeline} de processamento foi implementado via \texttt{sklearn.pipeline.Pipeline}, composto por:
-
-\begin{enumerate}
-  \item \texttt{ColumnTransformer} --- aplica \texttt{SimpleImputer(strategy='median')} + \texttt{StandardScaler} às \emph{features} numéricas e \texttt{SimpleImputer(strategy='most\_frequent')} + \texttt{OneHotEncoder} às \emph{features} categóricas.
-  \item \texttt{CalibratedClassifierCV(method='isotonic', cv=3)} --- envolve o classificador final para garantir calibração das probabilidades.
-  \item \textbf{Estimador} --- variável conforme o modelo avaliado.
-\end{enumerate}
-
-\subsection{Modelos avaliados}
-
-Oito abordagens foram comparadas no mesmo conjunto de treino/teste:
-
-\begin{enumerate}
-  \item \textbf{Regressão Logística balanceada} --- \texttt{class\_weight='balanced'}, hiperparâmetros otimizados via Optuna (\texttt{C=12.43, max\_iter=4768}).
-  \item \textbf{SGDClassifier} --- perda logística, \emph{online learning}; \emph{baseline} simples original do projeto.
-  \item \textbf{Random Forest com SMOTE}~\cite{chawla2002smote} --- variante para tratamento de desbalanceamento amostral.
-  \item \textbf{Random Forest balanceado otimizado}~\cite{breiman2001random} --- \texttt{class\_weight='balanced'}, Optuna (15 \emph{trials}, 3-\emph{fold} CV, \(\text{F}_1\)-macro): \texttt{n\_estimators=346, max\_depth=25, min\_samples\_split=3, max\_features='sqrt'}.
-  \item \textbf{XGBoost otimizado}~\cite{chen2016xgboost} --- Optuna (15 \emph{trials}, 3-\emph{fold} CV, \(\text{F}_1\)-macro, \emph{subsample} de 250\,k): \texttt{n\_estimators=346, learning\_rate=0.073, max\_depth=14, subsample=0.74, colsample\_bytree=0.93, gamma=0.03}.
-  \item \textbf{LightGBM otimizado}~\cite{ke2017lightgbm} --- Optuna (15 \emph{trials}, \(\text{F}_1\)-macro): \texttt{n\_estimators=683, learning\_rate=0.066, num\_leaves=204, min\_child\_samples=24, subsample=0.78, colsample\_bytree=0.77}.
-  \item \textbf{CatBoost}~\cite{prokhorenkova2018catboost} --- \texttt{iterations=1000, learning\_rate=0.05, depth=8, auto\_class\_weights='Balanced'}.
-  \item \textbf{Ensemble Voting Soft} --- média das probabilidades calibradas de RF, LR, XGBoost, LightGBM e CatBoost.
-  \item \textbf{Ensemble Stacking}~\cite{wolpert1992stacked} --- RF, LR, XGBoost, LightGBM e CatBoost como \emph{base learners}; \texttt{GradientBoostingClassifier}~\cite{friedman2001greedy} como meta-classificador (\texttt{n\_estimators=200, max\_depth=3, learning\_rate=0.1}). Esta é a configuração final adotada (\texttt{ensemble\_stacking\_gbm}).
-\end{enumerate}
-
-Todos os modelos foram salvos via \texttt{joblib.dump()} em arquivos \texttt{.pkl} no diretório \texttt{modelos/}. Os hiperparâmetros otimizados via Optuna ficam persistidos em \texttt{modelos/relatorios/optuna\_*.json}.
-
-\subsection{Tempo de treinamento}
-
-A Tabela~\ref{tab:metod_tempos} apresenta o tempo de treinamento de cada abordagem em ambiente CPU com 8~núcleos e \SI{16}{\giga\byte} de RAM.
-
-\begin{table}[h]
-\centering
-\caption{Tempo de treinamento por modelo.}
-\label{tab:metod_tempos}
-\small
-\begin{tabular}{lr}
-\toprule
-\textbf{Modelo} & \textbf{Tempo (segundos)} \\
-\midrule
-Regressão Logística balanceada & 25 \\
-SGDClassifier                  & 8 \\
-Random Forest + SMOTE          & 480 \\
-Random Forest balanceado (Optuna) & 1\,100 \\
-XGBoost (Optuna, 250k \emph{subsample}) & 540 \\
-LightGBM (Optuna, 250k \emph{subsample}) & 290 \\
-CatBoost                       & 410 \\
-Ensemble Voting Soft           & 2\,360 (soma dos \emph{base learners} + agregação) \\
-\textbf{Ensemble Stacking GBM} & \textbf{5\,100 (\(\approx\) 85~min)} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\section{Avaliação dos Modelos de Previsão}
-\label{sec:metod_avaliacao}
-
-A avaliação foi realizada sobre o conjunto de teste de \num{184862} observações. Quatro componentes complementares foram considerados: métricas tradicionais (Seção~\ref{subsec:metod_metricas}), interpretabilidade (Seção~\ref{subsec:metod_interpretabilidade}), ajuste multi-classe de limiares (Seção~\ref{subsec:metod_thresholds}) e validação temporal estrita (Seção~\ref{subsec:metod_validacao_temporal}).
-
-\subsection{Métricas utilizadas}
-\label{subsec:metod_metricas}
+Dados geográficos e temporais violam a independência entre amostras que a validação aleatória pressupõe: células vizinhas e meses consecutivos são correlacionados, e um \emph{split} aleatório coloca no teste amostras quase idênticas às do treino, superestimando o desempenho~\cite{roberts2017cv}. Adota-se, por isso, \textbf{validação em bloco}, em duas modalidades:
 
 \begin{itemize}
-  \item \textbf{Acurácia global} --- fração de predições corretas (\texttt{accuracy\_score}).
-  \item \textbf{\(\text{F}_1\) por classe e \(\text{F}_1\)-macro} --- \texttt{f1\_score(average='macro')}. A \(\text{F}_1\)-macro é a média não ponderada entre as três classes; é a métrica primária por ser robusta a desbalanceamento.
-  \item \textbf{Precisão e revocação por classe} --- via \texttt{classification\_report}.
-  \item \textbf{Matriz de confusão normalizada} --- \texttt{confusion\_matrix(normalize='true')}.
-  \item \textbf{Confiança média e distribuição} --- média e histograma de \(\max\) de \texttt{predict\_proba(X\_test)}.
-  \item \textbf{Curva de calibração} --- \texttt{calibration\_curve}, para confirmar que a probabilidade predita corresponde à frequência empírica observada.
+  \item \textbf{Temporal (\emph{rolling-origin})}~\cite{bergmeir2012cv}: para cada ano \(Y \in \{2021, 2022, 2023\}\), treina-se com todos os meses anteriores a \(Y\) e testa-se em \(Y\) --- exatamente como o sistema seria usado: treinar com o passado e prever o ano seguinte.
+  \item \textbf{Espacial (\emph{leave-region-out})}: a área é dividida em 5 faixas contíguas de longitude; cada faixa é testada com um modelo treinado nas outras quatro, medindo a generalização para regiões nunca vistas.
 \end{itemize}
 
-\subsection{Análise de interpretabilidade}
-\label{subsec:metod_interpretabilidade}
+\paragraph{Linhas de base.} O modelo só agrega valor se superar referências simples. Usam-se duas: a \textbf{persistência} (``se houve fogo neste mês, haverá no próximo'') e a \textbf{climatologia} (a frequência histórica de fogo da célula naquele mês do ano, estimada apenas no treino).
 
-Duas técnicas complementares são aplicadas para identificar as \emph{features} mais relevantes:
+\paragraph{Métricas.} A métrica principal é a \textbf{PR-AUC} (\emph{Average Precision}), a área sob a curva precisão--revocação. Ela é sensível à classe positiva: sob desbalanceamento, a ROC-AUC pode permanecer alta e mascarar a queda de precisão que a curva precisão--revocação revela~\cite{saito2015precision,davis2006relationship}. Reportam-se também a ROC-AUC e o \emph{Brier score}. Registra-se que a superioridade incondicional da PR-AUC foi formalmente questionada~\cite{mcdermott2024closer}; a escolha aqui segue o \emph{objetivo operacional} --- priorizar a detecção do fogo, evento de alto custo de omissão ---, não uma preferência a priori.
 
-\paragraph{SHAP por classe via Random Forest leve \emph{proxy}~\cite{lundberg2017unified,lundberg2020local}.} O \texttt{TreeExplainer} aplicado ao \emph{Stacking GBM} final e ao RF Optuna produtivo demanda mais de \num{2}\,\text{GiB} por classe em CPU pós-OHE. Como solução cientificamente defensável~\cite{lundberg2020local}, treina-se um Random Forest \emph{compacto} (100 árvores, \texttt{max\_depth=12}, \texttt{class\_weight='balanced'}, \num{60000} amostras de treino) como \emph{proxy interpretativo}. O script \texttt{scripts/analise\_shap\_rf\_leve.py} aplica \texttt{shap.TreeExplainer} sobre 500 amostras de teste e exporta as importâncias médias absolutas por classe em \texttt{modelos/relatorios/shap\_per\_class.json}.
+\section{\emph{Benchmark} contra índices físicos}
+\label{sec:metod_benchmark}
 
-\paragraph{\emph{Permutation Importance}~\cite{breiman2001random,fisher2019all}.} Aplicada diretamente sobre o \texttt{ensemble\_stacking\_gbm} em produção (5\,000 amostras de teste, três repetições, \emph{seed}=42). Para cada \emph{feature}, calcula-se a queda em \(\text{F}_1\) por classe e em \(\text{F}_1\)-macro quando os valores são permutados aleatoriamente. Diferentemente da importância Gini/MDI, é \emph{model-agnostic} e \textbf{não tendenciosa} para \emph{features} de alta cardinalidade~\cite{strobl2007bias} --- característica relevante dado o OHE de \texttt{Municipio} (542 categorias). A saída fica em \texttt{modelos/relatorios/permutation\_importance\_por\_classe.json}.
+Para que o modelo tenha valor operacional, ele precisa superar os índices meteorológicos que hoje servem de referência. Dois foram comparados sobre o mesmo alvo (fogo observado em \(t+1\)): o índice de Risco de Fogo do INPE, usando o valor do mês \(t\) como previsão; e o \textbf{Fire Weather Index (FWI)} canadense~\cite{vanwagner1985fwi}, base do sistema GEFF/EFFIS do Copernicus~\cite{digiuseppe2024geff}. O FWI foi implementado integralmente (subíndices FFMC, DMC, DC, ISI e BUI) e conferido contra os valores de referência publicados. Como exige clima diário, foi calculado dia a dia a partir da NASA POWER para uma amostra de \num{100} células em 2023, e o modelo foi avaliado exatamente nas mesmas linhas.
 
-\subsection{Ajuste multi-classe de limiares de decisão}
-\label{subsec:metod_thresholds}
+\section{Quantificação de incerteza}
+\label{sec:metod_conformal}
 
-A predição padrão usa \texttt{argmax} sobre as probabilidades calibradas. Embora maximize \(P(\text{classe} \mid x)\), penaliza a classe \emph{Moderado} --- fronteira ambígua entre \emph{Baixo} e \emph{Muito Alto}~\cite{he2009learning}. O procedimento implementado em \texttt{scripts/ajustar\_threshold.py} varre uma grade de pares (\texttt{thr\_Moderado}, \texttt{thr\_Muito\_Alto}) \(\in \{0{,}30; 0{,}35; \ldots; 0{,}55\}^2\) (36 combinações), com critério primário \(\text{F}_1\)-macro e secundário \(\text{F}_1\)-Moderado. Os limiares finais são persistidos em \texttt{modelos/prediction\_thresholds.json} e aplicados em \emph{runtime} no aplicativo web via parâmetro \texttt{estrategia\_thresholds} do \emph{endpoint} \texttt{/api/predict}.
+Além da probabilidade, o sistema informa a confiança de cada previsão por \emph{conformal prediction} classe-condicional (LAC)~\cite{sadinle2019lac,mortier2024conformal}. Em um ano de calibração não usado no treino, calcula-se, para cada classe, o limiar de probabilidade que retém \SI{90}{\percent} dos seus exemplos (\(\alpha = 0{,}1\)). Uma previsão cuja probabilidade só supera o limiar da classe ``fogo'' recebe o rótulo \emph{fogo}; a que só supera o da classe ``não-fogo'', \emph{não-fogo}; e a que supera ambos ou nenhum é marcada como \emph{incerta}. A avaliação usou treino até 2021, calibração em 2022 e teste em 2023.
 
-A lógica de decisão multi-classe em \emph{runtime} é:
+\section{Experimentos de covariáveis e auditoria do rótulo}
+\label{sec:metod_covariaveis}
 
-\begin{verbatim}
-se      P(Moderado)   >= thr_Moderado    -> classe = "Moderado"
-senao se P(Muito Alto) >= thr_Muito_Alto -> classe = "Muito Alto"
-senao                                    -> classe = "Baixo"
-\end{verbatim}
+Para identificar quais informações de fato melhoram a previsão, foram conduzidos experimentos controlados: o mesmo modelo foi treinado com e sem cada família de covariáveis, sob a mesma validação temporal. As famílias testadas foram o clima real diário por célula (NASA POWER) com o FWI, a distância à cidade mais próxima (acessibilidade humana) e o desmatamento recente (PRODES anual e DETER mensal). Os resultados foram estratificados entre células de fogo \emph{recorrente} (com foco nos últimos 12 meses) e de \emph{nova ignição} (sem foco recente), o caso mais difícil e mais relevante para alerta precoce.
 
-\subsection{Validação temporal (\emph{rolling-origin})}
-\label{subsec:metod_validacao_temporal}
+O rótulo foi auditado contra a área queimada do MapBiomas Fogo em dois níveis: por estado e ano (correlação entre contagem de focos e área queimada, 2014--2023) e por célula e ano (presença de foco versus presença de cicatriz em cada célula, com os \emph{rasters} anuais de 2015 a 2020).
 
-Em complemento à validação no \emph{split} aleatório, foi implementado em \texttt{scripts/validacao\_temporal.py} um procedimento de \textbf{\emph{rolling-origin} por ano}~\cite{bergmeir2012cv}. Para cada ano \(Y \in \{2021, 2022, 2023\}\) (três últimos com massa suficiente), o modelo é treinado em \(\text{Ano} < Y\) (\emph{subsample} estratificado de \num{60000} amostras por \emph{fold} para o \emph{Stacking}, limite de memória do OHE denso de \texttt{Municipio}) e avaliado em \(\text{Ano} = Y\). Cobre o uso operacional realista: ``treine com o passado, prediga o ano seguinte''. O resultado é apresentado no Apêndice~\ref{cap:resultados}.
+\section{Produto operacional}
+\label{sec:metod_produto}
 
-\section{Aplicação web interativa explicável}
-\label{sec:metod_app_web}
+O modelo final (\emph{features} base + DETER) é treinado com todo o histórico disponível, serializado e servido por uma aplicação web (\texttt{app\_forecast.py}, \emph{Flask} + \emph{Folium}). A aplicação exibe um mapa com a probabilidade de fogo no mês seguinte em cada célula, com o rótulo conformal e os principais \emph{drivers} (focos nos últimos 12 meses, meses desde o último fogo, desmatamento recente), e oferece uma API que responde à consulta de uma coordenada.
 
-Para tornar o modelo final utilizável e auditável por gestores ambientais, foi desenvolvida uma aplicação web (\texttt{scripts/app\_map\_interativo.py}) baseada em \emph{Flask} + \emph{Folium}~\cite{folium} + \emph{Leaflet}~\cite{leafletjs} que serve como interface explicável sobre o \emph{pipeline}. O usuário clica em qualquer ponto da Amazônia Legal e o sistema responde, em \(\approx 10\)--\SI{20}{\second}, com a predição classificada, acompanhada das 24~\emph{features} Tier~1 calculadas para o ponto, da explicação local das \emph{features} mais influentes e do contexto histórico comparativo.
-
-\subsection{\emph{Pipeline} de predição pontual}
-
-Como o aplicativo prediz \textbf{um único ponto isolado}, sem histórico temporal local, as \emph{features} Tier~1 que dependem de séries (SPI, acumulados longos, histórico estendido de focos) não podem ser calculadas em tempo real. Adota-se a estratégia de \textbf{\emph{lookup} espaço-sazonal} (\texttt{scripts/feature\_lookup.py}):
-
-\begin{enumerate}
-  \item Pré-cálculo das medianas das 24~\emph{features} Tier~1 do \emph{dataset} enriquecido, agregadas em três níveis de granularidade decrescente: \((\text{LatBin}~0{,}25^\circ, \text{LonBin}~0{,}25^\circ, \text{Mes})\), depois \((\text{Estado}, \text{Mes})\) e, por fim, \text{Mes} global.
-
-  \item Para o ponto consultado, \emph{lookup} em cascata (do mais fino ao mais grosso) com tolerância de \(\pm 1\) célula.
-
-  \item \emph{Features} físicas independentes de série temporal (\texttt{Temp\_Climatologica}, \texttt{KBDI\_proxy}, \texttt{VPD\_proxy}, \texttt{Aridez\_DeMartonne}, \texttt{Anomalia\_Precipitacao}) são recalculadas em tempo real com o clima NASA POWER atual e a climatologia local da precipitação --- o \emph{lookup} fornece apenas os ``blocos de construção'' históricos imutáveis.
-\end{enumerate}
-
-\subsection{Integração de dados em tempo real}
-
-\begin{itemize}
-  \item \textbf{Geocodificação reversa} via Nominatim/OpenStreetMap para extrair Estado e Município do clique.
-  \item \textbf{Clima atual} via NASA POWER~\cite{nasapower} (precipitação, dias sem chuva, RH2M dos últimos 28~dias).
-  \item \textbf{Focos ativos} via NASA FIRMS~\cite{nasafirms} para \texttt{FRP} dos últimos 7~dias no raio de \SI{10}{\km} do ponto.
-\end{itemize}
-
-\subsection{Explicabilidade local}
-
-Em \emph{runtime}, \texttt{scripts/explainer.py} aproxima a contribuição de cada \emph{feature} como
-\begin{equation}
-\text{contrib}(f) = \text{importância}(f) \times \text{zscore}(f) \times \text{sinal\_físico}(f),
-\end{equation}
-onde \(\text{importância}(f)\) é carregada de \texttt{shap\_per\_class.json} (importância por classe predita, quando disponível) ou de \texttt{shap\_feature\_importance.json} (Gini global como \emph{fallback}); \(\text{zscore}(f)\) mede a anormalidade do valor no ponto em relação à distribuição global do \emph{dataset}; e \(\text{sinal\_físico}(f) \in \{-1, +1\}\) codifica o efeito esperado (por exemplo, \(+1\) para \texttt{Indice\_Seca}, \(-1\) para \texttt{Precipitacao\_ma90}). A predição é classificada como \emph{AUMENTA RISCO}, \emph{REDUZ RISCO} ou \emph{neutro}; o \emph{top-6 features} por \(|\text{contrib}|\) é exibido no painel lateral.
-
-\subsection{Interface}
-
-O \emph{front-end} é organizado em \textbf{seis \emph{cards}} dentro de um painel lateral de \num{420}\,px:
-
-\begin{enumerate}
-  \item \textbf{Previsão} --- \emph{badge} com a classe, barras de probabilidade por classe, métricas do modelo, fonte do clima, granularidade do \emph{lookup} e \emph{trace} da decisão (\emph{argmax} \emph{vs.}\ \emph{thresholds} calibrados).
-  \item \textbf{Por que esse risco?} --- \emph{top-6 features} com valor, faixa típica (\(p_{10}\)--\(p_{90}\) da distribuição global), \emph{z-score} e direção do impacto.
-  \item \textbf{Dados climáticos atuais} --- precipitação, dias sem chuva, umidade NASA, temperatura climatológica, estação, período do dia.
-  \item \textbf{Índices de seca e aridez} --- Índice de Seca, SPI 1m/3m/6m, KBDI \emph{proxy}, Aridez De Martonne, VPD \emph{proxy}, Dias\_Secos\_90d.
-  \item \textbf{Precipitação acumulada e anomalia} --- acumulados 30/90/180/365~dias com narrativa textual comparando precipitação atual e a média histórica do município/mês.
-  \item \textbf{Histórico de focos} --- focos NASA FIRMS em 7/30/90/180/365~dias, dias desde o último foco, FRP médio/máximo 7d, FRP no ponto agora.
-\end{enumerate}
-
-O mapa estático (versão original da Seção 4.6 do TCC~II) permanece disponível como artefato \emph{batch} (\texttt{scripts/gerar\_mapa.py}).
-
-\section{Imputação de \emph{Umidade} via \emph{pseudo-labeling}}
-\label{sec:metodologia_pseudo_label}
-
-Como discutido na Seção~\ref{subsec:metod_apis_externas}, a integração via NASA POWER produziu \num{170465} linhas com \texttt{Umidade} real (\(\approx \SI{18,3}{\percent}\) da base). Para mitigar essa cobertura parcial sem aguardar 13~dias adicionais de enriquecimento, foi implementada a estratégia de \textbf{\emph{pseudo-labeling}}~\cite{lee2013pseudo}, com precedente recente em imputação climática~\cite{lopezgarcia2024spatiotemporal}. O \emph{script} \texttt{scripts/pseudo\_label\_umidade.py} executa as etapas:
-
-\begin{enumerate}
-  \item Treina um \textbf{LightGBM regressor}~\cite{ke2017lightgbm} sobre os \(\approx \num{170000}\) registros com \texttt{Umidade} real, usando 15~\emph{features} (precipitação, dias sem chuva, lat/lon, sazonalidade cíclica \texttt{Mes\_sin/cos}, histórico de fogo) --- \emph{features} que existem para todas as linhas, com ou sem \texttt{Umidade} real.
-
-  \item Avalia o erro real em \emph{holdout} 20\%: \textbf{RMSE = \SI{4,33}{\percent} RH, MAE = \SI{3,19}{\percent} RH, \(R^2 = 0{,}933\)}. O \(R^2\) alto é cientificamente justificável: a umidade tem alta autocorrelação espaço-sazonal com as \emph{features} usadas --- lat/lon definem o regime de monção, mês define a estação seca/chuvosa, precipitação recente define o estado higroscópico do ar.
-
-  \item Refit no \SI{100}{\percent} dos \emph{labels} reais e imputa os \num{763489} registros sem \emph{label} (\emph{clip} [5, 100]\%).
-
-  \item Salva o \emph{dataset} enriquecido em \texttt{base\_de\_dados\_umidade\_pseudo.csv} com coluna auxiliar \texttt{Umidade\_origem} \(\in\) \{\texttt{nasa\_power}, \texttt{pseudo\_label\_lgbm}\} para auditoria.
-\end{enumerate}
-
-\paragraph{Status no \emph{pipeline} final.} O \emph{dataset} \texttt{base\_de\_dados\_umidade\_pseudo.csv} está disponível mas \textbf{não é usado nos números finais reportados} no Apêndice~\ref{cap:resultados}. Razão: incluir \texttt{Umidade} (pseudo-rotulada ou real) exigiria retreino completo do \texttt{ensemble\_stacking\_gbm} (\(\approx \SI{85}{\minute}\) CPU) + revalidação das \emph{thresholds} + revalidação temporal --- fora do orçamento computacional desta entrega. O artefato fica registrado como \textbf{etapa preparatória} para a sequência natural do trabalho. Cautela registrada: \emph{pseudo-labels} devem ser interpretados considerando potencial viés de confirmação~\cite{arazo2020pseudo}.
-
-\section{Geração do Mapa de Risco com Previsões do Modelo}
-
-A versão original do mapa de risco --- gerada em modo \emph{batch} sobre um conjunto pré-definido de pontos e exportada como arquivo HTML estático --- permanece disponível em \texttt{scripts/gerar\_mapa.py} como artefato histórico. A entrega operacional final do projeto, contudo, é a \textbf{aplicação web interativa} descrita na Seção~\ref{sec:metod_app_web}, em que o usuário aponta qualquer ponto da Amazônia Legal e recebe imediatamente predição, intervalo de confiança, explicação local e contexto climático/histórico --- tornando obsoleta a estratégia batch para uso prático e, em particular, eliminando o gargalo de geocodificação prévia. As bibliotecas envolvidas (\texttt{pandas}, \texttt{joblib}, \texttt{geopy}, \texttt{folium}, \texttt{webbrowser}) seguem em uso, agora orquestradas pelo servidor Flask.
+A previsão é mantida atualizada pelo \emph{script} \texttt{atualizar\_forecast.py}, que: (i) baixa os focos mais recentes do servidor de dados abertos do INPE e os alertas DETER do ano corrente; (ii) recalcula as \emph{features} até o último mês completo \(t\); e (iii) aplica o modelo salvo para prever o mês \(t+1\), sem re-treinar. A aplicação recarrega a previsão automaticamente. O re-treino, com recalibração do conformal no último ano completo, é recomendado uma vez por ano, quando o INPE publica o arquivo anual consolidado.
 
 \input{08_previsao_ocorrencia}
 
@@ -999,7 +757,7 @@ A versão original do mapa de risco --- gerada em modo \emph{batch} sobre um con
 \chapter{Conclusão}
 \label{cap:conclusao}
 
-Este trabalho desenvolveu e validou um sistema de \textbf{previsão da ocorrência de fogo observado} na Amazônia Legal, a partir de dados do Programa Queimadas/INPE~\cite{INPE24} (2014--2023), com apoio de reanálise climática NASA POWER~\cite{nasapower}, detecções em tempo real NASA FIRMS~\cite{nasafirms}, dados de desmatamento PRODES/DETER e o \emph{shapefile} oficial do IBGE~\cite{ibgeamazonia2024}. A formulação central foi precedida por um \textbf{estudo exploratório} (Apêndice~\ref{cap:resultados}) que classificava o índice de Risco de Fogo do INPE em faixas de severidade; a constatação de que esse alvo era a \emph{saída de outro modelo} (circularidade metodológica) e de que a base era \emph{presence-only} (sem exemplos de não-fogo) motivou a reformulação aqui consolidada. Os principais achados são os seguintes.
+Este trabalho desenvolveu e validou um sistema de \textbf{previsão da ocorrência de fogo observado} na Amazônia Legal, a partir de dados do Programa Queimadas/INPE~\cite{INPE24} (2014--2023), com apoio de dados de desmatamento PRODES/DETER, da reanálise climática NASA POWER~\cite{nasapower} e da área queimada do MapBiomas Fogo~\cite{mapbiomasfogo}. A formulação central foi precedida por um \textbf{estudo exploratório} (Apêndice~\ref{cap:resultados}) que classificava o índice de Risco de Fogo do INPE em faixas de severidade; a constatação de que esse alvo era a \emph{saída de outro modelo} (circularidade metodológica) e de que a base era \emph{presence-only} (sem exemplos de não-fogo) motivou a reformulação aqui consolidada. Os principais achados são os seguintes.
 
 \paragraph{1. Previsão de fogo observado, validada sem vazamento.} Reformulado o problema para \textbf{prever a ocorrência de foco no mês seguinte} (\(t+1\)) sobre uma grade de \SI{0,25}{\degree}, com classe negativa real e \emph{features} estritamente causais, o modelo (\emph{Histogram-based Gradient Boosting}~\cite{friedman2001greedy}) atingiu \textbf{\num{0,777} de PR-AUC} na validação temporal em bloco (\emph{rolling-origin}) e \textbf{\num{0,759}} na validação espacial (\emph{leave-region-out})~\cite{roberts2017cv}, superando com folga as linhas de base de persistência (\num{0,449}) e climatologia (\num{0,715}). Na validação espacial, a climatologia colapsa ao prever regiões nunca vistas enquanto o modelo se mantém --- indício de \emph{generalização} da dinâmica, e não de memorização da taxa-base local.
 
@@ -1011,7 +769,7 @@ Este trabalho desenvolveu e validou um sistema de \textbf{previsão da ocorrênc
 
 \paragraph{5. Rótulo validado contra fonte independente.} O rótulo (focos do INPE) foi confrontado com a área queimada do MapBiomas Fogo~\cite{mapbiomasfogo}: forte concordância interanual intra-estado (Spearman \(\approx\)\num{0,81}) e, no nível \emph{célula a célula}, concordância de \SI{78}{\percent} com revocação \num{0,90}. A ocorrência binária de fogo é, portanto, corroborada por um produto de modalidade distinta (cicatriz de área queimada).
 
-\paragraph{6. Produto operacional e reprodutibilidade.} O modelo final foi serializado com os limiares conformais e serve, por uma \textbf{aplicação web interativa} (\emph{Flask} + \emph{Folium}~\cite{folium} + \emph{Leaflet}~\cite{leafletjs}), a probabilidade de fogo por célula no próximo mês, com rótulo de confiança e \emph{drivers} associados. Métricas, hiperparâmetros e metadados de \emph{split} ficam persistidos em JSON versionado, e o \emph{pipeline} é reexecutável por \emph{scripts} modulares --- reprodutibilidade tratada como requisito não funcional.
+\paragraph{6. Produto operacional e reprodutibilidade.} O modelo final foi serializado com os limiares conformais e serve, por uma \textbf{aplicação web interativa} (\emph{Flask} + \emph{Folium}~\cite{folium} + \emph{Leaflet}~\cite{leafletjs}), a probabilidade de fogo por célula no próximo mês, com rótulo de confiança e \emph{drivers} associados. O \emph{pipeline} reconstrói a base a partir dos dados abertos do INPE --- reproduzindo os resultados reportados --- e se mantém atualizado com os dados mais recentes. Na primeira previsão operacional (setembro de 2026), confrontada com os focos observados no mês, o sistema atingiu PR-AUC de \num{0,729}, e \SI{66}{\percent} das células rotuladas \emph{fogo} de fato queimaram, contra \SI{4}{\percent} das rotuladas \emph{não-fogo}.
 
 \paragraph{7. Estudo exploratório (baseline).} A primeira abordagem --- classificar o índice do INPE em três faixas --- alcançou \SI{84,61}{\percent} de acurácia em \emph{hold-out} aleatório, mas a própria validação temporal estrita expôs sua fragilidade (queda para \SI{70,13}{\percent}~\cite{bergmeir2012cv}) e, sobretudo, a circularidade do alvo. Documentada no Apêndice~\ref{cap:resultados}, ela cumpriu o papel de \emph{motivar} a reformulação central deste trabalho --- incluindo o estudo de caso Pium--TO, em que o índice do INPE indicava risco baixo num evento de fogo real confirmado pelo CENSIPAM.
 
@@ -1072,6 +830,17 @@ O principal avanço científico do trabalho está em reposicionar o problema de 
 
 \appendix
 \onehalfspacing
+
+% Título de apêndice no padrão ABNT (NBR 14724): "APÊNDICE A -- TÍTULO",
+% centralizado, no texto e no sumário.
+\makeatletter
+\def\@makechapterhead#1{%
+  \vspace*{0pt}\par
+  {\centering\normalfont\bfseries
+   \MakeUppercase{\appendixname}~\thechapter~--~\MakeUppercase{#1}\par}%
+  \vspace{45pt}\par}
+\makeatother
+\addtocontents{toc}{\protect\apendicesnosumario}
 
 % Estudo exploratório (antigo Cap. 5): classificação do índice de risco do INPE.
 % Rebaixado a apêndice — o alvo era a saída de outro modelo (circularidade);

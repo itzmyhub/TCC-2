@@ -303,6 +303,37 @@ células), `mapa_forecast_ocorrencia.html` (mapa interativo). Rotas: `/` (mapa),
 → P=92% "fogo" (alta atividade + desmatamento); sul do PA em dez → P=22% "não-fogo"
 (estação de fogo do sul é jul–out — correto).
 
+### Operação em tempo real (dados abertos do INPE)
+
+Os dados brutos (`focos_qmd_inpe_*.csv`, `dataset_ocorrencia_*.csv`) e o `.pkl` não são
+versionados; são reconstruídos a partir das fontes públicas:
+
+```bash
+# 1x: baixa focos 2014→mês corrente (AQUA_M-T, bioma Amazônia) e o DETER 2016→hoje
+python scripts/previsao_ocorrencia/coletar_focos_inpe.py
+python scripts/previsao_ocorrencia/coletar_deter.py --ano_fim 2026 --saida scripts/previsao_ocorrencia/deter_celula_mes_atual.csv
+python scripts/previsao_ocorrencia/atualizar_forecast.py --sem_download --retreinar
+
+# rotina: atualiza o ano corrente (focos + DETER) e prevê com o modelo salvo
+python scripts/previsao_ocorrencia/atualizar_forecast.py
+python scripts/previsao_ocorrencia/app_forecast.py   # recarrega o forecast sozinho; GET /api/status
+```
+
+`atualizar_forecast.py` usa as features até o último mês **completo** *t* e prevê *t*+1;
+`--retreinar` (recomendado 1x/ano, quando o INPE publica o anual consolidado) recalibra o
+conformal no último ano completo. `deter_celula_mes.csv` (2016–2023) é mantido intacto para
+reproduzir os números do TCC; a operação usa `deter_celula_mes_atual.csv`.
+
+**Reprodução verificada (2026-09-24).** Reconstruindo a base 2014-01–2024-01 a partir dos dados
+abertos: 450.684 cell-months (vs 450.144; revisões do INPE), prevalência 0,249 (vs 0,247),
+PR-AUC temporal **0,779** (vs 0,777) e espacial **0,757** (vs 0,759). Atenção: após a
+atualização, `dataset_ocorrencia_mensal.csv` cobre até o mês corrente — para reproduzir os
+experimentos do TCC, reconstrua-o só com os focos de 2014–2023 + jan/2024.
+
+**Primeiro forecast operacional (set/2026, modelo treinado até 2026-07, calib. 2025: cobertura
+0,900).** Conferido contra os focos de set/2026 observados até 23/09: PR-AUC 0,729, ROC-AUC
+0,825; das células rotuladas "fogo", 66% já queimaram; das "não-fogo", 4%.
+
 ## Features (todas causais, ≤ t)
 
 Histórico de fogo defasado (`focos_lag1-3`, `fogo_lag1-3`, somas móveis 3/6/12 m com `shift(1)`),

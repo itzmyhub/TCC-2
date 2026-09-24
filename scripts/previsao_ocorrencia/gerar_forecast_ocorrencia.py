@@ -13,6 +13,7 @@ por célula, com incerteza calibrada — diferente do app original (classe do í
 """
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 
@@ -25,6 +26,7 @@ from sklearn.ensemble import HistGradientBoostingClassifier
 ROOT = Path(__file__).resolve().parents[2]
 DATASET = ROOT / "dataset_ocorrencia_mensal.csv"
 DETER = ROOT / "scripts" / "previsao_ocorrencia" / "deter_celula_mes.csv"
+ULTIMO = ROOT / "dataset_ocorrencia_ultimo_mes.csv"
 MODELOS = ROOT / "modelos"
 
 FEATURES_BASE = [
@@ -89,16 +91,16 @@ def cor(p):
     return "#d73027"
 
 
-def main():
-    print("Carregando dados e montando features (base + DETER)...")
-    df = pd.read_csv(DATASET)
-    d = pd.read_csv(DETER)
-    df = montar_deter(df, d)
+def mes_seguinte(ym: str) -> str:
+    return str(pd.Period(ym, freq="M") + 1)
 
-    # Modelo final: treina em tudo <= 2023; calibra conformal em 2023.
-    tr = df[df["ano"] < 2023]
-    cal = df[df["ano"] == 2023]
-    print(f"Treino: {len(tr):,} | calibração (2023): {len(cal):,}")
+
+def treinar(df: pd.DataFrame, ano_calib: int):
+    """Treina o modelo de produção e calibra os limiares conformais (LAC)."""
+    # Calibração conformal: treina em < ano_calib, calibra em ano_calib.
+    tr = df[df["ano"] < ano_calib]
+    cal = df[df["ano"] == ano_calib]
+    print(f"Treino: {len(tr):,} | calibração ({ano_calib}): {len(cal):,}")
     modelo = HistGradientBoostingClassifier(
         max_iter=300, learning_rate=0.08, max_depth=8, l2_regularization=1.0,
         max_leaf_nodes=63, class_weight="balanced", random_state=42).fit(tr[FEATURES], tr["alvo"])
@@ -107,34 +109,79 @@ def main():
     cobertura = float((pcal[np.arange(len(cal)), cal["alvo"].to_numpy()] >=
                        np.array([q[int(yy)] for yy in cal["alvo"]])).mean())
 
-    # Modelo de produção: re-treina em TODOS os dados (≤2023) p/ uso operacional.
+    # Modelo de produção: re-treina em TODOS os dados p/ uso operacional.
     modelo_prod = HistGradientBoostingClassifier(
         max_iter=300, learning_rate=0.08, max_depth=8, l2_regularization=1.0,
         max_leaf_nodes=63, class_weight="balanced", random_state=42).fit(df[FEATURES], df["alvo"])
 
     MODELOS.mkdir(exist_ok=True)
-    joblib.dump({"modelo": modelo_prod, "features": FEATURES}, MODELOS / "modelo_ocorrencia.pkl")
+    joblib.dump({"modelo": modelo_prod, "features": FEATURES,
+                 "treinado_ate": df["ym"].max()}, MODELOS / "modelo_ocorrencia.pkl")
     (MODELOS / "ocorrencia_conformal.json").write_text(
         json.dumps({"metodo": "LAC (Sadinle 2019)", "alpha": 0.1, "limiares_q": q,
-                    "cobertura_calib_2023": cobertura}, indent=2, ensure_ascii=False), encoding="utf-8")
-    print(f"Modelo serializado. Cobertura conformal (calib 2023): {cobertura:.3f}")
+                    "ano_calibracao": ano_calib, f"cobertura_calib_{ano_calib}": cobertura,
+                    "cobertura_calib": cobertura}, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"Modelo serializado. Cobertura conformal (calib {ano_calib}): {cobertura:.3f}")
+    return modelo_prod, q
 
-    # Forecast por célula: último mês disponível de cada célula -> P(fogo próximo mês)
-    ult = df.sort_values("ym_idx").groupby(["LatBin", "LonBin"]).tail(1).copy()
+
+def carregar_modelo():
+    art = joblib.load(MODELOS / "modelo_ocorrencia.pkl")
+    conf = json.loads((MODELOS / "ocorrencia_conformal.json").read_text(encoding="utf-8"))
+    q = {int(k): v for k, v in conf["limiares_q"].items()}
+    print(f"Modelo carregado (treinado até {art.get('treinado_ate', '?')}).")
+    return art["modelo"], q
+
+
+def main():
+    ap = argparse.ArgumentParser(description="Treina o modelo de ocorrência e gera o forecast/mapa.")
+    ap.add_argument("--so_prever", action="store_true",
+                    help="não re-treina: usa modelos/modelo_ocorrencia.pkl (modo operacional)")
+    ap.add_argument("--ano_calib", type=int, default=None,
+                    help="ano da calibração conformal (default: último ano completo)")
+    ap.add_argument("--deter", type=Path, default=DETER)
+    ap.add_argument("--ultimo", type=Path, default=ULTIMO,
+                    help="features do último mês (construir_ocorrencia.py); se ausente, "
+                         "usa o último mês COM alvo de cada célula (comportamento original)")
+    args = ap.parse_args()
+
+    print("Carregando dados e montando features (base + DETER)...")
+    d = pd.read_csv(args.deter)
+    if args.so_prever:
+        modelo_prod, q = carregar_modelo()
+    else:
+        df = montar_deter(pd.read_csv(DATASET), d)
+        meses_por_ano = df.groupby("ano")["mes"].nunique()
+        ano_calib = args.ano_calib or int(meses_por_ano[meses_por_ano == 12].index.max())
+        modelo_prod, q = treinar(df, ano_calib)
+
+    # Forecast por célula: features do mês t -> P(fogo em t+1)
+    if args.ultimo.exists():
+        ult = montar_deter(pd.read_csv(args.ultimo), d)
+    else:
+        df = df if not args.so_prever else montar_deter(pd.read_csv(DATASET), d)
+        ult = df.sort_values("ym_idx").groupby(["LatBin", "LonBin"]).tail(1).copy()
     proba = modelo_prod.predict_proba(ult[FEATURES])
     ult["p_fogo"] = proba[:, 1]
     ult["rotulo_conformal"] = [rotulo_conformal(proba[i, 0], proba[i, 1], q) for i in range(len(ult))]
-    saida_cols = ["LatBin", "LonBin", "ym", "p_fogo", "rotulo_conformal",
+    ult["mes_previsto"] = ult["ym"].map(mes_seguinte)
+    saida_cols = ["LatBin", "LonBin", "ym", "mes_previsto", "p_fogo", "rotulo_conformal",
                   "focos_roll12", "fogo_roll6", "meses_desde_fogo", "estacao_seca",
                   "deter_roll6", "deter_roll3"]
     fc = ult[saida_cols].sort_values("p_fogo", ascending=False).reset_index(drop=True)
     fc.to_csv(ROOT / "dataset_forecast_celulas.csv", index=False)
-    print(f"Forecast por célula: {len(fc):,} células | P(fogo) médio={fc['p_fogo'].mean():.3f} "
+    mes_prev = fc["mes_previsto"].max()
+    print(f"Forecast para {mes_prev}: {len(fc):,} células | P(fogo) médio={fc['p_fogo'].mean():.3f} "
           f"| conformal: {fc['rotulo_conformal'].value_counts().to_dict()}")
 
     # Mapa folium
     print("Gerando mapa interativo...")
-    m = folium.Map(location=[-6.0, -55.0], zoom_start=5, tiles="CartoDB positron")
+    # Fundo Esri Light Gray: os tiles da CARTO passaram a exigir API key.
+    m = folium.Map(
+        location=[-6.0, -55.0], zoom_start=5, max_zoom=16,
+        tiles="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+        attr="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
+    )
     for r in fc.itertuples(index=False):
         lat, lon, p = r.LatBin, r.LonBin, r.p_fogo
         popup = (f"<b>P(fogo próximo mês): {p:.0%}</b><br>conformal: {r.rotulo_conformal}<br>"
@@ -149,7 +196,7 @@ def main():
         ).add_to(m)
     legenda = ("<div style='position:fixed;bottom:30px;left:30px;z-index:9999;background:white;"
                "padding:10px;border:1px solid #999;font-size:12px'>"
-               "<b>P(fogo no próximo mês)</b><br>"
+               f"<b>P(fogo em {mes_prev})</b><br>"
                "<span style='color:#1a9850'>■</span> &lt;10%&nbsp;"
                "<span style='color:#91cf60'>■</span> 10–25%&nbsp;"
                "<span style='color:#fee08b'>■</span> 25–50%<br>"

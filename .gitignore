@@ -21,6 +21,7 @@ __pycache__/
 *.pyc
 .cache_inmet/
 .cache_umidade/
+.cache_focos/
 logs/
 .idea/
 *.bak
