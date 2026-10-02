@@ -331,8 +331,18 @@ atualização, `dataset_ocorrencia_mensal.csv` cobre até o mês corrente — pa
 experimentos do TCC, reconstrua-o só com os focos de 2014–2023 + jan/2024.
 
 **Primeiro forecast operacional (set/2026, modelo treinado até 2026-07, calib. 2025: cobertura
-0,900).** Conferido contra os focos de set/2026 observados até 23/09: PR-AUC 0,729, ROC-AUC
-0,825; das células rotuladas "fogo", 66% já queimaram; das "não-fogo", 4%.
+0,900).** Conferido contra os focos de set/2026 observados até 27/09: PR-AUC 0,748, ROC-AUC
+0,827; das células rotuladas "fogo", 69% já queimaram; das "não-fogo", 5%.
+
+**Calibração isotônica (2026-09-28).** `class_weight='balanced'` inflava P(fogo) (média 0,62 no
+forecast de set/2026). O `.pkl` agora guarda um `calibrador` (isotônica ajustada no ano de
+calibração) e `dataset_forecast_celulas.csv` traz `p_fogo` (calibrada) e `p_fogo_bruta`; o rótulo
+conformal segue sobre a bruta. `avaliar_calibracao.py` (treino<2022, calib 2022, teste 2023):
+ECE 0,087 → 0,015, Brier 0,123 → 0,111, PR-AUC 0,791 → 0,784 (empates da isotônica). No
+forecast de set/2026 a média calibrada foi 0,30 contra 0,38 observado até 27/09: o calibrador
+herda a taxa-base de 2025, ano de pouco fogo.
+
+`atualizar_forecast.py` segue com o DETER já salvo se o TerraBrasilis falhar (504 em 28/09).
 
 ## Features (todas causais, ≤ t)
 

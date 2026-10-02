@@ -90,6 +90,9 @@ def main():
               f"{sum(acc.values()):.0f} km² | {(time.time()-t0)/60:.1f} min", flush=True)
 
     df = pd.DataFrame(linhas)
+    if df.empty:
+        # Nada coletado (ex.: TerraBrasilis fora do ar): não grava arquivo vazio.
+        raise SystemExit("Nenhum registro DETER coletado — arquivo não gravado.")
     df.to_csv(args.saida, index=False)
     print(f"\nConcluído: {len(df):,} registros (célula,mês) | salvo em {args.saida}")
     print(f"  desmatamento DETER total {args.ano_ini}-{args.ano_fim}: {df['deter_km'].sum():.0f} km²")

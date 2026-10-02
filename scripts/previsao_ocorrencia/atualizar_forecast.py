@@ -40,7 +40,13 @@ def rodar(script: str, *args: str) -> None:
 def atualizar_deter(ano: int) -> None:
     """Re-coleta o DETER do ano corrente e substitui essas linhas no histórico."""
     tmp = AQUI / f"deter_celula_mes_{ano}.tmp.csv"
-    rodar("coletar_deter.py", "--ano_ini", str(ano), "--ano_fim", str(ano), "--saida", str(tmp))
+    try:
+        rodar("coletar_deter.py", "--ano_ini", str(ano), "--ano_fim", str(ano), "--saida", str(tmp))
+    except subprocess.CalledProcessError:
+        # TerraBrasilis instável: segue com o DETER já salvo em vez de abortar.
+        ultimo = pd.read_csv(DETER_ATUAL)["ym"].max() if DETER_ATUAL.exists() else "nenhum"
+        print(f"AVISO: falha ao coletar o DETER {ano}; usando o arquivo existente (até {ultimo}).")
+        return
     novo = pd.read_csv(tmp)
     if DETER_ATUAL.exists():
         hist = pd.read_csv(DETER_ATUAL)

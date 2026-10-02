@@ -22,6 +22,7 @@ import joblib
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.isotonic import IsotonicRegression
 
 ROOT = Path(__file__).resolve().parents[2]
 DATASET = ROOT / "dataset_ocorrencia_mensal.csv"
@@ -96,7 +97,8 @@ def mes_seguinte(ym: str) -> str:
 
 
 def treinar(df: pd.DataFrame, ano_calib: int):
-    """Treina o modelo de produção e calibra os limiares conformais (LAC)."""
+    """Treina o modelo de produção, calibra os limiares conformais (LAC) e
+    ajusta a calibração isotônica de P(fogo) (avaliada em avaliar_calibracao.py)."""
     # Calibração conformal: treina em < ano_calib, calibra em ano_calib.
     tr = df[df["ano"] < ano_calib]
     cal = df[df["ano"] == ano_calib]
@@ -108,6 +110,9 @@ def treinar(df: pd.DataFrame, ano_calib: int):
     q = thresholds_lac(pcal, cal["alvo"].to_numpy())
     cobertura = float((pcal[np.arange(len(cal)), cal["alvo"].to_numpy()] >=
                        np.array([q[int(yy)] for yy in cal["alvo"]])).mean())
+    # class_weight='balanced' infla P(fogo): a isotônica devolve a escala de frequência.
+    # O rótulo conformal continua sobre a probabilidade bruta (limiares q acima).
+    calibrador = IsotonicRegression(out_of_bounds="clip", y_min=0, y_max=1).fit(pcal[:, 1], cal["alvo"])
 
     # Modelo de produção: re-treina em TODOS os dados p/ uso operacional.
     modelo_prod = HistGradientBoostingClassifier(
@@ -115,14 +120,14 @@ def treinar(df: pd.DataFrame, ano_calib: int):
         max_leaf_nodes=63, class_weight="balanced", random_state=42).fit(df[FEATURES], df["alvo"])
 
     MODELOS.mkdir(exist_ok=True)
-    joblib.dump({"modelo": modelo_prod, "features": FEATURES,
+    joblib.dump({"modelo": modelo_prod, "features": FEATURES, "calibrador": calibrador,
                  "treinado_ate": df["ym"].max()}, MODELOS / "modelo_ocorrencia.pkl")
     (MODELOS / "ocorrencia_conformal.json").write_text(
         json.dumps({"metodo": "LAC (Sadinle 2019)", "alpha": 0.1, "limiares_q": q,
                     "ano_calibracao": ano_calib, f"cobertura_calib_{ano_calib}": cobertura,
                     "cobertura_calib": cobertura}, indent=2, ensure_ascii=False), encoding="utf-8")
     print(f"Modelo serializado. Cobertura conformal (calib {ano_calib}): {cobertura:.3f}")
-    return modelo_prod, q
+    return modelo_prod, q, calibrador
 
 
 def carregar_modelo():
@@ -130,7 +135,7 @@ def carregar_modelo():
     conf = json.loads((MODELOS / "ocorrencia_conformal.json").read_text(encoding="utf-8"))
     q = {int(k): v for k, v in conf["limiares_q"].items()}
     print(f"Modelo carregado (treinado até {art.get('treinado_ate', '?')}).")
-    return art["modelo"], q
+    return art["modelo"], q, art.get("calibrador")
 
 
 def main():
@@ -148,12 +153,12 @@ def main():
     print("Carregando dados e montando features (base + DETER)...")
     d = pd.read_csv(args.deter)
     if args.so_prever:
-        modelo_prod, q = carregar_modelo()
+        modelo_prod, q, calibrador = carregar_modelo()
     else:
         df = montar_deter(pd.read_csv(DATASET), d)
         meses_por_ano = df.groupby("ano")["mes"].nunique()
         ano_calib = args.ano_calib or int(meses_por_ano[meses_por_ano == 12].index.max())
-        modelo_prod, q = treinar(df, ano_calib)
+        modelo_prod, q, calibrador = treinar(df, ano_calib)
 
     # Forecast por célula: features do mês t -> P(fogo em t+1)
     if args.ultimo.exists():
@@ -162,13 +167,14 @@ def main():
         df = df if not args.so_prever else montar_deter(pd.read_csv(DATASET), d)
         ult = df.sort_values("ym_idx").groupby(["LatBin", "LonBin"]).tail(1).copy()
     proba = modelo_prod.predict_proba(ult[FEATURES])
-    ult["p_fogo"] = proba[:, 1]
+    ult["p_fogo_bruta"] = proba[:, 1]
+    ult["p_fogo"] = calibrador.predict(proba[:, 1]) if calibrador is not None else proba[:, 1]
     ult["rotulo_conformal"] = [rotulo_conformal(proba[i, 0], proba[i, 1], q) for i in range(len(ult))]
     ult["mes_previsto"] = ult["ym"].map(mes_seguinte)
-    saida_cols = ["LatBin", "LonBin", "ym", "mes_previsto", "p_fogo", "rotulo_conformal",
+    saida_cols = ["LatBin", "LonBin", "ym", "mes_previsto", "p_fogo", "p_fogo_bruta", "rotulo_conformal",
                   "focos_roll12", "fogo_roll6", "meses_desde_fogo", "estacao_seca",
                   "deter_roll6", "deter_roll3"]
-    fc = ult[saida_cols].sort_values("p_fogo", ascending=False).reset_index(drop=True)
+    fc = ult[saida_cols].sort_values(["p_fogo", "p_fogo_bruta"], ascending=False).reset_index(drop=True)
     fc.to_csv(ROOT / "dataset_forecast_celulas.csv", index=False)
     mes_prev = fc["mes_previsto"].max()
     print(f"Forecast para {mes_prev}: {len(fc):,} células | P(fogo) médio={fc['p_fogo'].mean():.3f} "

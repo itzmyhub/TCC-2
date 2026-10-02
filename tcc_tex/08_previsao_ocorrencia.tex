@@ -122,7 +122,12 @@ estatística garantida}, via \emph{split-conformal} classe-condicional
 (LAC)~\cite{sadinle2019lac,mortier2024conformal}. Com cobertura-alvo de \SI{90}{\percent},
 obteve-se cobertura empírica de \SI{88,8}{\percent}; \SI{82,9}{\percent} das predições são
 \emph{singletons} confiantes e \SI{17,1}{\percent} são sinalizadas como ambíguas. O erro de
-calibração esperado (ECE) foi de \num{0,099} e o \emph{Brier} de \num{0,123}.
+calibração esperado (ECE) foi de \num{0,099} e o \emph{Brier} de \num{0,123}. Esses valores
+vêm do protocolo de avaliação (treino até 2021, calibração em 2022, teste em 2023) e medem a
+cobertura em um ano \emph{posterior} ao da calibração. Já a cobertura de \num{0,900} citada na
+Seção~\ref{sec:oco_produto} é medida no próprio ano de calibração do modelo de produção
+(2025) e, por construção, coincide com o alvo; ela confirma o ajuste dos limiares, não a
+cobertura futura, cuja melhor estimativa continua sendo os \SI{88,8}{\percent}.
 
 \paragraph{Pressuposto e ressalva.} A garantia de cobertura do \emph{split-conformal} assume
 \emph{permutabilidade} (\emph{exchangeability}) entre calibração e teste~\cite{angelopoulos2021gentle}.
@@ -131,6 +136,26 @@ meses vizinhos), o que é coerente com a leve subcobertura observada (\SI{88,8}{
 alvo de \SI{90}{\percent}). Sob desvio de distribuição, a cobertura nominal pode ser restaurada
 por \emph{conformal} ponderado/adaptado~\cite{tibshirani2019conformal}; uma calibração com
 particionamento espacial é o encaminhamento indicado para o uso operacional.
+
+\section{Calibração das probabilidades}
+\label{sec:oco_calibracao}
+
+A ponderação \texttt{class\_weight='balanced'} (Seção~\ref{sec:metod_modelo}) desloca as probabilidades para cima: no teste de 2023, a probabilidade média prevista foi de \num{0,363} para uma prevalência de \num{0,276}. A ordenação das células não é afetada, mas o valor exibido deixa de corresponder à frequência de fogo. A calibração isotônica (Seção~\ref{sec:metod_conformal}) corrige esse desvio, como mostra a Tabela~\ref{tab:oco_calibracao}: o erro de calibração esperado cai de \num{0,087} para \num{0,015}, com custo pequeno na PR-AUC, pois a função isotônica cria empates entre células.
+
+\begin{table}[h]
+\centering
+\caption{Efeito da calibração isotônica (treino até 2021, calibração em 2022, teste em 2023; \emph{features} base + DETER).}
+\label{tab:oco_calibracao}
+\small
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Probabilidade} & \textbf{ECE} & \textbf{Brier} & \textbf{\(P\) médio (prevalência \num{0,276})} & \textbf{PR-AUC} \\
+\midrule
+Bruta      & \num{0,087} & \num{0,123} & \num{0,363} & \num{0,791} \\
+Isotônica  & \textbf{\num{0,015}} & \textbf{\num{0,111}} & \textbf{\num{0,267}} & \num{0,784} \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{Drivers antrópicos: o papel do desmatamento}
 \label{sec:oco_drivers}
@@ -262,9 +287,9 @@ exigiriam outra formulação.
 \section{Operação em tempo real}
 \label{sec:oco_produto}
 
-O \emph{pipeline} operacional (Seção~\ref{sec:metod_produto}) foi executado com os dados abertos do INPE e do DETER disponíveis em 24 de setembro de 2026. Antes disso, verificou-se a reprodutibilidade: reconstruindo a base do período 2014--2023 diretamente do servidor de dados abertos, obtiveram-se \num{450684} células--mês (contra \num{450144} da base original; a diferença de \SI{0,1}{\percent} decorre de revisões dos focos pelo INPE) e PR-AUC de \num{0,779} na validação temporal e \num{0,757} na espacial --- equivalentes aos \num{0,777} e \num{0,759} da Tabela~\ref{tab:oco_validacao}.
+O \emph{pipeline} operacional (Seção~\ref{sec:metod_produto}) foi executado com os dados abertos do INPE disponíveis em 28 de setembro de 2026 e os alertas DETER coletados até 24 de setembro. Antes disso, verificou-se a reprodutibilidade: reconstruindo a base do período 2014--2023 diretamente do servidor de dados abertos, obtiveram-se \num{450684} células--mês (contra \num{450144} da base original; a diferença de \SI{0,1}{\percent} decorre de revisões dos focos pelo INPE) e PR-AUC de \num{0,779} na validação temporal e \num{0,757} na espacial --- equivalentes aos \num{0,777} e \num{0,759} da Tabela~\ref{tab:oco_validacao}.
 
-O modelo de produção foi então re-treinado com todo o histórico (focos até julho de 2026, \num{4312} células), com o conformal recalibrado em 2025, onde a cobertura atingiu exatamente o alvo (\num{0,900}). A partir das \emph{features} de agosto de 2026, o sistema previu a ocorrência de fogo em setembro de 2026 (Figura~\ref{fig:oco_forecast}). O padrão espacial é coerente com a fenologia do fogo: o arco do desmatamento (Pará, Rondônia, Acre e norte de Mato Grosso) concentra as maiores probabilidades no pico da estação seca, enquanto Roraima, cuja estação de fogo vai de janeiro a março, aparece com risco baixo.
+O modelo de produção foi então re-treinado com todo o histórico (focos até julho de 2026, \num{4312} células), com o conformal recalibrado em 2025, onde a cobertura atingiu exatamente o alvo (\num{0,900}), e com a calibração isotônica das probabilidades ajustada no mesmo ano (Seção~\ref{sec:oco_calibracao}). A partir das \emph{features} de agosto de 2026, o sistema previu a ocorrência de fogo em setembro de 2026 (Figura~\ref{fig:oco_forecast}). O padrão espacial é coerente com a fenologia do fogo: o arco do desmatamento (Pará, Rondônia, Acre e norte de Mato Grosso) concentra as maiores probabilidades no pico da estação seca, enquanto Roraima, cuja estação de fogo vai de janeiro a março, aparece com risco baixo.
 
 \begin{figure}[h]
 \centering
@@ -273,25 +298,25 @@ O modelo de produção foi então re-treinado com todo o histórico (focos até 
 \label{fig:oco_forecast}
 \end{figure}
 
-Como setembro já estava em curso na data da execução, a previsão pôde ser confrontada com os focos efetivamente observados de 1º a 23 de setembro --- uma avaliação genuinamente fora da amostra, com dados que o modelo nunca viu. A PR-AUC foi de \num{0,729} e a ROC-AUC de \num{0,825}, com \SI{35,9}{\percent} das células já com fogo. Os rótulos conformais separaram bem os grupos (Tabela~\ref{tab:oco_forecast}): \SI{66}{\percent} das células rotuladas \emph{fogo} já haviam queimado, contra apenas \SI{4}{\percent} das rotuladas \emph{não-fogo}.
+Como setembro já estava em curso na data da execução, a previsão pôde ser confrontada com os focos efetivamente observados de 1º a 27 de setembro --- uma avaliação genuinamente fora da amostra, com dados que o modelo nunca viu. A PR-AUC foi de \num{0,748} e a ROC-AUC de \num{0,827} sobre a probabilidade bruta (\num{0,738} e \num{0,826} sobre a calibrada, cujos empates reduzem levemente a ordenação), com \SI{38,1}{\percent} das células já com fogo. Os rótulos conformais separaram bem os grupos (Tabela~\ref{tab:oco_forecast}): \SI{69}{\percent} das células rotuladas \emph{fogo} já haviam queimado, contra apenas \SI{5}{\percent} das rotuladas \emph{não-fogo}.
 
 \begin{table}[h]
 \centering
-\caption{Previsão para setembro de 2026 confrontada com os focos observados até 23/09/2026.}
+\caption{Previsão para setembro de 2026 confrontada com os focos observados até 27/09/2026.}
 \label{tab:oco_forecast}
 \small
 \begin{tabular}{lcc}
 \toprule
 \textbf{Rótulo conformal} & \textbf{Células} & \textbf{Fração com fogo observado} \\
 \midrule
-\emph{fogo}     & \num{1580} & \num{0,66} \\
-\emph{incerto}  & \num{1824} & \num{0,25} \\
-\emph{não-fogo} & \num{908}  & \num{0,04} \\
+\emph{fogo}     & \num{1580} & \num{0,69} \\
+\emph{incerto}  & \num{1824} & \num{0,27} \\
+\emph{não-fogo} & \num{908}  & \num{0,05} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Dois cuidados acompanham esse resultado. Primeiro, o mês ainda não estava completo, então a fração de células com fogo tende a subir. Segundo, a probabilidade média prevista (\num{0,62}) é superior à frequência observada: a ponderação \texttt{class\_weight='balanced'} desloca as probabilidades para cima. A \emph{ordenação} das células e os rótulos conformais, que dependem apenas dos limiares calibrados, não são afetados; uma calibração isotônica das probabilidades é o refinamento indicado.
+A probabilidade média prevista foi de \num{0,302} após a calibração, contra \num{0,616} da probabilidade bruta e \num{0,381} de células com fogo observado até 27/09. A calibração eliminou o exagero da ponderação de classes, mas passou a subestimar ligeiramente a frequência --- diferença que tende a crescer até o fim do mês. A causa é conhecida: o calibrador foi ajustado em 2025, um ano de baixa atividade de fogo (\num{43131} focos, contra \num{140346} em 2024), e herda a taxa-base daquele ano. Sob a forte variação interanual do fogo amazônico, as probabilidades absolutas devem ser lidas como aproximadas; a \emph{ordenação} das células e os rótulos conformais, que orientam a priorização, não dependem da calibração.
 
 \section{Posicionamento frente à literatura}
 \label{sec:oco_posicionamento}

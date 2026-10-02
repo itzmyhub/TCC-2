@@ -87,7 +87,9 @@ def api_forecast():
 @app.route("/api/forecast_top")
 def api_top():
     n = int(request.args.get("n", 20))
-    top = forecast().nlargest(n, "p_fogo")[["LatBin", "LonBin", "p_fogo", "rotulo_conformal"]]
+    fc = forecast()
+    ordem = ["p_fogo", "p_fogo_bruta"] if "p_fogo_bruta" in fc else ["p_fogo"]
+    top = fc.sort_values(ordem, ascending=False).head(n)[["LatBin", "LonBin", "p_fogo", "rotulo_conformal"]]
     return jsonify(top.to_dict(orient="records"))
 
 
